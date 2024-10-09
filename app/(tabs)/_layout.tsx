@@ -5,9 +5,8 @@ import TabBarIcon from '@/components/TabBarIcon';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { EventsTabOptions } from '@/components/EventsTabOptions';
-
+import { EventsTabOptions } from '@/components/tabs/EventsTabOptions';
+import { ProfileTabOptions } from '@/components/tabs/ProfileTabOptions';
 
 
 export default function TabLayout() {
@@ -25,17 +24,8 @@ export default function TabLayout() {
           fontFamily: 'Inter',
         },
       }}>
-      <Tabs.Screen 
-      name = "index"
-      options= {EventsTabOptions} 
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+      <Tabs.Screen  name = "index"  options = {EventsTabOptions} />
+      <Tabs.Screen  name = "profile" options = {ProfileTabOptions} />
     </Tabs>
   );
 }
