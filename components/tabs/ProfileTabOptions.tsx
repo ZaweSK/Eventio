@@ -5,6 +5,6 @@ export const ProfileTabOptions = {
     headerStyle: {
       shadowOpacity: 0,
     },
-    tabBarIcon: ({ color }: { color: string }) => <TabBarIcon name="code" color={color} />,
+    tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => <TabBarIcon image={require('@/assets/images/tabIcon_profile.png')} color={color} size={focused ? 35 : 30}/>,
     headerRight: () => {},
 }

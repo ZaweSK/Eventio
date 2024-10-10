@@ -3,15 +3,15 @@ import { StyleSheet, View } from 'react-native';
 import ToggleButton from '@/components/ToggleButton';
 import { useState } from 'react';
 
-function ToggleButtonProps(thisFilter: string, currenFilter: string, setEventsFilter: (filter: string) => void) {
+function CreateToggleButton(thisFilter: string, currenFilter: string, setEventsFilter: (filter: string) => void) {
     return (
-            <ToggleButton
-            text= {thisFilter.toUpperCase()}
-            isActive={currenFilter === thisFilter}
-            onPress={() => setEventsFilter(thisFilter)}
-            style= {ButtonStyles(currenFilter, thisFilter)}
-            textStyle = {TextStyles(currenFilter, thisFilter)}
-          />
+        <ToggleButton
+        text= {thisFilter.toUpperCase()}
+        isActive={currenFilter === thisFilter}
+        onPress={() => setEventsFilter(thisFilter)}
+        style= {ButtonStyles(currenFilter, thisFilter)}
+        textStyle = {TextStyles(currenFilter, thisFilter)}
+        />
     )
 }
 function TextStyles(currentFilter: string, filter: string) {
@@ -29,9 +29,9 @@ const EventsFilter = () => {
     const [eventsFilter, setEventsFilter] = useState<string>('future');
     return (
         <View style = {styles.container}>
-         {ToggleButtonProps('all', eventsFilter, setEventsFilter)}     
-         {ToggleButtonProps('future', eventsFilter, setEventsFilter)}     
-         {ToggleButtonProps('past', eventsFilter, setEventsFilter)}     
+         {CreateToggleButton('all', eventsFilter, setEventsFilter)}     
+         {CreateToggleButton('future', eventsFilter, setEventsFilter)}     
+         {CreateToggleButton('past', eventsFilter, setEventsFilter)}     
         </View>
     )
 }

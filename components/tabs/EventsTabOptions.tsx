@@ -16,7 +16,7 @@ export const EventsTabOptions = () => {
     headerStyle: {
       shadowOpacity: 1,
     },
-    tabBarIcon: ({ color }: { color: string }) => <TabBarIcon name="code" color={color} />,
+    tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => <TabBarIcon image={require('@/assets/images/tabIcon_events.png')} color={color} size={focused ? 35 : 30}/>,
     headerRight: () => (
       <View style = {styles.headerRightContainer}>
        <ToggleButton
