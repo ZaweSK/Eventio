@@ -8,16 +8,13 @@ import { opacity } from 'react-native-reanimated/lib/typescript/reanimated2/Colo
 
 
 export const EventsTabOptions = () => {
-  
+
   const [cellLayout, setCellLayout] = useState<CellLayout>('default');
-  const chaneLayout = (cellLayout: CellLayout) => {
-    setCellLayout(cellLayout);
-  }
 
   return {
-    title: 'Evessnts',
+    title: 'Events',
     headerStyle: {
-      shadowOpacity: 0,
+      shadowOpacity: 1,
     },
     tabBarIcon: ({ color }: { color: string }) => <TabBarIcon name="code" color={color} />,
     headerRight: () => (
