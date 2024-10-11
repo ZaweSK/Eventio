@@ -1,17 +1,13 @@
 import { Tabs } from 'expo-router';
 import React, { useState } from 'react';
 import Colors from '@/constants/Colors';
-import TabBarIcon from '@/components/TabBarIcon';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
 import { EventsTabOptions } from '@/components/tabs/EventsTabOptions';
 import { ProfileTabOptions } from '@/components/tabs/ProfileTabOptions';
-import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
-import { Button, View, StyleSheet, Text } from 'react-native';
+import { View, } from 'react-native';
 import NewEventButton from '@/components/NewEventButton';
-import Animated, { Easing, FadeIn, SlideInDown, SlideInLeft, SlideInUp } from 'react-native-reanimated';
-
+import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -20,11 +16,8 @@ export default function TabLayout() {
     <View style = { {flex: 1}}>
       <Tabs
         screenOptions={{
-          // tabBarActiveTintColor: 'red',
           tabBarShowLabel: false,
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
-          // Disable the static render of the header on web
-          // to prevent a hydration error in React Navigation v6.
           headerShown: useClientOnlyValue(false, true),
           headerTitleStyle: {
             fontSize: 18,
@@ -47,7 +40,6 @@ export default function TabLayout() {
         entering={SlideInDown.duration(1000).easing(Easing.out(Easing.back(0.5)))}> 
           <NewEventButton/> 
       </Animated.View>
-
     </View>
   );
 }

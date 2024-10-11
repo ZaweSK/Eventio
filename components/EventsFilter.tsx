@@ -2,8 +2,10 @@
 import { StyleSheet, View } from 'react-native';
 import ToggleButton from '@/components/ToggleButton';
 import { useState } from 'react';
+import { TimeFilter } from '@/constants/TimeFilter';
+import useRootStore from '@/store/RootStore';
 
-function CreateToggleButton(thisFilter: string, currenFilter: string, setEventsFilter: (filter: string) => void) {
+function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (
         <ToggleButton
         text= {thisFilter.toUpperCase()}
@@ -14,19 +16,21 @@ function CreateToggleButton(thisFilter: string, currenFilter: string, setEventsF
         />
     )
 }
-function TextStyles(currentFilter: string, filter: string) {
+function TextStyles(currentFilter: TimeFilter, filter: TimeFilter) {
     const isActive = currentFilter === filter;
     return [toggleButton.textDefault, isActive ? toggleButton.textActive : toggleButton.textInactive];      
 }
 
-function ButtonStyles(currentFilter: string, filter: string) {
+function ButtonStyles(currentFilter: TimeFilter, filter: TimeFilter) {
     const isActive = currentFilter === filter;
     return [toggleButton.buttonDefault, isActive ? toggleButton.buttonActive : toggleButton.buttonInactive];      
 }
 
 
 const EventsFilter = () => {
-    const [eventsFilter, setEventsFilter] = useState<string>('future');
+    const eventsFilter = useRootStore(state => state.eventsFilter);
+    const setEventsFilter = useRootStore(state => state.setEventsFilter);
+    
     return (
         <View style = {styles.container}>
          {CreateToggleButton('all', eventsFilter, setEventsFilter)}     

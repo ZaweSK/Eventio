@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5, 
-    borderRadius: 40,
-    width: 80,
-    height: 80,
+    borderRadius: 33,
+    width: 66,
+    height: 66,
     position: 'absolute',
-    bottom: 40,  // Adjust to place it above the tab bar
+    bottom: 45,  // Adjust to place it above the tab bar
     left: '50%',
-    transform: [{ translateX: -40 }],  // Center horizontally
+    transform: [{ translateX: -33 }],  // Center horizontally
   },
 });
 

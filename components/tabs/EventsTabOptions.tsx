@@ -5,12 +5,13 @@ import ImageButton from '@/components/ImageButton';
 import ToggleButton from '@/components/ToggleButton'; // Add this line
 import { CellLayout } from '@/constants/CellLayout';
 import { opacity } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
+import useRootStore from '@/store/RootStore';
 
 
 export const EventsTabOptions = () => {
-
-  const [cellLayout, setCellLayout] = useState<CellLayout>('default');
-
+  const cellLayout = useRootStore(state => state.cellLayout);
+  const setCellLayout = useRootStore(state => state.setCellLayout);
+  
   return {
     title: 'Events',
     headerStyle: {
