@@ -1,11 +1,14 @@
 import EventsFilter from "@/components/EventsFilter";
+import Colors from "@/constants/Colors";
 import React from "react";
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, useColorScheme } from "react-native"
 
 
 const EventsPage = () => {
+    const colorScheme = useColorScheme();
+
     return (
-        <View style = {styles.page} >
+        <View style = {[styles.page, {backgroundColor: Colors[colorScheme ?? 'light'].background}]} >
             <EventsFilter/>
 
         </View>

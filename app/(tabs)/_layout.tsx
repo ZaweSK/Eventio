@@ -23,6 +23,11 @@ export default function TabLayout() {
             fontSize: 18,
             fontFamily: 'Inter',
           },
+
+          headerStyle: {
+            backgroundColor: Colors[colorScheme ?? 'light'].background, 
+            shadowOpacity: 0// Header background color
+          },
           tabBarStyle: {
             height: 130, 
             shadowColor: '#000', // Black shadow

@@ -4,6 +4,7 @@ import ToggleButton from '@/components/ToggleButton';
 import { useState } from 'react';
 import { TimeFilter } from '@/constants/TimeFilter';
 import useRootStore from '@/store/RootStore';
+import Colors from '@/constants/Colors';
 
 function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (
@@ -30,7 +31,7 @@ function ButtonStyles(currentFilter: TimeFilter, filter: TimeFilter) {
 const EventsFilter = () => {
     const eventsFilter = useRootStore(state => state.eventsFilter);
     const setEventsFilter = useRootStore(state => state.setEventsFilter);
-    
+
     return (
         <View style = {styles.container}>
          {CreateToggleButton('all', eventsFilter, setEventsFilter)}     
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         height: 50,
         flexDirection: 'row',
-        backgroundColor : 'lightgrey',
+        backgroundColor : Colors.light.background,
         alignItems: 'center',
         justifyContent: 'center',
     },
