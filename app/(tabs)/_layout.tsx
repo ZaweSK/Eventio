@@ -8,8 +8,9 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { EventsTabOptions } from '@/components/tabs/EventsTabOptions';
 import { ProfileTabOptions } from '@/components/tabs/ProfileTabOptions';
 import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
-import { Button, View, StyleSheet } from 'react-native';
+import { Button, View, StyleSheet, Text } from 'react-native';
 import NewEventButton from '@/components/NewEventButton';
+import Animated, { Easing, FadeIn, SlideInDown, SlideInLeft, SlideInUp } from 'react-native-reanimated';
 
 
 export default function TabLayout() {
@@ -41,20 +42,12 @@ export default function TabLayout() {
         <Tabs.Screen  name = "index"  options = {EventsTabOptions} />
         <Tabs.Screen  name = "profile" options = {ProfileTabOptions} />
       </Tabs>
-      <NewEventButton  />
+
+      <Animated.View 
+        entering={SlideInDown.duration(1000).easing(Easing.out(Easing.back(0.5)))}> 
+          <NewEventButton/> 
+      </Animated.View>
+
     </View>
   );
 }
-
-
-// const styles = StyleSheet.create({
-//   newEventButton: {
-//     width: 80,
-//     height: 80,
-//     position: 'absolute',
-//     bottom: 40,  // Adjust to place it above the tab bar
-//     left: '50%',
-//     transform: [{ translateX: -40 }],  // Center horizontally
-//     zIndex: 10,  // Ensure it's on top of the tab bar
-//   },
-// });
