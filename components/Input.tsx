@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextInput, View, StyleSheet } from "react-native"
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface InputProps {
     inputValue: string;
@@ -15,17 +16,34 @@ const Input = ({
     onInputChanged,   
   }
   : InputProps) => {
+
+    var animatedOpacity = useSharedValue(0.2);
+    const animatedSeparatorStyle = useAnimatedStyle(() => {
+        return { 
+          opacity: animatedOpacity.value, 
+         }
+    })
+    const handleOpacityAnimation = (isFocused: boolean) => { 
+        animatedOpacity.value = withTiming(isFocused ? 0.9 : 0.2, { duration: 400 });
+    }
+  
+
     return (
       <View style = {styles.container}>
          <TextInput
           style={styles.input}
+          value={inputValue}
+          autoCapitalize="none"
           placeholder= {placeholder}
           keyboardType= {keyboardType}
-          autoCapitalize="none"
-          value={inputValue}
           onChangeText={(text) => onInputChanged(text)}
+          onFocus={() => handleOpacityAnimation(true)}
+          onBlur={() => handleOpacityAnimation(false)}
         />
-        <View style = {styles.separator} />
+
+
+
+        <Animated.View style = {[styles.separator, animatedSeparatorStyle]} />
       </ View>
   
     ) 
