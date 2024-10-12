@@ -1,7 +1,7 @@
 import EventsFilter from "@/components/EventsFilter";
 import Colors from "@/constants/Colors";
 import React from "react";
-import { View, StyleSheet, useColorScheme } from "react-native"
+import { View, StyleSheet, useColorScheme, Text } from "react-native"
 
 
 const EventsPage = () => {

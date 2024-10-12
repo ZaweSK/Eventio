@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -12,6 +12,13 @@ import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const isSignedIn = false;
+
+  if (!isSignedIn) {
+
+    return <Redirect href="/sign-in" />
+  }
+
   return (
     <View style = { {flex: 1}}>
       <Tabs
@@ -19,6 +26,7 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
           headerShown: useClientOnlyValue(false, true),
+          // headerShown: false,
           headerTitleStyle: {
             fontSize: 18,
             fontFamily: 'Inter',
@@ -30,7 +38,7 @@ export default function TabLayout() {
           },
           tabBarStyle: {
             height: 130, 
-            shadowColor: '#000', // Black shadow
+            shadowColor: '#000', // Black shadowsla
             shadowOffset: { width: 0, height: -2 }, // Offset to make shadow appear above
             shadowOpacity: 0.2, // Adjust shadow transparency
             shadowRadius: 30, // Spread of shadow

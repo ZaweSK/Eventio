@@ -3,20 +3,26 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import useRootStore from '@/store/RootStore';
+import EventsPage from '@/pages/EventsPage';
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
+// export const unstable_settings = {
+//   // Ensure that reloading on `/modal` keeps a back button present.
+//   // initialRouteName: '(tabs)',
+
+//   initialRouteName: 'sign-in',
+
+  
+// };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -46,14 +52,40 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  console.log('-----');
+
   const colorScheme = useColorScheme();
 
+  // const accessToken = useRootStore(state => state.accessToken);
+  // console.log(accessToken)
+  const isAuthorized = false;
+  console.log('isAuthorized', isAuthorized);
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{headerShown : true}}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+
+
+
+
+
+
+        {/* {isAuthorized ? (
+          // <Stack.Screen name="(tabs)" component={EventsPage}  options={{ headerShown: false, }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, }}  />
+
+        ) : (
+          <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+        )} */}
+
+
+        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+
+
+
       </Stack>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
