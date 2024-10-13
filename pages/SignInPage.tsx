@@ -1,75 +1,96 @@
-import Input from "@/components/Input";
-import { useState } from "react";
-import { View, StyleSheet, Image, Text, SafeAreaView, TextInput } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import EventioButton from '@/components/EventioButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Input from '@/components/Input';
 
-
-const SingInPage = () => {
+const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-  }
+  const handleSignIn = () => {
+    // Handle sign-in logic
+    // Example error:
+    setErrorMessage("Oops! That email and password combination is not valid.");
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-
-    <View style = {styles.page}>
-        <Image source={require('@/assets/images/appLogo.png')} style = {styles.logoImage}  /> 
-        <Text style={styles.title}>Sign in to Eventio.</Text>
-        <Text style={styles.subtitle}>Enter your details below.</Text>
-        <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
-        <Input placeholder="Password" inputValue={password} onInputChanged={(input) => {setPassword(input)}} />
-
-    </View>
-    </SafeAreaView>
+    // <SafeAreaView style = {{flex: 1}}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View style={styles.centeredContent}>
+          <Text style={styles.logo}>E.</Text>
+          <Text style={styles.title}>Sign in to Eventio.</Text>
+          <Text style={styles.subtitle}>Enter your details below.</Text>
+      
+          <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
+          <Input placeholder="Password" inputValue={email} onInputChanged={(input) => {setPassword(input)}}/>
+        </View>
+        <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+          <EventioButton
+            title="SIGN IN"
+            onPress={handleSignIn}
+            style={styles.signInButton}
+          />
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
+    // </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: 'white', // Set background to white
+    backgroundColor: 'white',
   },
 
-    page : {
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'space-between', // Ensures bottom content is at the bottom
+  },
+  centeredContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 100, // Adjust this based on your screen height
+  },
+  logo: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: 'gray',
+    marginBottom: 30,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
 
-    logoImage: {
-      width: 40,
-      height: 40,
-    },
-    title: {
-      marginTop: 50,
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 10,
-      textAlign: 'center',
-    },
-    subtitle: {
-      fontSize: 16,
-      color: 'gray',
-      marginBottom: 20,
-      textAlign: 'center',
-    },
-    
-    input: {
-      width: '90%',
-      padding: 15,
-      // borderWidth: 1,
-      borderColor: '#ddd',
-      borderRadius: 8,
-      // marginBottom: 10,
-      fontSize: 16,
-      marginHorizontal: 20,
-      marginLeft: 20,
-    },
+  keyboardAvoidingView: {
+    width: '100%',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 24,
+  },
+  signInButton: {
+    backgroundColor: '#28C76F',
+    paddingVertical: 15,
+    borderRadius: 8,
+    marginBottom: 80,
+  },
+});
 
-})
-
-
-export default SingInPage;
+export default SignInScreen;

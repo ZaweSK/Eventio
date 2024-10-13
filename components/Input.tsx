@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextInput, View, StyleSheet } from "react-native"
+import { TextInput, View, StyleSheet, Keyboard } from "react-native"
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface InputProps {
@@ -37,7 +37,9 @@ const Input = ({
           placeholder= {placeholder}
           keyboardType= {keyboardType}
           onChangeText={(text) => onInputChanged(text)}
-          onFocus={() => handleOpacityAnimation(true)}
+          onFocus={() => {
+            handleOpacityAnimation(true)}
+        }
           onBlur={() => handleOpacityAnimation(false)}
         />
 
