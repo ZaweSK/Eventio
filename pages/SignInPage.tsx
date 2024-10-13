@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Touc
 import EventioButton from '@/components/EventioButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
+import TextWithLink from '@/components/TextWithLink';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -16,27 +17,25 @@ const SignInScreen = () => {
   };
 
   return (
-    // <SafeAreaView style = {{flex: 1}}>
+    <SafeAreaView style = {styles.safeArea}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+
         <View style={styles.centeredContent}>
           <Text style={styles.logo}>E.</Text>
           <Text style={styles.title}>Sign in to Eventio.</Text>
           <Text style={styles.subtitle}>Enter your details below.</Text>
-      
           <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
           <Input placeholder="Password" inputValue={email} onInputChanged={(input) => {setPassword(input)}}/>
         </View>
-        <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-          <EventioButton
-            title="SIGN IN"
-            onPress={handleSignIn}
-            style={styles.signInButton}
-          />
+
+        <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+          <EventioButton title="SIGN IN"onPress={handleSignIn} style={styles.signInButton} />
+          <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {}} />
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
-    // </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
@@ -84,12 +83,12 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-end',
     paddingHorizontal: 24,
+    marginBottom: 20,
   },
   signInButton: {
-    backgroundColor: '#28C76F',
+    // backgroundColor: '#28C76F',
     paddingVertical: 15,
     borderRadius: 8,
-    marginBottom: 80,
   },
 });
 

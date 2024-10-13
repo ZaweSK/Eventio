@@ -19,13 +19,16 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: 56,
-        paddingHorizontal: 24,
         justifyContent: 'center',
         alignItems: 'center',
     
     },
     button: {
-      flex : 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
       backgroundColor: '#28C76F', // Green background
       borderRadius: 8,           // Rounded corners
       alignItems: 'center',   
