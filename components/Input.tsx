@@ -1,5 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { TextInput, View, StyleSheet, Keyboard } from "react-native"
+import { TextInput, View, StyleSheet, Keyboard, TouchableOpacity } from "react-native"
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface InputProps {
@@ -7,11 +8,13 @@ interface InputProps {
     onInputChanged: (text: string) => void;
     placeholder?: string;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+    secureEntry?: boolean;
 }
 
 const Input = ({
     placeholder = '',
     keyboardType = 'default',
+    secureEntry = false,
     inputValue,
     onInputChanged,   
   }
@@ -26,8 +29,11 @@ const Input = ({
     const handleOpacityAnimation = (isFocused: boolean) => { 
         animatedOpacity.value = withTiming(isFocused ? 0.9 : 0.2, { duration: 400 });
     }
+    const [secureText, setSecureText] = useState(secureEntry);
+    const toggleSecureEntry = () => {
+        setSecureText(!secureText);
+      };
   
-
     return (
       <View style = {styles.container}>
          <TextInput
@@ -36,6 +42,7 @@ const Input = ({
           autoCapitalize="none"
           placeholder= {placeholder}
           keyboardType= {keyboardType}
+          secureTextEntry= {secureText}
           onChangeText={(text) => onInputChanged(text)}
           onFocus={() => {
             handleOpacityAnimation(true)}
@@ -43,9 +50,13 @@ const Input = ({
           onBlur={() => handleOpacityAnimation(false)}
         />
 
-
-
         <Animated.View style = {[styles.separator, animatedSeparatorStyle]} />
+
+        {secureEntry && (
+            <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
+             <Ionicons name={secureText ? "eye-off" : "eye"} size={24} color="gray" />
+            </TouchableOpacity>
+        )}
       </ View>
   
     ) 
@@ -62,6 +73,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
+        // backgroundColor: 'lightgray',
         width: '100%',
         height: 40,
         marginBottom: 5,
@@ -81,6 +93,15 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: 'black',
       }
+      ,
+      secureTextButton: {
+        opacity: 0.5,
+        position: 'absolute',
+        width: 24,
+        height: 24,
+        right: 25,
+        top: 10,
+      },
   })
 
 export default Input;

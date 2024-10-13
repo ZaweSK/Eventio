@@ -26,7 +26,7 @@ const SignInScreen = () => {
           <Text style={styles.title}>Sign in to Eventio.</Text>
           <Text style={styles.subtitle}>Enter your details below.</Text>
           <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
-          <Input placeholder="Password" inputValue={email} onInputChanged={(input) => {setPassword(input)}}/>
+          <Input placeholder="Password"  secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
         </View>
 
         <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 10, 
   },
   subtitle: {
     fontSize: 16,
