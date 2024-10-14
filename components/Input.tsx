@@ -58,6 +58,10 @@ const Input = ({
           onChangeText={(text) => onInputChanged(text)}
           onFocus={() => {handleOpacityAnimation(true)}}
           onBlur={() => handleOpacityAnimation(false)}
+          textContentType= "oneTimeCode"
+          autoComplete= "off"
+          autoCorrect= {false}
+          spellCheck={false}
         />
         
         <Animated.View style = {[styles.separator, separatorColor, animatedSeparatorStyle]} />
