@@ -14,7 +14,6 @@ const SignUpPage = () => {
     const [eventAuthHeaderSize, setEventAuthHeaderSize] = useState({ width: 0, height: 0 });
     const [userInfoSize, setUserInfoSize] = useState({ width: 0, height: 0 });
 
-
     const [userInfo, setUserInfo] = useState({
         firstName: '',
         lastName: '',
@@ -29,26 +28,30 @@ const SignUpPage = () => {
           [propertyName]: propertyValue, // Dynamically update the property
         });
       };
+
+      console.log(safeAreaSize, eventAuthHeaderSize, userInfoSize)
     
     return (
-     <KeyboardAwareScrollView style = {styles.page} bottomOffset={20}>
         <SafeAreaView style = {styles.safeArea}>
-            <EventioAuthHeader style = {styles.eventioAuthHeader} title="Get started absolutely free." subtitle="Enter your details below." />
-            <View style = {styles.userInfo}>
-                <Input placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => {handleInputChange('firstName', input)}}/>
-                <Input placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => {handleInputChange('lastName', input)}}/>
-                <Input placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => {handleInputChange('email', input)}}/>
-                <Input secureEntry= {true} placeholder="Password" inputValue={userInfo.password} onInputChanged={(input) => {handleInputChange('password', input)}}/>
-                <Input secureEntry={true} placeholder="Repeat password" inputValue={userInfo.repeatPassword} onInputChanged={(input) => {handleInputChange('repeatPassword', input)}}/>
+            <View id = "ActualSafeArea" style = {styles.actualSafeArea}>
+                <KeyboardAwareScrollView id = "ScrollableContent" bottomOffset={20}  >
+                    <View  style = {styles.eventioAuthHeader}>
+                        <EventioAuthHeader  title="Get started absolutely free." subtitle="Enter your details below." />
+                    </View>
+                    <View style = {styles.inputContainer} >
+                        <Input placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => {handleInputChange('firstName', input)}}/>
+                        <Input placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => {handleInputChange('lastName', input)}}/>
+                        <Input placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => {handleInputChange('email', input)}}/>
+                        <Input secureEntry= {true} placeholder="Password" inputValue={userInfo.password} onInputChanged={(input) => {handleInputChange('password', input)}}/>
+                        <Input secureEntry={true} placeholder="Repeat password" inputValue={userInfo.repeatPassword} onInputChanged={(input) => {handleInputChange('repeatPassword', input)}}/>
+                    </View>
+                </KeyboardAwareScrollView>
+                <View id = "FixedContent" style = {styles.signUpContainer}>
+                    <EventioButton title="SIGN UP" onPress={() => {}} style={styles.signUpButton} />
+                    <TextWithLink text="Already have an account?" linkText="Sign in" onPress= {() => {router.replace('/sign-in');}} />
+                </View>
             </View>
-            <View style = {styles.signUpContainer}>
-                <EventioButton title="SIGN UP" onPress={() => {}} style={styles.signUpButton} />
-                <TextWithLink text="Already have an account?" linkText="Sign in" onPress= {() => {router.replace('/sign-in');}} />
-            </View>
-
-
-        </SafeAreaView> 
-     </KeyboardAwareScrollView>
+     </SafeAreaView> 
     )
 }
 
@@ -60,26 +63,28 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         flex: 1,
       },
-    page: {
-     backgroundColor: 'white',
-    },
     safeArea: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    actualSafeArea: {
         flex: 1,
     },
     eventioAuthHeader: {
-        marginTop: 60,
-        flex: 2,
+        marginTop: 100,
     },
-    userInfo : {
+    inputContainer : {
         padding: 24,
-        flex: 1,
-        justifyContent: 'center',
     },
 
     signUpContainer: {
+        position: 'absolute',
+        // bottom: 0,
+        bottom: 10,
+        width: '100%',
         paddingHorizontal: 24,
         justifyContent: 'flex-end',
-        flex: 1,
+        // flex: 1,
     },
 
 
