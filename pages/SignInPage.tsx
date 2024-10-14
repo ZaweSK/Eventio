@@ -26,7 +26,7 @@ const SignInScreen = () => {
           <Text style={styles.title}>Sign in to Eventio.</Text>
           <Text style={styles.subtitle}>Enter your details below.</Text>
           <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
-          <Input placeholder="Password"  secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
+          <Input placeholder="Password"  error = {"fd"} secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
         </View>
 
         <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'space-between', // Ensures bottom content is at the bottom
+    justifyContent: 'space-between',
   },
   centeredContent: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 100, // Adjust this based on your screen height
+    marginTop: 60, 
   },
   logo: {
     fontSize: 60,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: 'gray',
-    marginBottom: 30,
+    marginBottom: 15,
   },
   input: {
     width: '100%',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-end',
     paddingHorizontal: 24,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   signInButton: {
     // backgroundColor: '#28C76F',

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { TextInput, View, StyleSheet, Keyboard, TouchableOpacity } from "react-native"
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { TextInput, View, StyleSheet, Keyboard, TouchableOpacity, Text } from "react-native"
+import Animated, { FadeIn, FadeInDown, FadeInUp, SlideInDown, SlideInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface InputProps {
     inputValue: string;
@@ -9,30 +9,42 @@ interface InputProps {
     placeholder?: string;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
     secureEntry?: boolean;
+    error?: string
 }
 
+const focusedSeparatorOpacity = 0.9;
+const notFocusedSeparatoOpacity = 0.2;
+
 const Input = ({
-    placeholder = '',
     keyboardType = 'default',
     secureEntry = false,
+    placeholder = '',
+    onInputChanged,
     inputValue,
-    onInputChanged,   
+    error  
   }
   : InputProps) => {
 
-    var animatedOpacity = useSharedValue(0.2);
+    // Separator opacity
+    var animatedOpacity = useSharedValue(error ? focusedSeparatorOpacity : notFocusedSeparatoOpacity);
     const animatedSeparatorStyle = useAnimatedStyle(() => {
         return { 
           opacity: animatedOpacity.value, 
          }
     })
     const handleOpacityAnimation = (isFocused: boolean) => { 
-        animatedOpacity.value = withTiming(isFocused ? 0.9 : 0.2, { duration: 400 });
+        if (error) return;
+        animatedOpacity.value = withTiming(isFocused ? focusedSeparatorOpacity : notFocusedSeparatoOpacity, { duration: 400 });
     }
+
+    // Secure text entry
     const [secureText, setSecureText] = useState(secureEntry);
     const toggleSecureEntry = () => {
         setSecureText(!secureText);
-      };
+    };
+
+    // Separator color
+    const separatorColor = error ? styles.separatorErrorColor : styles.separatorDefaulColor;
   
     return (
       <View style = {styles.container}>
@@ -44,13 +56,18 @@ const Input = ({
           keyboardType= {keyboardType}
           secureTextEntry= {secureText}
           onChangeText={(text) => onInputChanged(text)}
-          onFocus={() => {
-            handleOpacityAnimation(true)}
-        }
+          onFocus={() => {handleOpacityAnimation(true)}}
           onBlur={() => handleOpacityAnimation(false)}
         />
+        
+        <Animated.View style = {[styles.separator, separatorColor, animatedSeparatorStyle]} />
 
-        <Animated.View style = {[styles.separator, animatedSeparatorStyle]} />
+        {error && (
+            <Animated.View entering={FadeInUp.duration(500)} style = {styles.errorContainer}>
+               <Text style = {styles.error}>{error}</Text>
+            </Animated.View>
+            
+        )} 
 
         {secureEntry && (
             <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
@@ -58,7 +75,7 @@ const Input = ({
             </TouchableOpacity>
         )}
       </ View>
-  
+
     ) 
   }
 
@@ -91,9 +108,13 @@ const styles = StyleSheet.create({
       separator : {
         width: '100%',
         height: 1,
+      },
+      separatorDefaulColor: {
         backgroundColor: 'black',
-      }
-      ,
+      },
+      separatorErrorColor: {
+        backgroundColor: '#F40000',
+      },
       secureTextButton: {
         opacity: 0.5,
         position: 'absolute',
@@ -102,6 +123,18 @@ const styles = StyleSheet.create({
         right: 25,
         top: 10,
       },
+
+      errorContainer: {
+        marginTop: 8,
+        width: '100%',
+      },
+      error: {
+        fontSize: 12,
+        color: '#F40000',
+        width: '100%',
+        textAlign: 'left',
+        opacity: 0.85,
+      }
   })
 
 export default Input;
