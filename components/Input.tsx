@@ -86,7 +86,7 @@ const Input = ({
 const styles = StyleSheet.create({
     container : {
         width: '100%',
-        paddingHorizontal: 24,
+        // paddingHorizontal: 24,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',

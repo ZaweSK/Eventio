@@ -7,8 +7,12 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+// import { KeyboardProvider } from '@/store/RootStore';
+
+
 import useRootStore from '@/store/RootStore';
 import EventsPage from '@/pages/EventsPage';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -62,7 +66,8 @@ function RootLayoutNav() {
   console.log('isAuthorized', isAuthorized);
 
   return (
-    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <KeyboardProvider>
       <Stack screenOptions={{headerShown : true}}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
@@ -82,10 +87,12 @@ function RootLayoutNav() {
 
 
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+        <Stack.Screen name="sign-up" options={{ headerShown: false }} />
 
 
 
       </Stack>
-    // </ThemeProvider>
+      </KeyboardProvider>
+   </ThemeProvider>
   );
 }

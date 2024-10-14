@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
 import EventioButton from '@/components/EventioButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
 import TextWithLink from '@/components/TextWithLink';
+import { router } from 'expo-router';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const SignInScreen = () => {
       <View style={styles.container}>
 
         <View style={styles.centeredContent}>
-          <Text style={styles.logo}>E.</Text>
+          <Image style = {styles.logo} source={require('@/assets/images/appLogo.png')}  />
           <Text style={styles.title}>Sign in to Eventio.</Text>
           <Text style={styles.subtitle}>Enter your details below.</Text>
           <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
@@ -31,7 +32,7 @@ const SignInScreen = () => {
 
         <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
           <EventioButton title="SIGN IN"onPress={handleSignIn} style={styles.signInButton} />
-          <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {}} />
+          <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {router.replace('/sign-up');}} />
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
     marginTop: 60, 
   },
   logo: {
-    fontSize: 60,
-    fontWeight: 'bold',
+    width: 40,
+    height: 40,
     marginBottom: 20,
   },
   title: {
