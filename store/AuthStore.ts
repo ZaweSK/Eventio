@@ -10,19 +10,25 @@ const useAuthStore = create<AuthStore>((set) => {
     let accessToken: string | null = null;
     let backendUrl = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';
     let singInUrl = `${backendUrl}/auth/native`;
+    const apiKey = '7f1e275c-9430-4429-81b7-473078bd2fa8';
   
     return {
       isAuthorised: false,
   
-      signIn: async (username: string, password: string) => {
+      signIn: async (email: string, password: string) => {
         try {
           const response = await fetch(singInUrl, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
+              // 'apikey' : apiKey,
+
+              'accept': 'application/json',
+              'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
+              'Content-Type': 'application/json' 
             },
             body: JSON.stringify({
-              username: username,
+              email: email,
               password: password,
             }),
           });

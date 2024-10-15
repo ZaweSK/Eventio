@@ -4,33 +4,29 @@ import Input from "@/components/Input";
 import TextWithLink from "@/components/TextWithLink";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView, ActivityIndicator } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const SignUpPage = () => {
-
-    const [safeAreaSize, setSafeAreaSize] = useState({ width: 0, height: 0 });
-    const [eventAuthHeaderSize, setEventAuthHeaderSize] = useState({ width: 0, height: 0 });
-    const [userInfoSize, setUserInfoSize] = useState({ width: 0, height: 0 });
-
-    const [userInfo, setUserInfo] = useState({
+function DefaultUserInfo() {
+    return {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
         repeatPassword: '',
-      });
+    };
+}
 
-      const handleInputChange = (propertyName: any, propertyValue: any) => {
+const SignUpPage = () => {
+    const [userInfo, setUserInfo] = useState(DefaultUserInfo());
+    const handleInputChange = (propertyName: any, propertyValue: any) => {
         setUserInfo({
           ...userInfo,
           [propertyName]: propertyValue, // Dynamically update the property
         });
       };
 
-      console.log(safeAreaSize, eventAuthHeaderSize, userInfoSize)
-    
     return (
         <SafeAreaView style = {styles.safeArea}>
             <View id = "ActualSafeArea" style = {styles.actualSafeArea}>

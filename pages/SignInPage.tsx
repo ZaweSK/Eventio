@@ -9,8 +9,8 @@ import EventioAuthHeader from '@/components/EventioAuthHeader';
 import useAuthStore from '@/store/AuthStore';
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('brucebanner@strv.com');
+  const [password, setPassword] = useState('kill3r');
   const [errorMessage, setErrorMessage] = useState('');
 
   const signIn = useAuthStore((state) => state.signIn);
@@ -19,18 +19,11 @@ const SignInScreen = () => {
     try {
       await signIn(email, password);  // Call signIn with username and password
       console.log('Sign-in successful');
+      router.replace('/(tabs)');
     } catch (error) {
       console.error('Sign-in failed:', error);
     }
   };
-
-
-
-  const [token, setToken] = useState('');
-  // const username = 'admin';
-  // const password = 'password';
-
- 
 
   return (
     <SafeAreaView style = {styles.safeArea}>
