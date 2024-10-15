@@ -42,8 +42,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
- 
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -59,6 +57,7 @@ export default function RootLayout() {
     return null;
   }
 
+
   return <RootLayoutNav />;
 }
 
@@ -67,13 +66,9 @@ function RootLayoutNav() {
 
   const colorScheme = useColorScheme();
 
-  // const accessToken = useRootStore(state => state.accessToken);
-  // console.log(accessToken)
-  const isAuthorized = false;
-  console.log('isAuthorized', isAuthorized);
+  
 
   const navigation = useNavigation()
-
   useEffect(()=>{
     console.log(JSON.stringify(navigation.getState(), null, 2))
   }, [navigation])

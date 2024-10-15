@@ -28,7 +28,7 @@ export default function TabLayout() {
           // headerShown: false,
           headerTitleStyle: {
             fontSize: 18,
-            fontFamily: 'Inter',
+            fontFamily: 'Hind-Regular',
           },
 
           headerStyle: {

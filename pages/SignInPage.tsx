@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image, ActivityIndicator } from 'react-native';
 import EventioButton from '@/components/EventioButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
@@ -12,13 +12,16 @@ const SignInScreen = () => {
   const [email, setEmail] = useState('brucebanner@strv.com');
   const [password, setPassword] = useState('kill3r');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const signIn = useAuthStore((state) => state.signIn);
   const handleSignIn = async () => {
+    setLoading(true);
     console.log('Signing in...');
     try {
       await signIn(email, password);  // Call signIn with username and password
       console.log('Sign-in successful');
+      setLoading(false)
       router.replace('/(tabs)');
     } catch (error) {
       console.error('Sign-in failed:', error);
@@ -44,9 +47,13 @@ const SignInScreen = () => {
           <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {router.replace('/sign-up');}} />
         </KeyboardAvoidingView>
       </View>
-
-      
     </TouchableWithoutFeedback>
+    {loading && (
+      <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size= 'large'/>
+    </View>
+    )}
+    
     </SafeAreaView>
   );
 };
