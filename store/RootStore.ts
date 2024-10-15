@@ -17,7 +17,7 @@ type RootStore = {
     eventsFilter: TimeFilter;
     setEventsFilter: (filter: TimeFilter) => void;
 
-    authSlice: AuthSlice;
+    // authSlice: AuthSlice;
 
     // accessToken: string | null;
     // setAccessToken: (token: string | null) => void;
@@ -33,7 +33,7 @@ const useRootStore = create<RootStore>((set) => ({
     // accessToken: null,
     // setAccessToken: (token: string | null) => set(() => ({ accessToken: token })),
 
-    ...createAuthSlice(set),
+    // ...createAuthSlice(set),
 }));
 
 // export const useRootStore = create<RootStore>()(
