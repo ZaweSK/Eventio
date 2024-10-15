@@ -34,7 +34,7 @@ const SignUpPage = () => {
     return (
         <SafeAreaView style = {styles.safeArea}>
             <View id = "ActualSafeArea" style = {styles.actualSafeArea}>
-                <KeyboardAwareScrollView id = "ScrollableContent" bottomOffset={20}  >
+                <KeyboardAwareScrollView id = "ScrollableContent" bottomOffset={40}  >
                     <View  style = {styles.eventioAuthHeader}>
                         <EventioAuthHeader  title="Get started absolutely free." subtitle="Enter your details below." />
                     </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     eventioAuthHeader: {
-        marginTop: 100,
+        marginTop: 56,
     },
     inputContainer : {
         padding: 24,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     signUpContainer: {
         position: 'absolute',
         // bottom: 0,
-        bottom: 10,
+        bottom: 24,
         width: '100%',
         paddingHorizontal: 24,
         justifyContent: 'flex-end',

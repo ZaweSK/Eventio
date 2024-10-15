@@ -24,19 +24,22 @@ const styles = StyleSheet.create({
     appLogo: {
       width: 40,
       height: 40,
-      marginBottom: 20,
+      marginBottom: 40,
     },
     title: {
       fontSize: 24,
       fontWeight: 'bold',
-      marginBottom: 10, 
+      marginBottom: 5, 
       textAlign: 'center',
+      fontFamily: 'Hind-Regular',
     },
     subtitle: {
       fontSize: 16,
       color: 'gray',
       marginBottom: 15,
       textAlign: 'center',
+      fontFamily: 'Hind-Regular',
+
     }
   });
 

@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       marginHorizontal: 20,
       marginLeft: 20,
+      fontFamily: 'Hind-Regular',
       },
 
       separator : {
@@ -138,6 +139,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'left',
         opacity: 0.85,
+        fontFamily: 'Hind-Regular',
       }
   })
 

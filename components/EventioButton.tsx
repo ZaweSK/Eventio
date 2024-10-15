@@ -9,7 +9,7 @@ interface EventioButtonProps {
 const EventioButton = (props: EventioButtonProps) => {
     return (
         <View style = {[styles.container, props.style]}>
-           <TouchableOpacity style={styles.button} onPress={() => {}}>
+           <TouchableOpacity style={styles.button} onPress={props.onPress}>
                 <Text style={styles.buttonText}>{props.title}</Text>
            </TouchableOpacity>
         </View>
@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       color: 'white',             // White text color
-      fontWeight: 'bold',         // Bold font
-      fontSize: 16,               // Font size
+      fontSize: 16,
+      fontFamily: 'Hind-Bold',
+      // Font size
     },
   });
 

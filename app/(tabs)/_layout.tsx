@@ -8,14 +8,13 @@ import { ProfileTabOptions } from '@/components/tabs/ProfileTabOptions';
 import { View, } from 'react-native';
 import NewEventButton from '@/components/NewEventButton';
 import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
+import useAuthStore from '@/store/AuthStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const isSignedIn = false;
-
-  if (!isSignedIn) {
-
+  const isAutorised = useAuthStore((state) => state.isAuthorised);
+  if (!isAutorised) {
     return <Redirect href="/sign-in" />
   }
 

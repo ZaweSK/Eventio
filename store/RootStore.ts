@@ -17,8 +17,10 @@ type RootStore = {
     eventsFilter: TimeFilter;
     setEventsFilter: (filter: TimeFilter) => void;
 
-    accessToken: string | null;
-    setAccessToken: (token: string | null) => void;
+    authSlice: AuthSlice;
+
+    // accessToken: string | null;
+    // setAccessToken: (token: string | null) => void;
 };
   
 const useRootStore = create<RootStore>((set) => ({
@@ -28,8 +30,10 @@ const useRootStore = create<RootStore>((set) => ({
     eventsFilter: 'all',  // Initial value
     setEventsFilter: (filter: TimeFilter ) => set(() => ({ eventsFilter: filter })),
 
-    accessToken: null,
-    setAccessToken: (token: string | null) => set(() => ({ accessToken: token })),
+    // accessToken: null,
+    // setAccessToken: (token: string | null) => set(() => ({ accessToken: token })),
+
+    ...createAuthSlice(set),
 }));
 
 // export const useRootStore = create<RootStore>()(

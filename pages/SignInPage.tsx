@@ -6,17 +6,31 @@ import Input from '@/components/Input';
 import TextWithLink from '@/components/TextWithLink';
 import { router } from 'expo-router';
 import EventioAuthHeader from '@/components/EventioAuthHeader';
+import useAuthStore from '@/store/AuthStore';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSignIn = () => {
-    // Handle sign-in logic
-    // Example error:
-    setErrorMessage("Oops! That email and password combination is not valid.");
+  const signIn = useAuthStore((state) => state.signIn);
+  const handleSignIn = async () => {
+    console.log('Signing in...');
+    try {
+      await signIn(email, password);  // Call signIn with username and password
+      console.log('Sign-in successful');
+    } catch (error) {
+      console.error('Sign-in failed:', error);
+    }
   };
+
+
+
+  const [token, setToken] = useState('');
+  // const username = 'admin';
+  // const password = 'password';
+
+ 
 
   return (
     <SafeAreaView style = {styles.safeArea}>
@@ -24,15 +38,16 @@ const SignInScreen = () => {
       <View style = {styles.container}>
         <View>
           <View style = {styles.eventioAuthHeader}>
-              <EventioAuthHeader  title="Get started absolutely free." subtitle="Enter your details below." />
+              <EventioAuthHeader  title="Sign in to Eventio." subtitle="Enter your details below." />
           </View>
           <View style={styles.inputContainer}>
             <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
-            <Input placeholder="Password"  error = {"fd"} secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
+            <Input placeholder="Password" secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
           </View>
         </View>
         <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-          <EventioButton title="SIGN IN"onPress={handleSignIn}  />
+          <EventioButton title="SIGN IN" onPress={() => {
+            handleSignIn()}}  />
           <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {router.replace('/sign-up');}} />
         </KeyboardAvoidingView>
       </View>
@@ -54,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   eventioAuthHeader: {
-    marginTop: 100
+    marginTop: 56
   },
   inputContainer: {
     justifyContent: 'center',
@@ -82,7 +97,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-end',
     paddingHorizontal: 24,
-    marginBottom: 10,
+    marginBottom: 24,
   },
 });
 

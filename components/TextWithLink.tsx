@@ -27,11 +27,15 @@ const styles = StyleSheet.create({
     text: {
         color: '#72727B',
         fontSize: 16,
+        fontFamily: 'Hind-Regular',
+
         
     },
     linkText: {
         color: '#22D486',
         fontSize: 16,
+        fontFamily: 'Hind-Regular',
+
     },
 });
 
