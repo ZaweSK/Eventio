@@ -1,27 +1,15 @@
 import useEventsStore from "@/store/EventsStore";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-const EventCellDefault = ({ event } : {event: EventioEvent}) => (
-    <View style={{ padding: 15, marginBottom: 10, backgroundColor: '#fff', borderRadius: 10 }}>
-      <Text>{event.startsAt}</Text>
-      <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
-      <Text style={{ marginTop: 5 }}>{event.owner.firstName}</Text>
-      <Text style={{ marginTop: 5 }}>{event.description}</Text>
-      {/* <Text style={{ marginTop: 5 }}>{event.participants}</Text> */}
-      <TouchableOpacity style={{
-          marginTop: 10,
-          padding: 10,
-        //   backgroundColor: event.action === 'LEAVE' ? 'red' : (event.action === 'JOIN' ? 'green' : 'gray'),
-          borderRadius: 5,
-          alignItems: 'center'
-        }}>
-        {/* <Text style={{ color: '#fff' }}>{event.action}</Text> */}
-      </TouchableOpacity>
-    </View>
-  );
+import formatDate from "@/utils/formatDate";
+import { View, Text, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import EventCellDefault from "./EventCellDefault";
+import { useState } from "react";
+
 
   const EventCellCompact = ({ event } : {event: EventioEvent}) => {
     return (
         <View style={{ padding: 15, marginBottom: 10, backgroundColor: '#fff', borderRadius: 10 }}>
+        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
+        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
         <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
         </View>
     );
@@ -31,6 +19,9 @@ const EventCellDefault = ({ event } : {event: EventioEvent}) => (
 const EventsList = () => {
     const events = useEventsStore(state => state.filteredEvents);
     const eventsLayout = useEventsStore(state => state.eventsLayout);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+
 
     return (
         <FlatList
@@ -48,6 +39,12 @@ const EventsList = () => {
             }}
             keyExtractor={item => item.id}
             contentContainerStyle={{ padding: 20 }}
+            refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={() => {}}
+                  tintColor="#000" // Change the spinner color if desired
+                />}
             />
     )
 }

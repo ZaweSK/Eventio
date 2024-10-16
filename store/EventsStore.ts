@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import ApiService from "./ApiService";
 import { TimeFilter } from "@/constants/TimeFilter";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { CellLayout } from "@/constants/CellLayout";
 
 const api = new ApiService();
@@ -60,7 +59,9 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 const filteredEvents = FilterEvents(get().eventsFilter, events);
                 set({ filteredEvents: filteredEvents });
                 set({ asyncOpeationInProgress: false });
-                console.log('Fetch events success');
+
+
+                // console.log(`Fetch events success  ${JSON.stringify(events)}}`);
 
             } catch (error) {
                 console.error(error);
