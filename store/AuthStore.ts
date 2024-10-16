@@ -65,7 +65,7 @@ const useAuthStore = create<AuthStore>((set) => {
   
           if (!response.ok) {
             console.log(JSON.stringify(response));
-            throw new Error('Login failed');
+            throw new Error('Login failed HERE ');
           }
 
           StoreTokens(response);
@@ -103,7 +103,7 @@ const useAuthStore = create<AuthStore>((set) => {
   
           if (!response.ok) {
             console.log(JSON.stringify(response));
-            throw new Error('Login failed');
+            throw new Error('Login failed HERE');
           }
 
           StoreTokens(response);
