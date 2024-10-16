@@ -2,14 +2,21 @@ import { create } from "zustand";
 import ApiService from "./ApiService";
 import { TimeFilter } from "@/constants/TimeFilter";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { CellLayout } from "@/constants/CellLayout";
 
 const api = new ApiService();
 
 type EventsStore = {
    eventsFilter : TimeFilter
+   setEventsFilter: (filter: TimeFilter) => void
+
+   eventsLayout: CellLayout
+   setEventsLayout: (layout: CellLayout) => void
+
    allEvents : EventioEvent[]
    filteredEvents : EventioEvent[]
-   fetchEvents : () => Promise<void>
+   fetchEvents: () => Promise<void>
+
    asyncOpeationInProgress : boolean
 }
 
@@ -35,6 +42,7 @@ const useEventsStore = create<EventsStore>((set, get) => {
         allEvents: [], 
         filteredEvents: [],
         eventsFilter: 'all',
+        eventsLayout: 'default', // Initialize eventsLayout
         asyncOpeationInProgress: false,
 
         fetchEvents: async () => {
@@ -48,25 +56,28 @@ const useEventsStore = create<EventsStore>((set, get) => {
                   set({ asyncOpeationInProgress: false });
                   throw new Error(`Error EE: ${response.status} ${response.statusText}`);
                 }
-
-                // console.log(`FetchEvents success: ${response.json()}`);
-
-
-                // console.log(JSON.stringify(json))
-
-                // const events: EventioEvent[] = JSON.parse(json);
                 set({ allEvents: events });
-
                 const filteredEvents = FilterEvents(get().eventsFilter, events);
                 set({ filteredEvents: filteredEvents });
                 set({ asyncOpeationInProgress: false });
                 console.log('Fetch events success');
-                console.log(filteredEvents.length);
 
             } catch (error) {
                 console.error(error);
             }
-        }}
+        },
+
+        setEventsFilter: (filter: TimeFilter) => {
+            set({ eventsFilter: filter });
+            const events = get().allEvents;
+            const filteredEvents = FilterEvents(filter, events);
+            set({ filteredEvents: filteredEvents });
+        },
+
+        setEventsLayout: (layout: CellLayout) => {
+            set({eventsLayout: layout})
+        }
+    }
 })
 
 export default useEventsStore;
