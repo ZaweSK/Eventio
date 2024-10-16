@@ -41,11 +41,11 @@ class ApiService {
           headers: this.createHeaders(),
         });
       
-        if (!response.ok) {
-          throw new Error(`Error SSS ${response.status}: ${response.statusText}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`Error SSS ${response.status}: ${response.statusText}`);
+        // }
       
-        return response.json();
+        return response;
       };
 }
 

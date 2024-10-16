@@ -42,20 +42,26 @@ const useEventsStore = create<EventsStore>((set, get) => {
             try {
                 set({ asyncOpeationInProgress: true });
                 const response = await api.get('/events');
+                const events: EventioEvent[] = await response.json();
                 if (!response.ok) {
                   console.log(JSON.stringify(response));
                   set({ asyncOpeationInProgress: false });
-                  throw new Error(`Error: ${response.status} ${response.statusText}`);
+                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
                 }
 
                 // console.log(`FetchEvents success: ${response.json()}`);
-                const events: EventioEvent[] = await response.json();
+
+
+                // console.log(JSON.stringify(json))
+
+                // const events: EventioEvent[] = JSON.parse(json);
                 set({ allEvents: events });
 
                 const filteredEvents = FilterEvents(get().eventsFilter, events);
                 set({ filteredEvents: filteredEvents });
                 set({ asyncOpeationInProgress: false });
                 console.log('Fetch events success');
+                console.log(filteredEvents.length);
 
             } catch (error) {
                 console.error(error);
