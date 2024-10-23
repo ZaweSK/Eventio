@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable } from "react-native"
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface EventCellContainerProps {
-    onPress: () => void;
+    onPress?: () => void;
     children: React.ReactNode;
 }
 
@@ -13,6 +13,7 @@ const EventCellContainer: React.FC<EventCellContainerProps> = (props: EventCellC
         return {  transform: [{scale: animatedScale.value }]  }
     })
     const animateScale = (isPressed: boolean) => { 
+        if (props.onPress === undefined) return;
         animatedScale.value = withTiming(isPressed ? 0.985 : 1, { duration: 100 });
     }
 

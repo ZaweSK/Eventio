@@ -1,5 +1,5 @@
 
 interface EventCellProps {  
     event: EventioEvent;
-    onPress: () => void;
+    onPress?: () => void;
 }

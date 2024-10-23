@@ -13,6 +13,7 @@ import { useColorScheme } from '@/components/useColorScheme';
 import useRootStore from '@/store/RootStore';
 import EventsPage from '@/pages/EventsPage';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import Colors from '@/constants/Colors';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -65,9 +66,6 @@ function RootLayoutNav() {
   console.log('-----');
 
   const colorScheme = useColorScheme();
-
-  
-
   const navigation = useNavigation()
   useEffect(()=>{
     console.log(JSON.stringify(navigation.getState(), null, 2))
@@ -76,11 +74,28 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <KeyboardProvider>
-      <Stack screenOptions={{headerShown : true}}>
+      <Stack screenOptions={{
+        headerShown : true,
+        headerShadowVisible: false,
+        headerStyle: {
+            backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
+        },}}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="sign-in" options={{ headerShown: false }} />
           <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+          <Stack.Screen name="eventDetail/[id]" options={{ 
+            headerShown: true,
+            headerTintColor: '#000',
+            headerBackTitleVisible: false, 
+            title: 'Event Detail',
+            headerTitleStyle: {
+              fontSize: 18,
+              fontFamily: 'Hind-Regular',
+            },
+            headerBackImageSource: require('@/assets/images/backButton.png'),
+        
+          }} />
       </Stack>
       </KeyboardProvider>
    </ThemeProvider>

@@ -3,19 +3,16 @@ import { View, Text, TouchableOpacity, FlatList, RefreshControl } from "react-na
 import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";
 import EventCellCompact from "./EventCellCompact";
+import { router, useNavigation } from "expo-router";
 
-const OnCellPressed = (event: EventioEvent) => {
-    console.log(`Pressed on event: ${event.title}`);
-}
-
-const CellForLayout = (item: EventioEvent, eventsLayout: string) => {
+const CellForLayout = (item: EventioEvent, eventsLayout: string, onPress: () => void) => {
   switch (eventsLayout) {
     case 'default':
-      return <EventCellDefault event={item} onPress={() => OnCellPressed(item)} />;
+      return <EventCellDefault event={item} onPress={onPress} />;
     case 'compact':
-      return <EventCellCompact event={item} onPress={() => OnCellPressed(item)}/>;
+      return <EventCellCompact event={item} onPress={onPress}/>;
     default:
-      return <EventCellDefault event={item} onPress={() => OnCellPressed(item)} />; // Fallback to default layout
+      return <EventCellDefault event={item} onPress={onPress} />; // Fallback to default layout
   }
 };
 
@@ -24,6 +21,10 @@ const EventsList = () => {
     const events = useEventsStore(state => state.filteredEvents);
     const fetchEvents = useEventsStore(state => state.fetchEvents);
     const eventsLayout = useEventsStore(state => state.eventsLayout);
+
+    const OnCellPressed = (event: EventioEvent) => {    
+      router.push(`/eventDetail/${event.id}`); 
+    };
   
     const onRefresh = useCallback(async () => {
       setIsRefreshing(true);
@@ -37,7 +38,7 @@ const EventsList = () => {
     return (
         <FlatList
             data={events}
-            renderItem={({ item }) => CellForLayout(item, eventsLayout)}
+            renderItem={({ item }) => CellForLayout(item, eventsLayout, () => OnCellPressed(item))}
             keyExtractor={item => item.id}
             contentContainerStyle={{ padding: 20 }}
             refreshControl={
