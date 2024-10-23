@@ -2,7 +2,7 @@ import useEventsStore from "@/store/EventsStore";
 import formatDate from "@/utils/formatDate";
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from "react-native";
 import EventCellDefault from "./EventCellDefault";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 
   const EventCellCompact = ({ event } : {event: EventioEvent}) => {
@@ -19,9 +19,17 @@ import { useState } from "react";
 const EventsList = () => {
     const events = useEventsStore(state => state.filteredEvents);
     const eventsLayout = useEventsStore(state => state.eventsLayout);
+    const fetchEvents = useEventsStore(state => state.fetchEvents);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-
+    const onRefresh = useCallback(async () => {
+      setIsRefreshing(true);
+      try {
+        await fetchEvents(); // Fetch new data from the store
+      } finally {
+        setIsRefreshing(false); // Stop the refresh animation after fetching
+      }
+    }, [fetchEvents]);
 
     return (
         <FlatList
@@ -42,7 +50,7 @@ const EventsList = () => {
             refreshControl={
                 <RefreshControl
                   refreshing={isRefreshing}
-                  onRefresh={() => {}}
+                  onRefresh={onRefresh}
                   tintColor="#000" // Change the spinner color if desired
                 />}
             />
