@@ -1,27 +1,26 @@
 import useEventsStore from "@/store/EventsStore";
-import formatDate from "@/utils/formatDate";
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from "react-native";
 import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";
+import EventCellCompact from "./EventCellCompact";
 
-
-  const EventCellCompact = ({ event } : {event: EventioEvent}) => {
-    return (
-        <View style={{ padding: 15, marginBottom: 10, backgroundColor: '#fff', borderRadius: 10 }}>
-        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
-        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
-        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>{event.title}</Text>
-        </View>
-    );
+  const CellForLayout = (item: EventioEvent, eventsLayout: string) => {
+    switch (eventsLayout) {
+      case 'default':
+        return <EventCellDefault event={item} />;
+      case 'compact':
+        return <EventCellCompact event={item} />;
+      default:
+        return <EventCellDefault event={item} />; // Fallback to default layout
+    }
   };
 
-
 const EventsList = () => {
-    const events = useEventsStore(state => state.filteredEvents);
-    const eventsLayout = useEventsStore(state => state.eventsLayout);
-    const fetchEvents = useEventsStore(state => state.fetchEvents);
     const [isRefreshing, setIsRefreshing] = useState(false);
-
+    const events = useEventsStore(state => state.filteredEvents);
+    const fetchEvents = useEventsStore(state => state.fetchEvents);
+    const eventsLayout = useEventsStore(state => state.eventsLayout);
+  
     const onRefresh = useCallback(async () => {
       setIsRefreshing(true);
       try {
@@ -34,17 +33,7 @@ const EventsList = () => {
     return (
         <FlatList
             data={events}
-            renderItem={({ item }) => {
-                switch (eventsLayout) {
-                    case 'default':
-                      return <EventCellDefault event={item} />;
-                    case 'compact':
-                      return <EventCellCompact event={item} />;
-                    default:
-    
-                      return <EventCellDefault event={item} />;
-                  }
-            }}
+            renderItem={({ item }) => CellForLayout(item, eventsLayout)}
             keyExtractor={item => item.id}
             contentContainerStyle={{ padding: 20 }}
             refreshControl={

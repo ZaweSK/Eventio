@@ -1,43 +1,20 @@
 import formatDate from "@/utils/formatDate";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import EventCellCoreInfo from "./EventCellCoreInfo";
+import EventCellContainer from "./EventCellContainer";
 
 const EventCellDefault = ({ event } : {event: EventioEvent}) => (
-    <View style={styles.cell}>
-      <Text id = "startDate" style = {styles.startDate} >{formatDate(event.startsAt)}</Text>
-      <Text id = "title" style={styles.title}>{event.title}</Text>
-      <Text id = "owner" style={styles.owner}>{event.owner.firstName} {event.owner.lastName}</Text>
+   <EventCellContainer>
+    <EventCellCoreInfo event={event}/>
       <Text id = "description" style={styles.description}>{event.description}</Text>
       <View id = "attendance" style = {styles.attendance}>
         <Image id = "attendeesImage" source = {require('@/assets/images/tabIcon_profile.png')} style = {styles.attendeesImage} />
         <Text id = "attendeesText" style = {styles.attendeesText}> {event.attendees.length} of {event.capacity}</Text>
       </View>
-
-      {/* <Text style={{ marginTop: 5 }}>{event.participants}</Text> */}
-      {/* <TouchableOpacity style={{
-          marginTop: 10,
-          padding: 10,
-        //   backgroundColor: event.action === 'LEAVE' ? 'red' : (event.action === 'JOIN' ? 'green' : 'gray'),
-          borderRadius: 5,
-          alignItems: 'center'
-        }}>
-      </TouchableOpacity> */}
-    </View>
+   </EventCellContainer>
   );
 
 const styles = StyleSheet.create({
-    cell: {
-        padding: 20, marginBottom: 16, backgroundColor: 'white', borderRadius: 8,
-
-        // Shadow for iOS
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-
-    // Shadow for Android
-    // elevation: 3, // Adjust this value to increase/decrease shadow intensity
-    },
-
     startDate: {
         color: '#A7A7B9',
         fontFamily: 'Hind-Regular',
