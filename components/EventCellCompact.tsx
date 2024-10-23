@@ -2,10 +2,10 @@ import { View, Text } from "react-native";
 import EventCellContainer from "./EventCellContainer";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 
-const EventCellCompact = ({ event } : {event: EventioEvent}) => {
+const EventCellCompact = (props: EventCellProps) => {
     return (
-        <EventCellContainer>
-            <EventCellCoreInfo event={event} />
+        <EventCellContainer onPress={props.onPress}>
+            <EventCellCoreInfo event={props.event} />
         </EventCellContainer>
     );
   };

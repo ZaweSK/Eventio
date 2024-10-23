@@ -1,11 +1,27 @@
 import React from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, Pressable } from "react-native"
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
-const EventCellContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface EventCellContainerProps {
+    onPress: () => void;
+    children: React.ReactNode;
+}
+
+const EventCellContainer: React.FC<EventCellContainerProps> = (props: EventCellContainerProps) => {
+    const animatedScale = useSharedValue(1);
+    const animatedStyle = useAnimatedStyle(() => {
+        return {  transform: [{scale: animatedScale.value }]  }
+    })
+    const animateScale = (isPressed: boolean) => { 
+        animatedScale.value = withTiming(isPressed ? 0.985 : 1, { duration: 100 });
+    }
+
     return (
-        <View style={styles.cell}>
-            {children}
-        </View>
+        <Pressable onPress={props.onPress} onPressIn={() => animateScale(true)} onPressOut={() => {animateScale(false)}}>
+            <Animated.View style={[styles.cell, animatedStyle] }>
+                {props.children}
+            </Animated.View>
+        </Pressable>
     )    
 }
 
@@ -23,7 +39,9 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
 
         // Shadow for Android
-        elevation: 3, // Adjust this value to increase/decrease shadow intensity
+        elevation: 3, 
+        
+        transform: [{scale: 1.05}],
     }
 })
 

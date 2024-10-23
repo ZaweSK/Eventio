@@ -3,13 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
 
-const EventCellDefault = ({ event } : {event: EventioEvent}) => (
-   <EventCellContainer>
-    <EventCellCoreInfo event={event}/>
-      <Text id = "description" style={styles.description}>{event.description}</Text>
+const EventCellDefault = (props: EventCellProps) => (
+   <EventCellContainer onPress={props.onPress}>
+    <EventCellCoreInfo event={props.event}/>
+      <Text id = "description" style={styles.description}>{props.event.description}</Text>
       <View id = "attendance" style = {styles.attendance}>
         <Image id = "attendeesImage" source = {require('@/assets/images/tabIcon_profile.png')} style = {styles.attendeesImage} />
-        <Text id = "attendeesText" style = {styles.attendeesText}> {event.attendees.length} of {event.capacity}</Text>
+        <Text id = "attendeesText" style = {styles.attendeesText}> {props.event.attendees.length} of {props.event.capacity}</Text>
       </View>
    </EventCellContainer>
   );

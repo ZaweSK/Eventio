@@ -4,16 +4,20 @@ import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";
 import EventCellCompact from "./EventCellCompact";
 
-  const CellForLayout = (item: EventioEvent, eventsLayout: string) => {
-    switch (eventsLayout) {
-      case 'default':
-        return <EventCellDefault event={item} />;
-      case 'compact':
-        return <EventCellCompact event={item} />;
-      default:
-        return <EventCellDefault event={item} />; // Fallback to default layout
-    }
-  };
+const OnCellPressed = (event: EventioEvent) => {
+    console.log(`Pressed on event: ${event.title}`);
+}
+
+const CellForLayout = (item: EventioEvent, eventsLayout: string) => {
+  switch (eventsLayout) {
+    case 'default':
+      return <EventCellDefault event={item} onPress={() => OnCellPressed(item)} />;
+    case 'compact':
+      return <EventCellCompact event={item} onPress={() => OnCellPressed(item)}/>;
+    default:
+      return <EventCellDefault event={item} onPress={() => OnCellPressed(item)} />; // Fallback to default layout
+  }
+};
 
 const EventsList = () => {
     const [isRefreshing, setIsRefreshing] = useState(false);
