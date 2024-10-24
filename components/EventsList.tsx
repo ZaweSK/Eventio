@@ -6,6 +6,12 @@ import EventCellCompact from "./EventCellCompact";
 import { router, useNavigation } from "expo-router";
 
 const CellForLayout = (item: EventioEvent, eventsLayout: string, onPress: () => void) => {
+  
+
+  const tag = item.id === "2ffa9350-400d-407e-9210-1dcb6375c76f" ? "t1" : undefined;
+
+  console.log("tag", tag);
+
   switch (eventsLayout) {
     case 'default':
       return <EventCellDefault event={item} onPress={onPress} />;
@@ -23,7 +29,7 @@ const EventsList = () => {
     const eventsLayout = useEventsStore(state => state.eventsLayout);
 
     const OnCellPressed = (event: EventioEvent) => {    
-      router.push("/(tabs)/events/1"); 
+      router.push(`/(tabs)/events/${event.id}`); 
     }
   
     const onRefresh = useCallback(async () => {

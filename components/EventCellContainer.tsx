@@ -19,7 +19,7 @@ const EventCellContainer: React.FC<EventCellContainerProps> = (props: EventCellC
 
     return (
         <Pressable onPress={props.onPress} onPressIn={() => animateScale(true)} onPressOut={() => {animateScale(false)}}>
-            <Animated.View style={[styles.cell, animatedStyle] }>
+            <Animated.View style={[styles.cell, animatedStyle]}>
                 {props.children}
             </Animated.View>
         </Pressable>

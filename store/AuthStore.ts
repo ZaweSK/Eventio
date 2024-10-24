@@ -8,27 +8,29 @@ type AuthStore = {
     refreshToken: () => void;
 }
 
-function StoreTokens(succesfullResponse : Response){
+async function StoreData(headers: Headers, body: any) {
     const accessTokenKey = 'authorization';
     const refreshTokenKey = 'refresh-token';
+    const userIdKey = 'id';
 
-    const header = succesfullResponse.headers;
-    if (header.has(accessTokenKey)) {
-        const token = header.get(accessTokenKey);
+    if (headers.has(accessTokenKey)) {
+        const token = headers.get(accessTokenKey);
         if (token) {
             storage.set('accessToken', token);
         }
     }
 
-    if (header.has(refreshTokenKey)) {
-        const token = header.get(refreshTokenKey);
+    if (headers.has(refreshTokenKey)) {
+        const token = headers.get(refreshTokenKey);
         if (token) {
             storage.set('refreshToken', token);
         }
       }
 
-      console.log("HERE")
-      console.log(storage.getString('accessToken'));
+    if (body && body[userIdKey]) {
+      storage.set('id', body[userIdKey]);
+      console.log('Stored user id:', body[userIdKey]);
+    }
 }
 
 
@@ -39,9 +41,6 @@ const useAuthStore = create<AuthStore>((set) => {
     let refreshTokenUrl = `${backendUrl}/auth/refresh-token`;
 
     const apiKey = '7f1e275c-9430-4429-81b7-473078bd2fa8';
-
-    const a = storage.getString('accessToken');
-    console.log('aCEEES', a);
   
     return {
       isAuthorised: false,
@@ -68,9 +67,10 @@ const useAuthStore = create<AuthStore>((set) => {
             throw new Error('Login failed HERE ');
           }
 
-          StoreTokens(response);
+          const body = await response.json();
+
+          StoreData(response.headers, body);
   
-          const data = await response.json();
   
           set({ isAuthorised: true });
   
@@ -106,7 +106,7 @@ const useAuthStore = create<AuthStore>((set) => {
             throw new Error('Login failed HERE');
           }
 
-          StoreTokens(response);
+          StoreData(response);
   
           const data = await response.json();
           accessToken = data.token; // Internally store the token
