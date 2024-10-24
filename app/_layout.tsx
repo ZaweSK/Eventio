@@ -14,6 +14,7 @@ import useRootStore from '@/store/RootStore';
 import EventsPage from '@/pages/EventsPage';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Colors from '@/constants/Colors';
+import React from 'react';
 
 export {
   // Catch any errors thrown by the Layout component.
