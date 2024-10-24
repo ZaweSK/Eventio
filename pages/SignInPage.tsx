@@ -22,7 +22,7 @@ const SignInScreen = () => {
       await signIn(email, password);  // Call signIn with username and password
       console.log('Sign-in successful');
       setLoading(false)
-      router.replace('/(tabs)');
+      router.replace('/(tabs)/events');
     } catch (error) {
       console.error('Sign-in failed:', error);
     }

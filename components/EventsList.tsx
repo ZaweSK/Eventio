@@ -23,8 +23,8 @@ const EventsList = () => {
     const eventsLayout = useEventsStore(state => state.eventsLayout);
 
     const OnCellPressed = (event: EventioEvent) => {    
-      router.push(`/eventDetail/${event.id}`); 
-    };
+      router.push("/(tabs)/events/1"); 
+    }
   
     const onRefresh = useCallback(async () => {
       setIsRefreshing(true);

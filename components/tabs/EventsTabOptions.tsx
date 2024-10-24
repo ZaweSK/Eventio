@@ -12,6 +12,11 @@ import useEventsStore from '@/store/EventsStore';
 export const EventsTabOptions = () => {
   const cellLayout = useEventsStore(state => state.eventsLayout);
   const setCellLayout = useEventsStore(state => state.setEventsLayout);
+
+  return { 
+    headerShown: false,
+    tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => <TabBarIcon image={require('@/assets/images/tabIcon_events.png')} color={color} size={focused ? 35 : 30}/>
+  }
   
   return {
     title: 'Events',

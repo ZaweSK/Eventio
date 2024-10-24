@@ -44,8 +44,10 @@ export default function TabLayout() {
             elevation: 5, // For Android (sets the shadow)
           },
         }}>
-        <Tabs.Screen  name = "index"  options = {EventsTabOptions} />
+                  {/* <Tabs.Screen  name = "index" /> */}
+        <Tabs.Screen  name = "events" options = {EventsTabOptions}/>
         <Tabs.Screen  name = "profile" options = {ProfileTabOptions} />
+
       </Tabs>
 
       <Animated.View 

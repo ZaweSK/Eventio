@@ -84,18 +84,6 @@ function RootLayoutNav() {
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="sign-in" options={{ headerShown: false }} />
           <Stack.Screen name="sign-up" options={{ headerShown: false }} />
-          <Stack.Screen name="eventDetail/[id]" options={{ 
-            headerShown: true,
-            headerTintColor: '#000',
-            headerBackTitleVisible: false, 
-            title: 'Event Detail',
-            headerTitleStyle: {
-              fontSize: 18,
-              fontFamily: 'Hind-Regular',
-            },
-            headerBackImageSource: require('@/assets/images/backButton.png'),
-        
-          }} />
       </Stack>
       </KeyboardProvider>
    </ThemeProvider>
