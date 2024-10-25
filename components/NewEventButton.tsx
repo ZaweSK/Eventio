@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
+import { router, useRouter } from 'expo-router';
 
 const  NewEventButton = () => {
+  const router = useRouter();
   return (
       <TouchableOpacity
         style={[styles.defaultStyle]}
-        onPress={() => console.log('FAB Pressed')}
+        onPress={() => router.push('/createEvent')}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}  // Expands clickable area
       >
         <Ionicons name="add" size={32} color="white" />

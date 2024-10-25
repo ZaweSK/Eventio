@@ -4,11 +4,12 @@ import Colors from "@/constants/Colors";
 import useAuthStore from "@/store/AuthStore";
 import useEventsStore from "@/store/EventsStore";
 import React, { useEffect } from "react";
-import { View, StyleSheet, useColorScheme, Text, ActivityIndicator, TouchableOpacity, FlatList } from "react-native"
+import { View, StyleSheet, useColorScheme, Text, ActivityIndicator, TouchableOpacity, FlatList, StatusBar } from "react-native"
 // import EventCellDefault from "@/components/EventCellDefault";
 
 
 const EventsPage = () => {
+    console.log("EventsPage");
     const colorScheme = useColorScheme();
     const fetchEvents = useEventsStore(state => state.fetchEvents);
     const loading = useEventsStore(state => state.asyncOpeationInProgress);

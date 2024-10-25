@@ -84,6 +84,8 @@ function RootLayoutNav() {
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="sign-in" options={{ headerShown: false }} />
           <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+          <Stack.Screen name="createEvent" options={{ presentation: 'modal' }} />
+
       </Stack>
       </KeyboardProvider>
    </ThemeProvider>
