@@ -13,27 +13,58 @@ class ApiService {
           'apikey': API_KEY,
         };
     
-        // if (accessToken) {
-        //   headers['Authorization'] = `Bearer ${accessToken}`;
-        // }
+        if (accessToken) {
+          headers['authorization'] = accessToken;
+        }
     
         return headers;
       }
 
-
-    async post(endpoint: string, data: any): Promise<Response> {
-        const response = await fetch(`${BASE_URL}${endpoint}`, {
+      async post(endpoint: string, data?: any): Promise<Response> {
+        const requestInit = {
           method: 'POST',
           headers: this.createHeaders(),
-          body: JSON.stringify(data),
-        });
+          ...(data && { body: JSON.stringify(data) }),
+        }
+
+        const response = await fetch(`${BASE_URL}${endpoint}`, requestInit);
     
         if (!response.ok) {
           throw new Error(`Error  WWW ${response.status}: ${response.statusText}`);
         }
 
         return response;
-    }
+      }
+
+      async delete(endpoint: string): Promise<Response> {
+        const requestInit = {
+          method: 'DELETE',
+          headers: this.createHeaders(),
+        }
+
+        const response = await fetch(`${BASE_URL}${endpoint}`, requestInit);
+    
+        if (!response.ok) {
+          throw new Error(`Error  ${response.status}: ${response.statusText}`);
+        }
+
+        return response;
+      }
+
+
+    // async post(endpoint: string, data: any): Promise<Response> {
+    //     const response = await fetch(`${BASE_URL}${endpoint}`, {
+    //       method: 'POST',
+    //       headers: this.createHeaders(),
+    //       body: JSON.stringify(data),
+    //     });
+    
+    //     if (!response.ok) {
+    //       throw new Error(`Error  WWW ${response.status}: ${response.statusText}`);
+    //     }
+
+    //     return response;
+    // }
 
     async get(endpoint: string): Promise<Response> {
         const response = await fetch(`${BASE_URL}${endpoint}`, {

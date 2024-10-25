@@ -36,7 +36,7 @@ const EventDetailPage = () => {
                 console.log("RENDERING ITEM", item);
                 switch (item) {
                     case 'eventInfo':
-                      return   <EventCellDefault event={event} />
+                      return   <EventCellDefault event={event} onEventAction={() => {}} />
                     case 'attendees':
                         return <EventAttendeesCell event = {event}/>
                   }

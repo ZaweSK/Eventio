@@ -11,6 +11,7 @@ import { View, StyleSheet, useColorScheme, Text, ActivityIndicator, TouchableOpa
 const EventsPage = () => {
     const colorScheme = useColorScheme();
     const fetchEvents = useEventsStore(state => state.fetchEvents);
+    const loading = useEventsStore(state => state.asyncOpeationInProgress);
 
     useEffect(() => {
         fetchEvents()
@@ -20,6 +21,10 @@ const EventsPage = () => {
         <View style = {[styles.page, {backgroundColor: Colors[colorScheme ?? 'light'].background}]} >
             <EventsFilter/>
             <EventsList />
+            {loading && (
+                <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
+                    <ActivityIndicator size= 'large'/>
+                </View>)}
         </View>
     )
 

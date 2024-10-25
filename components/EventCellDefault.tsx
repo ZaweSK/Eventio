@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
 import EventCellButton from "./EventCellButton";
-import getEventButtonAction from "@/utils/getEventButtonAction";
+import getEventButtonAction from "@/utils/getEventAction";
 
 const EventCellDefault = (props: EventCellProps) => {
    const buttonAction = getEventButtonAction(props.event);
@@ -18,7 +18,10 @@ const EventCellDefault = (props: EventCellProps) => {
         </View>
 
         {buttonAction !== null && (
-            <EventCellButton style={styles.cellButton} action={buttonAction} />
+            <EventCellButton style={styles.cellButton} action={buttonAction} onPress={() => {
+                console.log('Button pressed EventCellDefault');
+                props.onEventAction();
+            }} />
         )}
     </EventCellContainer>
     );

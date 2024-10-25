@@ -1,6 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 
-function ButtonStyle(style: EventCellButtonAction)  {
+function ButtonStyle(style: EventAction)  {
     switch(style) {
         case 'join': return styles.joinButton;
         case 'leave':return styles.leaveButton;
@@ -8,7 +8,7 @@ function ButtonStyle(style: EventCellButtonAction)  {
     }
 }
 
-function ButtonTextStyle(style: EventCellButtonAction) {
+function ButtonTextStyle(style: EventAction) {
     switch(style) {
         case 'join': return styles.whiteText;
         case 'leave':return styles.whiteText;
@@ -16,7 +16,7 @@ function ButtonTextStyle(style: EventCellButtonAction) {
     }
 }
 
-function ButtonText(style: EventCellButtonAction) { 
+function ButtonText(style: EventAction) { 
     switch(style) {
         case 'join': return 'JOIN';
         case 'leave':return 'LEAVE';
@@ -25,8 +25,9 @@ function ButtonText(style: EventCellButtonAction) {
 }
 
 interface EventCellButtonProps {
-    action: EventCellButtonAction;
+    action: EventAction;
     style?: StyleProp<ViewStyle>; 
+    onPress: () => void;
 }
 
 const EventCellButton = (props: EventCellButtonProps) => {
@@ -35,7 +36,11 @@ const EventCellButton = (props: EventCellButtonProps) => {
     const text = ButtonText(props.action);
 
     return(
-        <TouchableOpacity style= {[styles.defaultButton, buttonStyle, props.style]}>
+        <TouchableOpacity style= {[styles.defaultButton, buttonStyle, props.style]} onPress= {() => {
+            
+            console.log('Button pressed EventCellButton')
+            props.onPress();
+            }}>
             <Text style= {[styles.defaultText, textStyle]}>{text}</Text>
         </TouchableOpacity>
     )
@@ -71,5 +76,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export type EventCellButtonAction = 'join' | 'leave' | 'edit';
+export type EventAction = 'join' | 'leave' | 'edit';
 export default EventCellButton;

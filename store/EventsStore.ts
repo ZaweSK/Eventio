@@ -14,7 +14,12 @@ type EventsStore = {
 
    allEvents : EventioEvent[]
    filteredEvents : EventioEvent[]
+
+   updateEvent: (event: EventioEvent) => void
+
    fetchEvents: () => Promise<void>
+   joinEvent: (id: string) => Promise<void>
+   leaveEvent: (id: string) => Promise<void>
 
    asyncOpeationInProgress : boolean
 }
@@ -65,6 +70,7 @@ const useEventsStore = create<EventsStore>((set, get) => {
 
             } catch (error) {
                 console.error(error);
+                set({ asyncOpeationInProgress: false });
             }
         },
 
@@ -77,7 +83,64 @@ const useEventsStore = create<EventsStore>((set, get) => {
 
         setEventsLayout: (layout: CellLayout) => {
             set({eventsLayout: layout})
-        }
+        },
+
+        joinEvent: async (id: string) => {
+            console.log(`Joining event ${id} ...`);
+            try {
+                set({ asyncOpeationInProgress: true });
+                const response = await api.post(`/events/${id}/attendees/me`);
+                const updatedEvent: EventioEvent = await response.json();
+                if (!response.ok) {
+                  console.log(JSON.stringify(response));
+                  set({ asyncOpeationInProgress: false });
+                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
+                }
+         
+                set({ asyncOpeationInProgress: false });
+                console.log('Joined event successfully');
+                get().updateEvent(updatedEvent);
+
+            } catch (error) {
+                console.error(error);
+                set({ asyncOpeationInProgress: false });
+            }
+        },
+
+        leaveEvent: async (id: string) => {
+            console.log(`LEaving event ${id} ...`);
+            try {
+                set({ asyncOpeationInProgress: true });
+                const response = await api.delete(`/events/${id}/attendees/me`);
+                const updatedEvent: EventioEvent = await response.json();
+                if (!response.ok) {
+                  console.log(JSON.stringify(response));
+                  set({ asyncOpeationInProgress: false });
+                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
+                }
+         
+                set({ asyncOpeationInProgress: false });
+                console.log('Left event successfully');
+                get().updateEvent(updatedEvent);
+
+            } catch (error) {
+                console.error(error);
+                set({ asyncOpeationInProgress: false });
+            }
+        },
+
+        updateEvent: (event: EventioEvent) => {
+            const events = get().allEvents;
+            const index = events.findIndex((e) => e.id === event.id);
+            if (index === -1) {
+                console.error(`Event ${event.id} not found`);
+                return;
+            }
+            events[index] = event;
+            set({ allEvents: events });
+            const filteredEvents = FilterEvents(get().eventsFilter, events);
+            set({ filteredEvents: filteredEvents });
+        },
     }
 })
 
