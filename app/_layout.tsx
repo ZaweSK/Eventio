@@ -64,7 +64,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  console.log('-----');
 
   const colorScheme = useColorScheme();
   const navigation = useNavigation()

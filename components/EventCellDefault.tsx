@@ -2,17 +2,27 @@ import formatDate from "@/utils/formatDate";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
+import EventCellButton from "./EventCellButton";
+import getEventButtonAction from "@/utils/getEventButtonAction";
 
-const EventCellDefault = (props: EventCellProps) => (
-   <EventCellContainer onPress={props.onPress}>
-    <EventCellCoreInfo event={props.event}/>
-      <Text id = "description" style={styles.description}>{props.event.description}</Text>
-      <View id = "attendance" style = {styles.attendance}>
-        <Image id = "attendeesImage" source = {require('@/assets/images/tabIcon_profile.png')} style = {styles.attendeesImage} />
-        <Text id = "attendeesText" style = {styles.attendeesText}> {props.event.attendees.length} of {props.event.capacity}</Text>
-      </View>
-   </EventCellContainer>
-  );
+const EventCellDefault = (props: EventCellProps) => {
+   const buttonAction = getEventButtonAction(props.event);
+
+   return (
+    <EventCellContainer onPress={props.onPress}>
+        <EventCellCoreInfo event={props.event}/>
+        <Text id = "description" style={styles.description}>{props.event.description}</Text>
+        <View id = "attendance" style = {styles.attendance}>
+            <Image id = "attendeesImage" source = {require('@/assets/images/tabIcon_profile.png')} style = {styles.attendeesImage} />
+            <Text id = "attendeesText" style = {styles.attendeesText}> {props.event.attendees.length} of {props.event.capacity}</Text>
+        </View>
+
+        {buttonAction !== null && (
+            <EventCellButton style={styles.cellButton} action={buttonAction} />
+        )}
+    </EventCellContainer>
+    );
+}
 
 const styles = StyleSheet.create({
     startDate: {
@@ -58,6 +68,11 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontFamily: 'Hind-Regular',
         marginLeft: 5, 
+    },
+    cellButton: {
+        position: 'absolute',
+        right: 20,
+        bottom: 20,
     }
 
 });

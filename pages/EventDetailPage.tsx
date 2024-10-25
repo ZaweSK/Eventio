@@ -19,6 +19,9 @@ const EventDetailPage = () => {
         // NOT FOUND 
         return <Text>Event not found</Text>
     }
+    
+
+   
     const data = ['eventInfo', 'attendees'];
 
     console.log("------");
