@@ -1,75 +1,251 @@
-import EventioButton from '@/components/EventioButton';
-import Input from '@/components/Input';
-import Colors from '@/constants/Colors';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { StyleSheet, useColorScheme, View, Text, StatusBar, SafeAreaView } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import EventioButton from "@/components/EventioButton";
+import Input from "@/components/Input";
+import Colors from "@/constants/Colors";
+import useEventsStore from "@/store/EventsStore";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, View, StatusBar, SafeAreaView, ActivityIndicator } from "react-native";
+import DatePicker from "react-native-date-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
-function DefaultUserInfo() {
-    return {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
+// ================================ PRIVATE HOOKS ================================
+function useEventInfo() {
+  const [triedToCreateEvent, setTriedToCreateEvent] = useState(false);
+
+  const [eventInfo, setEventInfo] = useState({
+    title: "",
+    description: "",
+    date: "",
+    time: "",
+    capacity: "",
+  });
+
+  const [errors, setErrors] = useState({
+    titleInputError: false,
+    descInputError: false,
+    dateInputError: false,
+    timeInputError: false,
+    capacityInputError: false,
+  });
+
+  useEffect(() => {
+    if (triedToCreateEvent) {
+      validateEventInfo();
+    }
+  }, [eventInfo]);
+
+  const validateEventInfo = () => {
+    const newErrors = {
+      titleInputError: eventInfo.title.length < 3 ,
+      descInputError: eventInfo.description.length < 6,
+      dateInputError: eventInfo.date.length === 0,
+      timeInputError: eventInfo.time.length === 0,
+      capacityInputError: eventInfo.capacity.length === 0,
     };
+
+    console.log("New errors:", newErrors);
+    setErrors(newErrors);
+    return !Object.values(newErrors).includes(true);
+  };
+
+  const handleInputChange = (propertyName: string, propertyValue: string) => {
+    setEventInfo((prev) => ({ ...prev, [propertyName]: propertyValue }));
+  };
+
+  return {eventInfo, errors, validateEventInfo, handleInputChange, setTriedToCreateEvent};
 }
 
+function useDateTimeInfo(mode: "date" | "time") {
+  const [dateTime, setDateTime] = useState<Date | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [formattedDateTime, setFormattedDateTime] = useState<string | null>( null);
+
+  useEffect(() => {
+    if (dateTime) {
+      console.log("date", dateTime);
+      formatDateTime(dateTime);
+    }
+  }, [dateTime]);
+
+  const formatDateTime = (date: Date) => {
+    const formatted =
+      mode === "date"
+        ? date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : date.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          });
+    setFormattedDateTime(formatted);
+  };
+
+  return {dateTime, setDateTime, pickerOpen,setPickerOpen, formattedDateTime};
+}
+// ============================= PRIVATE METHODS =============================
+function combineDateAndTime(date: Date, time: Date): string {
+  const combined = new Date(date);
+  combined.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
+  return combined.toISOString();
+}
+
+// ================================ COMPONENT ================================
 const CreateEventPage = () => {
-    StatusBar.setBarStyle('light-content');
-    const [userInfo, setUserInfo] = useState(DefaultUserInfo());
-    
-    const handleInputChange = (propertyName: any, propertyValue: any) => {
-        setUserInfo({
-            ...userInfo,
-            [propertyName]: propertyValue, // Dynamically update the property
-        });
-    };
-    
-    const colorScheme = useColorScheme();
-    const router = useRouter();
+  StatusBar.setBarStyle("light-content");
+  const {
+    eventInfo,
+    errors,
+    validateEventInfo,
+    handleInputChange,
+    setTriedToCreateEvent,
+  } = useEventInfo();
 
-    return (
-        <SafeAreaView style={styles.safeArea}>
-            <KeyboardAwareScrollView 
-                id="ScrollableContent" 
-                // bottomOffset={0} 
-                style={{ padding: 20}}
-                contentContainerStyle={styles.scrollContentContainer}
-            >
-                <Input placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => handleInputChange('firstName', input)} />
-                <Input placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => handleInputChange('lastName', input)} />
-                <Input placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => handleInputChange('email', input)} />
-                <Input secureEntry={true} placeholder="Password" inputValue={userInfo.password} onInputChanged={(input) => handleInputChange('password', input)} />
-                <Input secureEntry={true} placeholder="Repeat password" inputValue={userInfo.repeatPassword} onInputChanged={(input) => handleInputChange('repeatPassword', input)} />
+  const {
+    dateTime: date,
+    setDateTime: setDate,
+    pickerOpen: datePickerOpen,
+    setPickerOpen: setDatePickerOpen,
+    formattedDateTime: formattedDate,
+  } = useDateTimeInfo("date");
 
-                {/* Button container should flex to fill remaining space */}
-                <View id="buttonContainer" style={styles.buttonContainer}>
-                    <EventioButton title="SIGN UP" onPress={() => {}} style={styles.signUpButton} />
-                </View>
-            </KeyboardAwareScrollView>
-        </SafeAreaView>
-    );
+  const {
+    dateTime: time,
+    setDateTime: setTime,
+    pickerOpen: timePickerOpen,
+    setPickerOpen: setTimePickerOpen,
+    formattedDateTime: formattedTime,
+  } = useDateTimeInfo("time");
+
+  const loading = useEventsStore((state) => state.asyncOpeationInProgress);
+
+  useEffect(() => {
+    if (formattedDate) {
+      console.log("here time", formattedTime);
+      
+      handleInputChange("date", formattedDate!);
+    }
+  }, [formattedDate]);
+  useEffect(() => {
+    if (formattedTime) {
+      handleInputChange("time", formattedTime!);
+    }
+  }, [formattedTime]);
+
+  const createEvent = useEventsStore((state) => state.createEvent);
+  const tryToCreateEvent = () => {
+    setTriedToCreateEvent(true);
+    if (validateEventInfo()) {
+        const startsAt = combineDateAndTime(date!, time!);
+        console.log("startsAt", startsAt);
+        
+        createEvent(eventInfo.title, eventInfo.description, startsAt, parseInt(eventInfo.capacity));
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAwareScrollView
+        id="ScrollableContent"
+        bottomOffset={50}
+        style={{ padding: 20 }}
+        contentContainerStyle={styles.scrollContentContainer}
+      >
+        <Input
+          error={errors.titleInputError ? "* (at least 3 characters)" : null}
+          placeholder="Title"
+          inputValue={eventInfo.title}
+          onInputChanged={(input) => handleInputChange("title", input)}
+        />
+        <Input
+          error={errors.descInputError ? "* (at least 6 characters)" : null}
+          placeholder="Description"
+          inputValue={eventInfo.description}
+          onInputChanged={(input) => handleInputChange("description", input)}
+        />
+        <Input
+          error={errors.dateInputError ? "*" : null}
+          placeholder="Date"
+          onFocus={() => setDatePickerOpen(true)}
+          inputValue={eventInfo.date}
+          onInputChanged={(input) => handleInputChange("date", input)}
+        />
+        <Input
+          error={errors.timeInputError ? "*" : null}
+          placeholder="Time"
+          onFocus={() => setTimePickerOpen(true)}
+          inputValue={eventInfo.time}
+          onInputChanged={(input) => handleInputChange("time", input)}
+        />
+        <Input
+          error={errors.capacityInputError ? "*" : null}
+          placeholder="Capacity"
+          keyboardType="numeric"
+          inputValue={eventInfo.capacity}
+          onInputChanged={(input) => handleInputChange("capacity", input)}
+        />
+        <View id="buttonContainer" style={styles.buttonContainer}>
+          <EventioButton title="CREATE" onPress={tryToCreateEvent} />
+        </View>
+      </KeyboardAwareScrollView>
+
+      <DatePicker
+        modal
+        mode="date"
+        open={datePickerOpen}
+        date={date || new Date()}
+        onDateChange={setDate}
+        onConfirm={(pickedDate) => {
+          console.log("Picked date:", pickedDate);
+          
+          setDatePickerOpen(false);
+          setDate(pickedDate);
+          console.log("confirmed");
+          
+        }}
+        onCancel={() => {
+          setDatePickerOpen(false);
+        }}
+      />
+
+      <DatePicker
+        modal
+        mode="time"
+        open={timePickerOpen}
+        date={time || new Date()}
+        onDateChange={setTime}
+        onConfirm={(pickedTime) => {
+          setTimePickerOpen(false);
+          setTime(pickedTime);
+        }}
+        onCancel={() => {
+          setTimePickerOpen(false);
+        }}
+      />
+
+{loading && (
+      <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size= 'large'/>
+    </View>)}
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    scrollContentContainer: {
-        flexGrow: 1, // Ensures the scrollview takes up the full height
-        justifyContent: 'space-between', // Space between inputs and button
-    },
-    buttonContainer: {
-        justifyContent: 'flex-end',
-        flex: 1, // Ensures the button container takes up available space
-        // backgroundColor: 'red', // To make it visible
-    },
-    signUpButton: {
-        // Additional button styling here if necessary
-    },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+  },
+  buttonContainer: {
+    justifyContent: "flex-end",
+    flex: 1,
+  },
 });
 
 export default CreateEventPage;

@@ -24,7 +24,7 @@ class ApiService {
         const requestInit = {
           method: 'POST',
           headers: this.createHeaders(),
-          ...(data && { body: JSON.stringify(data) }),
+          ...(data && { body: JSON.stringify(data)}),
         }
 
         const response = await fetch(`${BASE_URL}${endpoint}`, requestInit);

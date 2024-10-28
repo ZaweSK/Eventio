@@ -20,6 +20,7 @@ type EventsStore = {
    fetchEvents: () => Promise<void>
    joinEvent: (id: string) => Promise<void>
    leaveEvent: (id: string) => Promise<void>
+   createEvent: (title: string, desc: string, startsAt: string, capacity: number) => Promise<void>
 
    asyncOpeationInProgress : boolean
 }
@@ -140,6 +141,50 @@ const useEventsStore = create<EventsStore>((set, get) => {
             set({ allEvents: events });
             const filteredEvents = FilterEvents(get().eventsFilter, events);
             set({ filteredEvents: filteredEvents });
+        },
+
+        createEvent: async (title: string, desc: string, startsAt: string, capacity: number) => {
+            console.log(`Creating event ${title} ...`);
+            try {
+                set({ asyncOpeationInProgress: true });
+
+                const data =   {title: title,
+                description: desc,
+                startsAt: startsAt,
+                capacity: capacity
+            }
+
+                const jsonData = JSON.stringify({
+                    title: title,
+                    description: desc,
+                    startsAt: "2024-11-27T08:53:34.729Z",
+                    capacity: capacity
+                })
+
+                console.log(`jsonData: ${jsonData}`);
+                
+
+                const response = await api.post('/events',  data );
+                const createdEvent: EventioEvent = await response.json();
+                if (!response.ok) {
+                  console.log(JSON.stringify(response));
+                  set({ asyncOpeationInProgress: false });
+                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
+                }
+         
+                set({ asyncOpeationInProgress: false });
+                console.log('Created event successfully');
+
+                const events = get().allEvents;
+                events.push(createdEvent);
+                set({ allEvents: events });
+                const filteredEvents = FilterEvents(get().eventsFilter, events);
+                set({ filteredEvents: filteredEvents });
+
+            } catch (error) {
+                console.error(error);
+                set({ asyncOpeationInProgress: false });
+            }
         },
     }
 })

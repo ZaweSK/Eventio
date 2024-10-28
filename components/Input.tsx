@@ -6,10 +6,11 @@ import Animated, { FadeIn, FadeInDown, FadeInUp, SlideInDown, SlideInUp, useAnim
 interface InputProps {
     inputValue: string;
     onInputChanged: (text: string) => void;
+    onFocus?: () => void;
     placeholder?: string;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
     secureEntry?: boolean;
-    error?: string
+    error?: string | null;
 }
 
 const focusedSeparatorOpacity = 0.9;
@@ -21,7 +22,8 @@ const Input = ({
     placeholder = '',
     onInputChanged,
     inputValue,
-    error  
+    error,
+    onFocus = () => {} 
   }
   : InputProps) => {
 
@@ -33,7 +35,7 @@ const Input = ({
          }
     })
     const handleOpacityAnimation = (isFocused: boolean) => { 
-        if (error) return;
+        // if (error) return;
         animatedOpacity.value = withTiming(isFocused ? focusedSeparatorOpacity : notFocusedSeparatoOpacity, { duration: 400 });
     }
 
@@ -56,7 +58,11 @@ const Input = ({
           keyboardType= {keyboardType}
           secureTextEntry= {secureText}
           onChangeText={(text) => onInputChanged(text)}
-          onFocus={() => {handleOpacityAnimation(true)}}
+          onFocus={() => {
+            console.log('onFocus');
+            onFocus();
+            handleOpacityAnimation(true)
+          }}
           onBlur={() => handleOpacityAnimation(false)}
           textContentType= "oneTimeCode"
           autoComplete= "off"
@@ -130,7 +136,9 @@ const styles = StyleSheet.create({
       },
 
       errorContainer: {
-        marginTop: 8,
+        position: 'absolute',
+        bottom: -25,
+        // marginTop: 8,
         width: '100%',
       },
       error: {
