@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Hind-Medium',
         fontSize: 20,
         textAlign: 'left',
+        paddingRight: 100
     },
     owner: {
         color: '#72727B',

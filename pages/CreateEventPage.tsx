@@ -118,8 +118,6 @@ const CreateEventPage = () => {
     formattedDateTime: formattedTime,
   } = useDateTimeInfo("time");
 
-  const loading = useEventsStore((state) => state.asyncOpeationInProgress);
-
   useEffect(() => {
     if (formattedDate) {
       console.log("here time", formattedTime);
@@ -225,11 +223,6 @@ const CreateEventPage = () => {
           setTimePickerOpen(false);
         }}
       />
-
-{loading && (
-      <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator size= 'large'/>
-    </View>)}
     </SafeAreaView>
   );
 };

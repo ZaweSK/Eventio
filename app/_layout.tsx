@@ -15,6 +15,9 @@ import EventsPage from '@/pages/EventsPage';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Colors from '@/constants/Colors';
 import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import useLoadingStore from '@/store/LoadingStore';
+import Loading from '@/components/Loading';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -64,9 +67,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-
   const colorScheme = useColorScheme();
   const navigation = useNavigation()
+  const loading = useLoadingStore(state => state.loading)
+
+  console.log(loading);
+  
+
   useEffect(()=>{
     console.log(JSON.stringify(navigation.getState(), null, 2))
   }, [navigation])
@@ -96,8 +103,8 @@ function RootLayoutNav() {
               fontFamily: 'Hind-Regular',
             },
            }} />
-
       </Stack>
+      {loading && <Loading /> }
       </KeyboardProvider>
    </ThemeProvider>
   );

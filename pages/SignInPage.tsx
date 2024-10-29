@@ -15,16 +15,16 @@ const SignInScreen = () => {
   const [email, setEmail] = useState('steverogers@strv.com');
   const [password, setPassword] = useState('am3riCa');
   const [errorMessage, setErrorMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const signIn = useAuthStore((state) => state.signIn);
   const handleSignIn = async () => {
-    setLoading(true);
+    // setLoading(true);
     console.log('Signing in...');
     try {
       await signIn(email, password);  // Call signIn with username and password
       console.log('Sign-in successful');
-      setLoading(false)
+      // setLoading(false)
       router.replace('/(tabs)/events');
     } catch (error) {
       console.error('Sign-in failed:', error);
@@ -51,11 +51,11 @@ const SignInScreen = () => {
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
-    {loading && (
+    {/* {loading && (
       <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
       <ActivityIndicator size= 'large'/>
-    </View>
-    )}
+     </View> 
+    )} */}
     
     </SafeAreaView>
   );

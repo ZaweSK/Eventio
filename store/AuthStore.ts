@@ -1,5 +1,6 @@
 import { storage } from '@/storage/storage';
 import { create } from 'zustand';
+import useLoadingStore from '@/store/LoadingStore';
 
 type AuthStore = {
     isAuthorised: boolean;
@@ -46,6 +47,8 @@ const useAuthStore = create<AuthStore>((set) => {
       isAuthorised: false,
   
       signIn: async (email: string, password: string) => {
+        useLoadingStore.getState().setLoading(true);
+
         const accessToken = storage.getString('accessToken');
         const refreshToken = storage.getString('refreshToken');
         try {
@@ -64,6 +67,8 @@ const useAuthStore = create<AuthStore>((set) => {
   
           if (!response.ok) {
             console.log(JSON.stringify(response));
+            useLoadingStore.getState().setLoading(false);
+
             throw new Error('Login failed HERE ');
           }
 
@@ -75,9 +80,13 @@ const useAuthStore = create<AuthStore>((set) => {
           set({ isAuthorised: true });
   
           console.log('Signed in successfully');
+          useLoadingStore.getState().setLoading(false);
+
         } catch (error) {
           console.error('Sign-in error:', error);
           set({ isAuthorised: false });
+          useLoadingStore.getState().setLoading(false);
+
         }
       },
   
