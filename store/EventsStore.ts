@@ -61,6 +61,7 @@ function AddNewEventAndPublish(newEvent : EventioEvent) {
     useEventsStore.getState().filteredEvents = filteredEvents;
 }
 
+
 function RemoveEventAndPublish(eventId : string) {
     const events = useEventsStore.getState().allEvents;
     const index = events.findIndex((e) => e.id === eventId);
@@ -124,9 +125,9 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 const response = await api.post(`/events/${id}/attendees/me`);
                 const updatedEvent: EventioEvent = await response.json();
 
-                set({ asyncOpeationInProgress: false });
                 console.log('Joined event successfully');
                 get().updateEvent(updatedEvent);
+                set({ asyncOpeationInProgress: false });
                 return Success();
 
             } catch (error) {
@@ -143,9 +144,9 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 const response = await api.delete(`/events/${id}/attendees/me`);
                 const updatedEvent: EventioEvent = await response.json();
 
+                get().updateEvent(updatedEvent);
                 set({ asyncOpeationInProgress: false });
                 console.log('Left event successfully');
-                get().updateEvent(updatedEvent);
                 return Success();
 
             } catch (error) {
@@ -183,8 +184,8 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 const createdEvent: EventioEvent = await response.json();
                 
                 console.log('Created event successfully');
-                set({ asyncOpeationInProgress: false });
                 AddNewEventAndPublish(createdEvent);
+                set({ asyncOpeationInProgress: false });
                 return Success();
 
             } catch (error) {
@@ -201,8 +202,8 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 await api.delete(`/events/${id}`);
 
                 console.log('Deleted event successfully');
-                set({ asyncOpeationInProgress: false });
                 RemoveEventAndPublish(id);
+                set({ asyncOpeationInProgress: false });
                 return Success();
 
             } catch (error) {

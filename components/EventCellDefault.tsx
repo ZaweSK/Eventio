@@ -5,9 +5,8 @@ import EventCellContainer from "./EventCellContainer";
 import EventCellButton from "./EventCellButton";
 import getEventButtonAction from "@/utils/getEventAction";
 
-const EventCellDefault = (props: EventCellProps) => {
+const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);
-
    return (
     <EventCellContainer onPress={props.onPress}>
         <EventCellCoreInfo event={props.event}/>
@@ -19,7 +18,6 @@ const EventCellDefault = (props: EventCellProps) => {
 
         {buttonAction !== null && (
             <EventCellButton style={styles.cellButton} action={buttonAction} onPress={() => {
-                console.log('Button pressed EventCellDefault');
                 props.onEventAction();
             }} />
         )}

@@ -22,19 +22,29 @@ import {
   StyleSheet,
   ActionSheetIOS,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 
 const EventDetailPage = () => {
+  
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const { id } = useLocalSearchParams();
   const events = useEventsStore((state) => state.allEvents);
   const event = events.find((event) => event.id === id);
 
+  const joinEvent = useEventsStore(state => state.joinEvent);
+  const leaveEvent = useEventsStore(state => state.leaveEvent);
   const deleteEvent = useEventsStore((state) => state.deleteEvent);
   const loading = useEventsStore((state) => state.asyncOpeationInProgress);
 
+
+  console.log("REDNER EVENT DETAIL", JSON.stringify(event), event ? getEventAction(event) : "No event");
+
+
   useEffect(() => {
+    console.log("USE EFFECT");
+    
     if (event) {
       const ownership = getEventOwnership(event);
       // Update header with the ownership information
@@ -50,6 +60,30 @@ const EventDetailPage = () => {
       });
     }
   }, [event]);
+
+  const OnActionButtonPressed = async (event: EventioEvent) => {
+    const eventAction = getEventAction(event);
+    if (eventAction === null) return;
+    console.log('Event action:', eventAction);
+
+    switch (eventAction) {
+      case 'edit':
+        break;
+      case 'join':
+        const joinResult = await joinEvent(event.id);
+        if (joinResult.type == "error") {
+          Alert.alert("Error", joinResult.message);
+        }
+        break;
+      case 'leave':
+        const leaveResult =  await leaveEvent(event.id);
+        if (leaveResult.type == "error") {
+          Alert.alert("Error", leaveResult.message);
+        }
+        break;
+    }
+  }
+
 
   const showActionSheet = () => {
     ActionSheetIOS.showActionSheetWithOptions(
@@ -83,11 +117,13 @@ const EventDetailPage = () => {
       ]}
     >
       {event ? (
-        <View>
+        <View>          
           <FlatList data={data} keyExtractor={(item, index) => index.toString()} contentContainerStyle={{ padding: 20 }}
             renderItem={({ item }) => {
+              console.log("HERE");
+              
               switch (item) {
-                case "eventInfo": return  <EventCellDefault event={event} onEventAction={() => {}} />
+                case "eventInfo": return  <EventCellDefault event={event} onEventAction={() => OnActionButtonPressed(event)} />
                 case "attendees": return <EventAttendeesCell event={event} />;
               }
               return null;
