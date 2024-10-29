@@ -6,6 +6,7 @@ import EventCellCompact from "./EventCellCompact";
 import { router, useNavigation } from "expo-router";
 import { EventAction } from "./EventCellButton";
 import getEventAction from "@/utils/getEventAction";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onActionButtonPressed: () => void) => {
   switch (eventsLayout) {
@@ -68,11 +69,12 @@ const EventsList = () => {
     }, [fetchEvents]);
 
     return (
-        <FlatList
+        <Animated.FlatList
             data={events}
             renderItem={({ item }) => Cell(item, eventsLayout, () => OnCellPressed(item), () => OnActionButtonPressed(item))}
             keyExtractor={event => event.id}
             contentContainerStyle={{ padding: 20 }}
+            itemLayoutAnimation={LinearTransition}
             refreshControl={
                 <RefreshControl
                   refreshing={isRefreshing}

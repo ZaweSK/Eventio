@@ -10,7 +10,7 @@ interface EventAttendeesCellProps {
 
 const EventAttendeesCell = (props: EventAttendeesCellProps) => {
     return (
-        <EventCellContainer >
+        <EventCellContainer>
           <Text style= {styles.title}>Attendees </Text>
           <View style= {styles.attendeesList}>
             {getAttendeeTagProps(props.event.attendees).map(prop => (
