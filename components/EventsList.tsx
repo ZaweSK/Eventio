@@ -1,5 +1,5 @@
 import useEventsStore from "@/store/EventsStore";
-import { View, Text, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, Alert } from "react-native";
 import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";
 import EventCellCompact from "./EventCellCompact";
@@ -34,7 +34,7 @@ const EventsList = () => {
       NavigateToEventDetail(event);
     }
 
-    const OnActionButtonPressed = (event: EventioEvent) => {
+    const OnActionButtonPressed = async (event: EventioEvent) => {
       const eventAction = getEventAction(event);
       if (eventAction === null) return;
       console.log('Event action:', eventAction);
@@ -44,10 +44,16 @@ const EventsList = () => {
           NavigateToEventDetail(event);
           break;
         case 'join':
-          joinEvent(event.id);
+          const joinResult = await joinEvent(event.id);
+          if (joinResult.type == "error") {
+            Alert.alert("Error", joinResult.message);
+          }
           break;
         case 'leave':
-          leaveEvent(event.id);
+          const leaveResult =  await leaveEvent(event.id);
+          if (leaveResult.type == "error") {
+            Alert.alert("Error", leaveResult.message);
+          }
           break;
       }
     }

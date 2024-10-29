@@ -79,7 +79,7 @@ const EventDetailPage = () => {
     <View
       style={[
         { backgroundColor: Colors[colorScheme ?? "light"].background },
-        { flex: 1 },
+        { flexGrow: 1 },
       ]}
     >
       {event ? (

@@ -94,7 +94,6 @@ function combineDateAndTime(date: Date, time: Date): string {
 
 // ================================ COMPONENT ================================
 const CreateEventPage = () => {
-  StatusBar.setBarStyle("light-content");
   const {
     eventInfo,
     errors,
@@ -137,11 +136,6 @@ const CreateEventPage = () => {
   const tryToCreateEvent = async () => {
     setTriedToCreateEvent(true);
     if (validateEventInfo()) {
-
-
-
-      try {
-      
           const startsAt = combineDateAndTime(date!, time!);
           const result = await createEvent(eventInfo.title, eventInfo.description, startsAt, parseInt(eventInfo.capacity));
           if (result.type == "success") {
@@ -150,22 +144,13 @@ const CreateEventPage = () => {
             console.log("Error creating event:", result.message);
             Alert.alert("Error", result.message);
           }
-        } catch (error) {
-          if (error instanceof AsyncError) {
-            console.log("AsyncError caught:", error);
-            Alert.alert("Error", error.message);
-
-        } else {
-            console.log("Unexpected error:", error);
-            Alert.alert("Error", "Something went wrong. Please try again.");
-        }
-        }
     }
   };
 
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" />
       <KeyboardAwareScrollView
         id="ScrollableContent"
         bottomOffset={50}
@@ -217,11 +202,8 @@ const CreateEventPage = () => {
         date={date || new Date()}
         onDateChange={setDate}
         onConfirm={(pickedDate) => {
-          console.log("Picked date:", pickedDate);
-          
           setDatePickerOpen(false);
           setDate(pickedDate);
-          console.log("confirmed");
           
         }}
         onCancel={() => {

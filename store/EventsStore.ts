@@ -8,24 +8,24 @@ import { AsyncError } from "@/utils/result/AsyncError";
 const api = new ApiService();
 
 type EventsStore = {
-   eventsFilter : TimeFilter
-   setEventsFilter: (filter: TimeFilter) => void
+    eventsFilter: TimeFilter
+    setEventsFilter: (filter: TimeFilter) => void
 
-   eventsLayout: CellLayout
-   setEventsLayout: (layout: CellLayout) => void
+    eventsLayout: CellLayout
+    setEventsLayout: (layout: CellLayout) => void
 
-   allEvents : EventioEvent[]
-   filteredEvents : EventioEvent[]
+    allEvents: EventioEvent[]
+    filteredEvents: EventioEvent[]
 
-   updateEvent: (event: EventioEvent) => void
+    updateEvent: (event: EventioEvent) => void
 
-   fetchEvents: () => Promise<void>
-   joinEvent: (id: string) => Promise<void>
-   leaveEvent: (id: string) => Promise<void>
-   deleteEvent: (id: string) => Promise<void>
-   createEvent: (title: string, desc: string, startsAt: string, capacity: number) => Promise<Result>
+    fetchEvents: () => Promise<void>
+    joinEvent: (id: string) => Promise<Result>
+    leaveEvent: (id: string) => Promise<Result>
+    deleteEvent: (id: string) => Promise<Result>
+    createEvent: (title: string, desc: string, startsAt: string, capacity: number) => Promise<Result>
 
-   asyncOpeationInProgress : boolean
+    asyncOpeationInProgress: boolean
 }
 
 function FilterEvents(filter: TimeFilter, events: EventioEvent[]): EventioEvent[] {
@@ -46,9 +46,36 @@ function FilterEvents(filter: TimeFilter, events: EventioEvent[]): EventioEvent[
 }
 
 
+function CreateUserFriendlyError(error: any) {
+    if (error instanceof AsyncError) {
+        return UserFriendlyError(error.issues);
+    }
+    return UserFriendlyError("Something went wrong. Please try again.");
+}
+
+function AddNewEventAndPublish(newEvent : EventioEvent) {
+    const events = useEventsStore.getState().allEvents;
+    events.push(newEvent);
+    useEventsStore.getState().allEvents = events;
+    const filteredEvents = FilterEvents(useEventsStore.getState().eventsFilter, events);
+    useEventsStore.getState().filteredEvents = filteredEvents;
+}
+
+function RemoveEventAndPublish(eventId : string) {
+    const events = useEventsStore.getState().allEvents;
+    const index = events.findIndex((e) => e.id === eventId);
+    if (index > -1) {
+        events.splice(index, 1);
+        useEventsStore.getState().allEvents = events;
+        const filteredEvents = FilterEvents(useEventsStore.getState().eventsFilter, events);
+        useEventsStore.getState().filteredEvents = filteredEvents;
+    }
+}
+
+
 const useEventsStore = create<EventsStore>((set, get) => {
-    return { 
-        allEvents: [], 
+    return {
+        allEvents: [],
         filteredEvents: [],
         eventsFilter: 'all',
         eventsLayout: 'default', // Initialize eventsLayout
@@ -61,9 +88,9 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 const response = await api.get('/events');
                 const events: EventioEvent[] = await response.json();
                 if (!response.ok) {
-                //   console.log(JSON.stringify(response));
-                  set({ asyncOpeationInProgress: false });
-                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
+                    //   console.log(JSON.stringify(response));
+                    set({ asyncOpeationInProgress: false });
+                    throw new Error(`Error EE: ${response.status} ${response.statusText}`);
                 }
                 set({ allEvents: events });
                 const filteredEvents = FilterEvents(get().eventsFilter, events);
@@ -87,50 +114,44 @@ const useEventsStore = create<EventsStore>((set, get) => {
         },
 
         setEventsLayout: (layout: CellLayout) => {
-            set({eventsLayout: layout})
+            set({ eventsLayout: layout })
         },
 
-        joinEvent: async (id: string) => {
+        joinEvent: async (id: string): Promise<Result> => {
             console.log(`Joining event ${id} ...`);
             try {
                 set({ asyncOpeationInProgress: true });
                 const response = await api.post(`/events/${id}/attendees/me`);
                 const updatedEvent: EventioEvent = await response.json();
-                if (!response.ok) {
-                  console.log(JSON.stringify(response));
-                  set({ asyncOpeationInProgress: false });
-                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
-                }
-         
+
                 set({ asyncOpeationInProgress: false });
                 console.log('Joined event successfully');
                 get().updateEvent(updatedEvent);
+                return Success();
 
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
+                return CreateUserFriendlyError(error);
             }
         },
 
-        leaveEvent: async (id: string) => {
+        leaveEvent: async (id: string) : Promise<Result> => {
             console.log(`LEaving event ${id} ...`);
             try {
                 set({ asyncOpeationInProgress: true });
                 const response = await api.delete(`/events/${id}/attendees/me`);
                 const updatedEvent: EventioEvent = await response.json();
-                if (!response.ok) {
-                  console.log(JSON.stringify(response));
-                  set({ asyncOpeationInProgress: false });
-                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
-                }
-         
+
                 set({ asyncOpeationInProgress: false });
                 console.log('Left event successfully');
                 get().updateEvent(updatedEvent);
+                return Success();
 
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
+                return CreateUserFriendlyError(error);
             }
         },
 
@@ -147,71 +168,47 @@ const useEventsStore = create<EventsStore>((set, get) => {
             set({ filteredEvents: filteredEvents });
         },
 
-        createEvent: async (title: string, desc: string, startsAt: string, capacity: number) : Promise<Result> => {
+        createEvent: async (title: string, desc: string, startsAt: string, capacity: number): Promise<Result> => {
             console.log(`Creating event ${title} ...`);
             try {
                 set({ asyncOpeationInProgress: true });
+                const data = {
+                    title: title,
+                    description: desc,
+                    startsAt: startsAt,
+                    capacity: capacity
+                }
 
-                const data =   {title: title,
-                description: desc,
-                startsAt: startsAt,
-                capacity: capacity
-                }     
-
-                const response = await api.post('/events',  data );
+                const response = await api.post('/events', data);
                 const createdEvent: EventioEvent = await response.json();
                 
-                set({ asyncOpeationInProgress: false });
                 console.log('Created event successfully');
-
-                const events = get().allEvents;
-                events.push(createdEvent);
-                set({ allEvents: events });
-                const filteredEvents = FilterEvents(get().eventsFilter, events);
-                set({ filteredEvents: filteredEvents });
+                set({ asyncOpeationInProgress: false });
+                AddNewEventAndPublish(createdEvent);
                 return Success();
 
             } catch (error) {
                 console.log("Error creating event:", error);
-                
                 set({ asyncOpeationInProgress: false });
-                if (error instanceof AsyncError) {
-                    console.log(1, JSON.stringify(error));
-                    return Promise.resolve(UserFriendlyError(error.issues));
-                }
-                console.log(2);
-                
-                return Promise.resolve(UserFriendlyError("Something went wrong. Please try again."));
+                return CreateUserFriendlyError(error);
             }
         },
 
-        deleteEvent: async (id: string) => {
+        deleteEvent: async (id: string): Promise<Result> => {
             console.log(`Deleting event ${id} ...`);
             try {
                 set({ asyncOpeationInProgress: true });
+                await api.delete(`/events/${id}`);
 
-                const response = await api.delete(`/events/${id}`);
-                if (!response.ok) {
-                  console.log(JSON.stringify(response));
-                  set({ asyncOpeationInProgress: false });
-                  throw new Error(`Error EE: ${response.status} ${response.statusText}`);
-                }
-         
-                set({ asyncOpeationInProgress: false });
                 console.log('Deleted event successfully');
+                set({ asyncOpeationInProgress: false });
+                RemoveEventAndPublish(id);
+                return Success();
 
-                const events = get().allEvents;
-                const index = events.findIndex((e) => e.id === id);
-                if (index > -1) {
-                    events.splice(index, 1);
-                    set({ allEvents: events });
-                    const filteredEvents = FilterEvents(get().eventsFilter, events);
-                    set({ filteredEvents: filteredEvents });
-                }
-              
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
+                return CreateUserFriendlyError(error);
             }
         },
     }

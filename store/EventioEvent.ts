@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 type EventioEvent = {
     id: string;
     title: string;

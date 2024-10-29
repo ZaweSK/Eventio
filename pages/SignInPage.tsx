@@ -9,8 +9,11 @@ import EventioAuthHeader from '@/components/EventioAuthHeader';
 import useAuthStore from '@/store/AuthStore';
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState('brucebanner@strv.com');
-  const [password, setPassword] = useState('kill3r');
+  // const [email, setEmail] = useState('brucebanner@strv.com');
+  // const [password, setPassword] = useState('kill3r');
+
+  const [email, setEmail] = useState('steverogers@strv.com');
+  const [password, setPassword] = useState('am3riCa');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
