@@ -83,6 +83,7 @@ function RootLayoutNav() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+          <Stack.Screen name="not-found" options={{ headerShown: false }} />
           <Stack.Screen name="sign-up" options={{ headerShown: false }} />
           <Stack.Screen name="createEvent" options={{ 
             presentation: 'modal',

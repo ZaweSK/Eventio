@@ -9,7 +9,6 @@ import { View, StyleSheet, useColorScheme, Text, ActivityIndicator, TouchableOpa
 
 
 const EventsPage = () => {
-    console.log("EventsPage");
     const colorScheme = useColorScheme();
     const fetchEvents = useEventsStore(state => state.fetchEvents);
     const loading = useEventsStore(state => state.asyncOpeationInProgress);

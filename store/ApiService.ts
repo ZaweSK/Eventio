@@ -1,4 +1,5 @@
 import { storage } from "@/storage/storage";
+import { AsyncError } from "@/utils/result/AsyncError";
 
 const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';  // Centralized backend URL
 const API_KEY = '7f1e275c-9430-4429-81b7-473078bd2fa8';
@@ -30,7 +31,10 @@ class ApiService {
         const response = await fetch(`${BASE_URL}${endpoint}`, requestInit);
     
         if (!response.ok) {
-          throw new Error(`Error  WWW ${response.status}: ${response.statusText}`);
+          const errorBody: ErrorBody = await response.json();
+          console.log("THROWING ASYNC ERROR");
+          
+          throw new AsyncError(response.status, response.statusText, errorBody);
         }
 
         return response;

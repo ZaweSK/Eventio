@@ -2,9 +2,9 @@ import EventioButton from "@/components/EventioButton";
 import Input from "@/components/Input";
 import Colors from "@/constants/Colors";
 import useEventsStore from "@/store/EventsStore";
-import { useRouter } from "expo-router";
+import { router, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, StatusBar, SafeAreaView, ActivityIndicator } from "react-native";
+import { StyleSheet, View, StatusBar, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
@@ -124,7 +124,6 @@ const CreateEventPage = () => {
   useEffect(() => {
     if (formattedDate) {
       console.log("here time", formattedTime);
-      
       handleInputChange("date", formattedDate!);
     }
   }, [formattedDate]);
@@ -135,15 +134,35 @@ const CreateEventPage = () => {
   }, [formattedTime]);
 
   const createEvent = useEventsStore((state) => state.createEvent);
-  const tryToCreateEvent = () => {
+  const tryToCreateEvent = async () => {
     setTriedToCreateEvent(true);
     if (validateEventInfo()) {
-        const startsAt = combineDateAndTime(date!, time!);
-        console.log("startsAt", startsAt);
-        
-        createEvent(eventInfo.title, eventInfo.description, startsAt, parseInt(eventInfo.capacity));
+
+
+
+      try {
+      
+          const startsAt = combineDateAndTime(date!, time!);
+          const result = await createEvent(eventInfo.title, eventInfo.description, startsAt, parseInt(eventInfo.capacity));
+          if (result.type == "success") {
+            router.back();
+          } else {
+            console.log("Error creating event:", result.message);
+            Alert.alert("Error", result.message);
+          }
+        } catch (error) {
+          if (error instanceof AsyncError) {
+            console.log("AsyncError caught:", error);
+            Alert.alert("Error", error.message);
+
+        } else {
+            console.log("Unexpected error:", error);
+            Alert.alert("Error", "Something went wrong. Please try again.");
+        }
+        }
     }
   };
+
 
   return (
     <SafeAreaView style={styles.safeArea}>
