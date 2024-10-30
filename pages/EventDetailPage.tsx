@@ -1,6 +1,7 @@
 import EventAttendeesCell from "@/components/EventAttendeesCell";
 import EventCellDefault from "@/components/EventCellDefault";
 import ImageButton from "@/components/ImageButton";
+import Loading from "@/components/Loading";
 import Colors from "@/constants/Colors";
 import useEventsStore from "@/store/EventsStore";
 import getEventAction from "@/utils/getEventAction";
@@ -117,7 +118,7 @@ const EventDetailPage = () => {
       ]}
     >
       {event ? (
-        <View>          
+        <View style={styles.page}>          
           <FlatList data={data} keyExtractor={(item, index) => index.toString()} contentContainerStyle={{ padding: 20 }}
             renderItem={({ item }) => {
               console.log("HERE");
@@ -129,22 +130,7 @@ const EventDetailPage = () => {
               return null;
             }}
           />
-
-          {loading && (
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <ActivityIndicator size="large" />
-            </View>
-          )}
+          {loading && <Loading />}
         </View>
       ) : (
         <Redirect href="/not-found" />
@@ -154,6 +140,9 @@ const EventDetailPage = () => {
 };
 
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+  },
   settingsButton: {
     width: 24,
     height: 24,

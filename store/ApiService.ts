@@ -33,6 +33,12 @@ class ApiService {
     
         if (!response.ok) {
           const errorBody: ErrorBody = await response.json();
+
+          if (response.status === 401 && errorBody.code === 'UNATHORIZED') {
+            console.log("THROWING UNAUTHORIZED ERROR");
+            
+          }
+
           console.log("THROWING ASYNC ERROR");
           throw new AsyncError(response.status, response.statusText, errorBody);
         }
