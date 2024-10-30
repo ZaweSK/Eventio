@@ -5,6 +5,7 @@ import ApiService from '@/store/ApiService';
 import { Result, Success, UserFriendlyError } from '@/utils/result/Result';
 import getUserFriendlyError from '@/utils/getUserFriendlyError';
 import { AsyncError } from '@/utils/result/AsyncError';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 type AuthStore = {
     isAuthorised: boolean;
@@ -41,7 +42,7 @@ async function StoreData(headers: Headers, body: any) {
 }
 
 
-const useAuthStore = create<AuthStore>((set) => {
+const useAuthStore = create<AuthStore>((set, get) => {
     let accessToken: string | null = null;
     let backendUrl = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';
     let singInUrl = `${backendUrl}/auth/native`;
@@ -53,50 +54,30 @@ const useAuthStore = create<AuthStore>((set) => {
       isAuthorised: false,
   
       signIn: async (email: string, password: string) : Promise<Result> => {
-        useLoadingStore.getState().setLoading(true);
-
         const accessToken = storage.getString('accessToken');
         const refreshToken = storage.getString('refreshToken');
         try {
-          // const response = await fetch(singInUrl, {
-          //   method: 'POST',
-          //   headers: {
-          //     'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
-          //     'Content-Type': 'application/json',
-          //     'accept': 'application/json',
-          //   },
-          //   body: JSON.stringify({
-          //     email: email,
-          //     password: password,
-          //   }),
-          // });
-
           const data = {
             email: email,
             password: password,
           }
 
           const response = await api.post('/auth/native', data);
-
-
           const body = await response.json()
-
           StoreData(response.headers, body)
-  
-  
           set({ isAuthorised: true })
-  
+
+          // log authorized );
+          console.log(get().isAuthorised);
+          
+          
           console.log('Signed in successfully')
-          useLoadingStore.getState().setLoading(false)
           return Success()
 
         } catch (error) {
           console.error('Sign-in error:', error);
-          set({ isAuthorised: false });
-          useLoadingStore.getState().setLoading(false);
-
           if (error instanceof AsyncError && error.status === 404) {
-            return UserFriendlyError("Username or password is incorrect");
+            return UserFriendlyError("404");
           } 
 
           return getUserFriendlyError(error);

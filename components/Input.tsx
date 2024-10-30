@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
+import { set } from "react-hook-form";
 import { TextInput, View, StyleSheet, Keyboard, TouchableOpacity, Text } from "react-native"
 import Animated, { FadeIn, FadeInDown, FadeInUp, SlideInDown, SlideInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
@@ -26,19 +27,20 @@ const Input = ({
     onFocus = () => {} 
   }
   : InputProps) => {
-
-    // Separator opacity
-    var animatedOpacity = useSharedValue(error ? focusedSeparatorOpacity : notFocusedSeparatoOpacity);
+    const [isFocused, setIsFocused] = useState(false);
+  
+    // Separator opacity animation
+    var animatedOpacity = useSharedValue(notFocusedSeparatoOpacity);
     const animatedSeparatorStyle = useAnimatedStyle(() => {
         return { 
           opacity: animatedOpacity.value, 
          }
     })
-    const handleOpacityAnimation = (isFocused: boolean) => { 
-        // if (error) return;
-        animatedOpacity.value = withTiming(isFocused ? focusedSeparatorOpacity : notFocusedSeparatoOpacity, { duration: 400 });
-    }
 
+    useEffect(() => { 
+      animatedOpacity.value = withTiming(isFocused || error != null ? focusedSeparatorOpacity : notFocusedSeparatoOpacity, { duration: 400 });
+    }, [error, isFocused])
+  
     // Secure text entry
     const [secureText, setSecureText] = useState(secureEntry);
     const toggleSecureEntry = () => {
@@ -47,7 +49,7 @@ const Input = ({
 
     // Separator color
     const separatorColor = error ? styles.separatorErrorColor : styles.separatorDefaulColor;
-  
+
     return (
       <View style = {styles.container}>
          <TextInput
@@ -59,11 +61,12 @@ const Input = ({
           secureTextEntry= {secureText}
           onChangeText={(text) => onInputChanged(text)}
           onFocus={() => {
-            console.log('onFocus');
+            setIsFocused(true);
             onFocus();
-            handleOpacityAnimation(true)
           }}
-          onBlur={() => handleOpacityAnimation(false)}
+          onBlur={() => {
+            setIsFocused(false);
+        }}
           textContentType= "oneTimeCode"
           autoComplete= "off"
           autoCorrect= {false}
@@ -71,14 +74,12 @@ const Input = ({
         />
         
         <Animated.View style = {[styles.separator, separatorColor, animatedSeparatorStyle]} />
-
         {error && (
             <Animated.View entering={FadeInUp.duration(500)} style = {styles.errorContainer}>
                <Text style = {styles.error}>{error}</Text>
             </Animated.View>
             
         )} 
-
         {secureEntry && (
             <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
              <Ionicons name={secureText ? "eye-off" : "eye"} size={24} color="gray" />

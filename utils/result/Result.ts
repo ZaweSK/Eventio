@@ -9,10 +9,10 @@ export type UserFriendlyError = {
 
 export type Result = Success | UserFriendlyError;
 
-export function Success(): Result {
+export function Success(): Success {
     return { type: "success" };
 }
 
-export function UserFriendlyError(message: string): Result {
+export function UserFriendlyError(message: string): UserFriendlyError {
     return { type: "error", message: message };
 }
