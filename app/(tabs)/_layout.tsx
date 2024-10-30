@@ -46,7 +46,7 @@ export default function TabLayout() {
         }}>
                   {/* <Tabs.Screen  name = "index" /> */}
         <Tabs.Screen  name = "events" options = {EventsTabOptions}/>
-        {/* <Tabs.Screen  name = "profile" options = {ProfileTabOptions} /> */}
+        <Tabs.Screen  name = "profile" options = {ProfileTabOptions} />
 
       </Tabs>
 

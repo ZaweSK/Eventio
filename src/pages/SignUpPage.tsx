@@ -43,7 +43,7 @@ const SignUpPage = () => {
                     </View>
                 </KeyboardAwareScrollView>
                 <View id = "FixedContent" style = {styles.signUpContainer}>
-                    <EventioButton title="SIGN UP" onPress={() => {}} style={styles.signUpButton} />
+                    <EventioButton title="SIGN UP" onPress={() => {}}  />
                     <TextWithLink text="Already have an account?" linkText="Sign in" onPress= {() => {router.replace('/sign-in');}} />
                 </View>
             </View>
@@ -82,12 +82,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         // flex: 1,
     },
-
-
-    signUpButton: {
-        // marginTop: 20,
-    },
-    
 });
 
 export default SignUpPage;

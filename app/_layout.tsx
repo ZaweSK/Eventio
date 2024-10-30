@@ -18,6 +18,7 @@ import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import useLoadingStore from '@/src/store/LoadingStore';
 import Loading from '@/src/components/Loading';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -35,6 +36,8 @@ export {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryCLient = new QueryClient();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -62,8 +65,11 @@ export default function RootLayout() {
     return null;
   }
 
-
-  return <RootLayoutNav />;
+  return (
+    <QueryClientProvider client={queryCLient}>
+      <RootLayoutNav />
+    </QueryClientProvider>
+  );
 }
 
 function RootLayoutNav() {
