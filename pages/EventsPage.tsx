@@ -1,5 +1,6 @@
 import EventsFilter from "@/components/EventsFilter";
 import EventsList from "@/components/EventsList";
+import Loading from "@/components/Loading";
 import Colors from "@/constants/Colors";
 import useAuthStore from "@/store/AuthStore";
 import useEventsStore from "@/store/EventsStore";
@@ -21,10 +22,7 @@ const EventsPage = () => {
         <View style = {[styles.page, {backgroundColor: Colors[colorScheme ?? 'light'].background}]} >
             <EventsFilter/>
             <EventsList />
-            {loading && (
-                <View style = {{position: 'absolute', top:0, bottom:0, left: 0, right: 0,  justifyContent: 'center', alignItems: 'center'}}>
-                    <ActivityIndicator size= 'large'/>
-                </View>)}
+            {loading && <Loading />}  
         </View>
     )
 

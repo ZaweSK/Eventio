@@ -1,14 +1,4 @@
-import React from "react";
-import {
-  View,
-  Alert,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ActivityIndicator,
-} from "react-native";
+import {View,Alert,StyleSheet, KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard} from "react-native";
 import EventioButton from "@/components/EventioButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/components/Input";
@@ -20,31 +10,25 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Loading from "@/components/Loading";
 import getUserFriendlyError from "@/utils/getUserFriendlyError";
 
-type FormFields = {
-  email: string;
-  password: string;
-};
-
 const SignInScreen = () => {
-  const {control,handleSubmit, setError, formState: { errors, isSubmitting }, reset } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
+  const {control,handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
   const signIn = useAuthStore((state) => state.signIn);
 
-  const onSubmit = async (data) => {
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const onSubmit = async (data: { email: string; password: string; }) => {
     try {
       const result = await signIn(data.email, data.password);
       if (result.type === "error") {
-        if (result.message === "404") {
+        if (result.userFriendlyMessage === "404") {
           setError("email", {message: " "});
           setError("password", {message: "Oops! That email and password combination is not valid."});
         } else {
-          Alert.alert("Error", result.message);
+          Alert.alert("Error", result.userFriendlyMessage);
         }
       }
       router.replace("/events");
     } catch (error) {
       const userFriendly = getUserFriendlyError(error);
-      Alert.alert("Error", userFriendly.message);
+      Alert.alert("Error", userFriendly.userFriendlyMessage);
     } 
   };
 

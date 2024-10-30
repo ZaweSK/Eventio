@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 
       errorContainer: {
         position: 'absolute',
-        bottom: -25,
+        bottom: -21,
         // marginTop: 8,
         width: '100%',
       },

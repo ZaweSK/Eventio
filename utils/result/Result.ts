@@ -4,7 +4,7 @@ export type Success = {
 
 export type UserFriendlyError = {
     type: "error";
-    message: string;
+    userFriendlyMessage: string;
 };
 
 export type Result = Success | UserFriendlyError;
@@ -14,5 +14,5 @@ export function Success(): Success {
 }
 
 export function UserFriendlyError(message: string): UserFriendlyError {
-    return { type: "error", message: message };
+    return { type: "error", userFriendlyMessage: message };
 }

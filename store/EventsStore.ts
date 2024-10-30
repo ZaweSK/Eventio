@@ -5,6 +5,7 @@ import { CellLayout } from "@/constants/CellLayout";
 import { UserFriendlyError, Result, Success } from "@/utils/result/Result";
 import { AsyncError } from "@/utils/result/AsyncError";
 import useLoadingStore from "./LoadingStore";
+import getUserFriendlyError from "@/utils/getUserFriendlyError";
 
 const api = new ApiService();
 
@@ -46,17 +47,7 @@ function FilterEvents(filter: TimeFilter, events: EventioEvent[]): EventioEvent[
     });
 }
 
-function Loading(loading: boolean) {
-    useLoadingStore.getState().setLoading(loading);
-}
 
-
-function CreateUserFriendlyError(error: any) {
-    if (error instanceof AsyncError) {
-        return UserFriendlyError(error.issues);
-    }
-    return UserFriendlyError("Something went wrong. Please try again.");
-}
 
 function AddNewEventAndPublish(newEvent : EventioEvent) {
     const events = useEventsStore.getState().allEvents;
@@ -138,7 +129,7 @@ const useEventsStore = create<EventsStore>((set, get) => {
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
-                return CreateUserFriendlyError(error);
+                return getUserFriendlyError(error);
             }
         },
 
@@ -157,7 +148,7 @@ const useEventsStore = create<EventsStore>((set, get) => {
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
-                return CreateUserFriendlyError(error);
+                return getUserFriendlyError(error);
             }
         },
 
@@ -177,7 +168,6 @@ const useEventsStore = create<EventsStore>((set, get) => {
         createEvent: async (title: string, desc: string, startsAt: string, capacity: number): Promise<Result> => {
             console.log(`Creating event ${title} ...`);
             try {
-                Loading(true);
                 const data = {
                     title: title,
                     description: desc,
@@ -190,13 +180,11 @@ const useEventsStore = create<EventsStore>((set, get) => {
                 
                 console.log('Created event successfully');
                 AddNewEventAndPublish(createdEvent);
-                Loading(false);
                 return Success();
 
             } catch (error) {
                 console.log("Error creating event:", error);
-                Loading(false);
-                return CreateUserFriendlyError(error);
+                return getUserFriendlyError(error);
             }
         },
 
@@ -214,7 +202,7 @@ const useEventsStore = create<EventsStore>((set, get) => {
             } catch (error) {
                 console.error(error);
                 set({ asyncOpeationInProgress: false });
-                return CreateUserFriendlyError(error);
+                return getUserFriendlyError(error);
             }
         },
     }

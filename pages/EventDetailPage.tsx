@@ -72,13 +72,13 @@ const EventDetailPage = () => {
       case 'join':
         const joinResult = await joinEvent(event.id);
         if (joinResult.type == "error") {
-          Alert.alert("Error", joinResult.message);
+          Alert.alert("Error", joinResult.userFriendlyMessage);
         }
         break;
       case 'leave':
         const leaveResult =  await leaveEvent(event.id);
         if (leaveResult.type == "error") {
-          Alert.alert("Error", leaveResult.message);
+          Alert.alert("Error", leaveResult.userFriendlyMessage);
         }
         break;
     }

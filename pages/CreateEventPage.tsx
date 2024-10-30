@@ -1,195 +1,146 @@
 import EventioButton from "@/components/EventioButton";
 import Input from "@/components/Input";
-import Colors from "@/constants/Colors";
 import useEventsStore from "@/store/EventsStore";
 import { router, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { StyleSheet, View, StatusBar, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { StatusBar, SafeAreaView, Alert, View, StyleSheet } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import Loading from "@/components/Loading";
 
-// ================================ PRIVATE HOOKS ================================
-function useEventInfo() {
-  const [triedToCreateEvent, setTriedToCreateEvent] = useState(false);
+type FormFields = {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  capacity: string;
+};
 
-  const [eventInfo, setEventInfo] = useState({
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    capacity: "",
-  });
-
-  const [errors, setErrors] = useState({
-    titleInputError: false,
-    descInputError: false,
-    dateInputError: false,
-    timeInputError: false,
-    capacityInputError: false,
-  });
-
-  useEffect(() => {
-    if (triedToCreateEvent) {
-      validateEventInfo();
-    }
-  }, [eventInfo]);
-
-  const validateEventInfo = () => {
-    const newErrors = {
-      titleInputError: eventInfo.title.length < 3 ,
-      descInputError: eventInfo.description.length < 6,
-      dateInputError: eventInfo.date.length === 0,
-      timeInputError: eventInfo.time.length === 0,
-      capacityInputError: eventInfo.capacity.length === 0,
-    };
-
-    console.log("New errors:", newErrors);
-    setErrors(newErrors);
-    return !Object.values(newErrors).includes(true);
-  };
-
-  const handleInputChange = (propertyName: string, propertyValue: string) => {
-    setEventInfo((prev) => ({ ...prev, [propertyName]: propertyValue }));
-  };
-
-  return {eventInfo, errors, validateEventInfo, handleInputChange, setTriedToCreateEvent};
-}
-
-function useDateTimeInfo(mode: "date" | "time") {
-  const [dateTime, setDateTime] = useState<Date | null>(null);
-  const [pickerOpen, setPickerOpen] = useState(false);
-  const [formattedDateTime, setFormattedDateTime] = useState<string | null>( null);
-
-  useEffect(() => {
-    if (dateTime) {
-      console.log("date", dateTime);
-      formatDateTime(dateTime);
-    }
-  }, [dateTime]);
-
-  const formatDateTime = (date: Date) => {
-    const formatted =
-      mode === "date"
-        ? date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
-        : date.toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          });
-    setFormattedDateTime(formatted);
-  };
-
-  return {dateTime, setDateTime, pickerOpen,setPickerOpen, formattedDateTime};
-}
-// ============================= PRIVATE METHODS =============================
-function combineDateAndTime(date: Date, time: Date): string {
-  const combined = new Date(date);
-  combined.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
-  return combined.toISOString();
-}
-
-// ================================ COMPONENT ================================
 const CreateEventPage = () => {
-  const {
-    eventInfo,
-    errors,
-    validateEventInfo,
-    handleInputChange,
-    setTriedToCreateEvent,
-  } = useEventInfo();
+  const {control,handleSubmit,setValue,formState: { errors, isSubmitting },} = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      date: "",
+      time: "",
+      capacity: "",
+    },
+  });
 
-  const {
-    dateTime: date,
-    setDateTime: setDate,
-    pickerOpen: datePickerOpen,
-    setPickerOpen: setDatePickerOpen,
-    formattedDateTime: formattedDate,
-  } = useDateTimeInfo("date");
-
-  const {
-    dateTime: time,
-    setDateTime: setTime,
-    pickerOpen: timePickerOpen,
-    setPickerOpen: setTimePickerOpen,
-    formattedDateTime: formattedTime,
-  } = useDateTimeInfo("time");
-
-  useEffect(() => {
-    if (formattedDate) {
-      console.log("here time", formattedTime);
-      handleInputChange("date", formattedDate!);
-    }
-  }, [formattedDate]);
-  useEffect(() => {
-    if (formattedTime) {
-      handleInputChange("time", formattedTime!);
-    }
-  }, [formattedTime]);
-
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [timePickerOpen, setTimePickerOpen] = useState(false);
   const createEvent = useEventsStore((state) => state.createEvent);
-  const tryToCreateEvent = async () => {
-    setTriedToCreateEvent(true);
-    if (validateEventInfo()) {
-          const startsAt = combineDateAndTime(date!, time!);
-          const result = await createEvent(eventInfo.title, eventInfo.description, startsAt, parseInt(eventInfo.capacity));
-          if (result.type == "success") {
-            router.back();
-          } else {
-            console.log("Error creating event:", result.message);
-            Alert.alert("Error", result.message);
-          }
+
+  const onSubmit = async (data: FormFields) => {
+    const startsAt = `${data.date}T${data.time}`;
+    const result = await createEvent(
+      data.title,
+      data.description,
+      startsAt,
+      parseInt(data.capacity)
+    );
+    if (result.type === "success") {
+      router.back();
+    } else {
+      Alert.alert("Error", result.userFriendlyMessage);
     }
   };
-
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       <KeyboardAwareScrollView
-        id="ScrollableContent"
-        bottomOffset={50}
         style={{ padding: 20 }}
         contentContainerStyle={styles.scrollContentContainer}
       >
-        <Input
-          error={errors.titleInputError ? "* (at least 3 characters)" : null}
-          placeholder="Title"
-          inputValue={eventInfo.title}
-          onInputChanged={(input) => handleInputChange("title", input)}
+        <Controller
+          control={control}
+          name="title"
+          rules={{
+            required: "Title is required",
+            minLength: { value: 3, message: "At least 3 characters" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              error={errors.title?.message || null}
+              placeholder="Title"
+              inputValue={value}
+              onInputChanged={onChange}
+            />
+          )}
         />
-        <Input
-          error={errors.descInputError ? "* (at least 6 characters)" : null}
-          placeholder="Description"
-          inputValue={eventInfo.description}
-          onInputChanged={(input) => handleInputChange("description", input)}
+        <Controller
+          control={control}
+          name="description"
+          rules={{
+            required: "Description is required",
+            minLength: { value: 6, message: "At least 6 characters" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              error={errors.description?.message || null}
+              placeholder="Description"
+              inputValue={value}
+              onInputChanged={onChange}
+            />
+          )}
         />
-        <Input
-          error={errors.dateInputError ? "*" : null}
-          placeholder="Date"
-          onFocus={() => setDatePickerOpen(true)}
-          inputValue={eventInfo.date}
-          onInputChanged={(input) => handleInputChange("date", input)}
+        <Controller
+          control={control}
+          name="date"
+          rules={{
+            required: "Date is required",
+            validate: (value) => {
+              const selectedDate = new Date(value);
+              const today = new Date();
+              today.setHours(0, 0, 0, 0); // reset to start of today for comparison
+              return selectedDate > today || "Date must be in the future";
+            },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              error={errors.date?.message || null}
+              placeholder="Date"
+              onFocus={() => setDatePickerOpen(true)}
+              inputValue={value}
+              onInputChanged={onChange}
+            />
+          )}
         />
-        <Input
-          error={errors.timeInputError ? "*" : null}
-          placeholder="Time"
-          onFocus={() => setTimePickerOpen(true)}
-          inputValue={eventInfo.time}
-          onInputChanged={(input) => handleInputChange("time", input)}
+        <Controller
+          control={control}
+          name="time"
+          rules={{ required: "Time is required" }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              error={errors.time?.message || null}
+              placeholder="Time"
+              onFocus={() => setTimePickerOpen(true)}
+              inputValue={value}
+              onInputChanged={onChange}
+            />
+          )}
         />
-        <Input
-          error={errors.capacityInputError ? "*" : null}
-          placeholder="Capacity"
-          keyboardType="numeric"
-          inputValue={eventInfo.capacity}
-          onInputChanged={(input) => handleInputChange("capacity", input)}
+        <Controller
+          control={control}
+          name="capacity"
+          rules={{
+            required: "Capacity is required",
+            pattern: { value: /^\d+$/, message: "Must be a number" },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              error={errors.capacity?.message || null}
+              placeholder="Capacity"
+              keyboardType="numeric"
+              inputValue={value}
+              onInputChanged={onChange}
+            />
+          )}
         />
-        <View id="buttonContainer" style={styles.buttonContainer}>
-          <EventioButton title="CREATE" onPress={tryToCreateEvent} />
+        <View style={styles.buttonContainer}>
+          <EventioButton title="CREATE" onPress={handleSubmit(onSubmit)} />
         </View>
       </KeyboardAwareScrollView>
 
@@ -197,32 +148,35 @@ const CreateEventPage = () => {
         modal
         mode="date"
         open={datePickerOpen}
-        date={date || new Date()}
-        onDateChange={setDate}
+        date={new Date()}
         onConfirm={(pickedDate) => {
           setDatePickerOpen(false);
-          setDate(pickedDate);
-          
+          setValue("date", pickedDate.toISOString().split("T")[0], {
+            shouldValidate: true,
+          }); 
         }}
-        onCancel={() => {
-          setDatePickerOpen(false);
-        }}
+        onCancel={() => setDatePickerOpen(false)}
       />
 
       <DatePicker
         modal
         mode="time"
         open={timePickerOpen}
-        date={time || new Date()}
-        onDateChange={setTime}
+        date={new Date()}
         onConfirm={(pickedTime) => {
           setTimePickerOpen(false);
-          setTime(pickedTime);
+          setValue(
+            "time",
+            pickedTime.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            { shouldValidate: true }
+          );
         }}
-        onCancel={() => {
-          setTimePickerOpen(false);
-        }}
+        onCancel={() => setTimePickerOpen(false)}
       />
+      {isSubmitting && <Loading />}
     </SafeAreaView>
   );
 };
