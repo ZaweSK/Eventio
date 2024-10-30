@@ -1,13 +1,13 @@
-import EventioButton from "@/components/EventioButton";
-import Input from "@/components/Input";
-import useEventsStore from "@/store/EventsStore";
+import EventioButton from "@/src/components/EventioButton";
+import Input from "@/src/components/Input";
+import useEventsStore from "@/src/store/EventsStore";
 import { router, useRouter } from "expo-router";
 import { StatusBar, SafeAreaView, Alert, View, StyleSheet } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import Loading from "@/components/Loading";
+import Loading from "@/src/components/Loading";
 
 type FormFields = {
   title: string;

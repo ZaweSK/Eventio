@@ -1,11 +1,9 @@
-import { storage } from '@/storage/storage';
+import { storage } from '@/src/storage/storage';
 import { create } from 'zustand';
-import useLoadingStore from '@/store/LoadingStore';
-import ApiService from '@/store/ApiService';
-import { Result, Success, UserFriendlyError } from '@/utils/result/Result';
-import getUserFriendlyError from '@/utils/getUserFriendlyError';
-import { AsyncError } from '@/utils/result/AsyncError';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import ApiService from '@/src/store/ApiService';
+import { Result, Success, UserFriendlyError } from '@/src/utils/result/Result';
+import getUserFriendlyError from '@/src/utils/getUserFriendlyError';
+import { AsyncError } from '@/src/utils/result/AsyncError';
 
 type AuthStore = {
     isAuthorised: boolean;

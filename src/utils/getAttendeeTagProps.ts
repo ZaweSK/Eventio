@@ -1,8 +1,8 @@
 // Adjust the path based on your project structure
 
-import { AttendeeTagProps } from "@/components/AttendeeTag";
-import { storage } from "@/storage/storage";
-import { User } from "@/store/user";
+import { AttendeeTagProps } from "@/src/components/AttendeeTag";
+import { storage } from "@/src/storage/storage";
+import { User } from "@/src/store/user";
 
 const getAtendeeTagProps = (attendees: User[]):  AttendeeTagProps[] => { 
     const id = storage.getString('id');

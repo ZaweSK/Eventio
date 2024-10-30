@@ -1,14 +1,14 @@
 import { Redirect, Tabs, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { EventsTabOptions } from '@/components/tabs/EventsTabOptions';
-import { ProfileTabOptions } from '@/components/tabs/ProfileTabOptions';
+import Colors from '@/src/constants/Colors';
+import { useColorScheme } from '@/src/components/useColorScheme';
+import { useClientOnlyValue } from '@/src/components/useClientOnlyValue';
+import { EventsTabOptions } from '@/src/components/tabs/EventsTabOptions';
+import { ProfileTabOptions } from '@/src/components/tabs/ProfileTabOptions';
 import { View, } from 'react-native';
-import NewEventButton from '@/components/NewEventButton';
+import NewEventButton from '@/src/components/NewEventButton';
 import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
-import useAuthStore from '@/store/AuthStore';
+import useAuthStore from '@/src/store/AuthStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -46,7 +46,7 @@ export default function TabLayout() {
         }}>
                   {/* <Tabs.Screen  name = "index" /> */}
         <Tabs.Screen  name = "events" options = {EventsTabOptions}/>
-        <Tabs.Screen  name = "profile" options = {ProfileTabOptions} />
+        {/* <Tabs.Screen  name = "profile" options = {ProfileTabOptions} /> */}
 
       </Tabs>
 

@@ -1,14 +1,14 @@
 import {View,Alert,StyleSheet, KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard} from "react-native";
-import EventioButton from "@/components/EventioButton";
+import EventioButton from "@/src/components/EventioButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Input from "@/components/Input";
-import TextWithLink from "@/components/TextWithLink";
+import Input from "@/src/components/Input";
+import TextWithLink from "@/src/components/TextWithLink";
 import { router } from "expo-router";
-import EventioAuthHeader from "@/components/EventioAuthHeader";
-import useAuthStore from "@/store/AuthStore";
+import EventioAuthHeader from "@/src/components/EventioAuthHeader";
+import useAuthStore from "@/src/store/AuthStore";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import Loading from "@/components/Loading";
-import getUserFriendlyError from "@/utils/getUserFriendlyError";
+import Loading from "@/src/components/Loading";
+import getUserFriendlyError from "@/src/utils/getUserFriendlyError";
 
 const SignInScreen = () => {
   const {control,handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});

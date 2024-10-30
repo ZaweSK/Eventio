@@ -1,2 +1,2 @@
 
-export { default } from '@/pages/SignInPage'; 
+export { default } from '@/src/pages/SignInPage'; 

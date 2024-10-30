@@ -1,4 +1,4 @@
-import useAuthStore from "@/store/AuthStore";
+import useAuthStore from "@/src//store/AuthStore";
 import { Redirect } from "expo-router";
 
 const InitialRedirect = () => {

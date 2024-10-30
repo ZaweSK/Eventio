@@ -1,6 +1,6 @@
-import { storage } from "@/storage/storage";
-import { AsyncError } from "@/utils/result/AsyncError";
-import { Result, UserFriendlyError } from "@/utils/result/Result";
+import { storage } from "@/src/storage/storage";
+import { AsyncError } from "@/src/utils/result/AsyncError";
+import { Result, UserFriendlyError } from "@/src/utils/result/Result";
 
 // Converts any error to a user-friendly error
 const getUserFriendlyError = (error: any) : UserFriendlyError => {

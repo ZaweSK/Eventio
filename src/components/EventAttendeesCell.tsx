@@ -2,7 +2,7 @@ import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import AttendeeTag from "./AttendeeTag";
 import EventCellContainer from "./EventCellContainer";
 import { Text, StyleSheet, View } from 'react-native';
-import getAttendeeTagProps from "@/utils/getAttendeeTagProps";
+import getAttendeeTagProps from "@/src/utils/getAttendeeTagProps";
 
 interface EventAttendeesCellProps {
     event: EventioEvent;

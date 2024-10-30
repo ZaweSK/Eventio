@@ -1,12 +1,13 @@
-import useEventsStore from "@/store/EventsStore";
+import useEventsStore from "@/src/store/EventsStore";
 import { View, Text, TouchableOpacity, FlatList, RefreshControl, Alert } from "react-native";
 import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";
 import EventCellCompact from "./EventCellCompact";
 import { router, useNavigation } from "expo-router";
 import { EventAction } from "./EventCellButton";
-import getEventAction from "@/utils/getEventAction";
+import getEventAction from "@/src/utils/getEventAction";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { EventioEvent } from "@/src/store/EventioEvent";
 
 const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onActionButtonPressed: () => void) => {
   switch (eventsLayout) {

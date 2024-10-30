@@ -1,11 +1,11 @@
 
 import { StyleSheet, View } from 'react-native';
-import ToggleButton from '@/components/ToggleButton';
+import ToggleButton from '@/src/components/ToggleButton';
 import { useState } from 'react';
-import { TimeFilter } from '@/constants/TimeFilter';
-import useRootStore from '@/store/RootStore';
-import Colors from '@/constants/Colors';
-import useEventsStore from '@/store/EventsStore';
+import { TimeFilter } from '@/src/constants/TimeFilter';
+import useRootStore from '@/src/store/RootStore';
+import Colors from '@/src/constants/Colors';
+import useEventsStore from '@/src/store/EventsStore';
 
 function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (

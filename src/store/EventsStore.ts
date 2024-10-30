@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import ApiService from "./ApiService";
-import { TimeFilter } from "@/constants/TimeFilter";
-import { CellLayout } from "@/constants/CellLayout";
-import { UserFriendlyError, Result, Success } from "@/utils/result/Result";
-import { AsyncError } from "@/utils/result/AsyncError";
+import { TimeFilter } from "@/src/constants/TimeFilter";
+import { CellLayout } from "@/src/constants/CellLayout";
+import { UserFriendlyError, Result, Success } from "@/src/utils/result/Result";
+import { AsyncError } from "@/src/utils/result/AsyncError";
 import useLoadingStore from "./LoadingStore";
-import getUserFriendlyError from "@/utils/getUserFriendlyError";
+import getUserFriendlyError from "@/src/utils/getUserFriendlyError";
+import { EventioEvent } from "@/src/store/EventioEvent";
 
 const api = new ApiService();
 

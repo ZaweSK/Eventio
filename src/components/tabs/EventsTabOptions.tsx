@@ -1,12 +1,12 @@
-import TabBarIcon from '@/components/TabBarIcon';
+import TabBarIcon from '@/src/components/TabBarIcon';
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import ImageButton from '@/components/ImageButton';
-import ToggleButton from '@/components/ToggleButton'; // Add this line
-import { CellLayout } from '@/constants/CellLayout';
+import ImageButton from '@/src/components/ImageButton';
+import ToggleButton from '@/src/components/ToggleButton'; // Add this line
+import { CellLayout } from '@/src/constants/CellLayout';
 import { opacity } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
-import useRootStore from '@/store/RootStore';
-import useEventsStore from '@/store/EventsStore';
+import useRootStore from '@/src/store/RootStore';
+import useEventsStore from '@/src/store/EventsStore';
 
 
 export const EventsTabOptions = () => {

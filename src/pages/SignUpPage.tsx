@@ -1,7 +1,7 @@
-import EventioAuthHeader from "@/components/EventioAuthHeader";
-import EventioButton from "@/components/EventioButton";
-import Input from "@/components/Input";
-import TextWithLink from "@/components/TextWithLink";
+import EventioAuthHeader from "@/src/components/EventioAuthHeader";
+import EventioButton from "@/src/components/EventioButton";
+import Input from "@/src/components/Input";
+import TextWithLink from "@/src/components/TextWithLink";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, StyleSheet, KeyboardAvoidingView, ActivityIndicator } from "react-native";

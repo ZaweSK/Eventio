@@ -1,5 +1,5 @@
 import { EventAction } from "@/components/EventCellButton";
-import { storage } from "@/storage/storage";
+import { storage } from "@/src/storage/storage";
 
 const getEventButtonAction = (event: EventioEvent) : EventAction | null => {
     const currentUserId = storage.getString('id');

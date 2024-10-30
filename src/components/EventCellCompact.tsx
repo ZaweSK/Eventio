@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import EventCellContainer from "./EventCellContainer";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellButton from "./EventCellButton";
-import getEventButtonAction from "@/utils/getEventAction";
+import getEventButtonAction from "@/src/utils/getEventAction";
 
 const EventCellCompact = (props: EventCellProps) => {
 const buttonAction = getEventButtonAction(props.event);

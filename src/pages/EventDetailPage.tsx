@@ -1,11 +1,11 @@
-import EventAttendeesCell from "@/components/EventAttendeesCell";
-import EventCellDefault from "@/components/EventCellDefault";
-import ImageButton from "@/components/ImageButton";
-import Loading from "@/components/Loading";
-import Colors from "@/constants/Colors";
-import useEventsStore from "@/store/EventsStore";
-import getEventAction from "@/utils/getEventAction";
-import getEventOwnership from "@/utils/getEventOwnership";
+import EventAttendeesCell from "@/src/components/EventAttendeesCell";
+import EventCellDefault from "@/src/components/EventCellDefault";
+import ImageButton from "@/src/components/ImageButton";
+import Loading from "@/src/components/Loading";
+import Colors from "@/src/constants/Colors";
+import useEventsStore from "@/src/store/EventsStore";
+import getEventAction from "@/src/utils/getEventAction";
+import getEventOwnership from "@/src/utils/getEventOwnership";
 import { useRoute } from "@react-navigation/native";
 import {
   Redirect,
@@ -25,6 +25,7 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { EventioEvent } from "@/src/store/EventioEvent";
 
 const EventDetailPage = () => {
   

@@ -1,3 +1,4 @@
+import { EventioEvent } from "@/src/store/EventioEvent";
 
 interface EventCellProps {  
     event: EventioEvent;

@@ -1,4 +1,6 @@
-type EventioEvent = {
+import { User } from "@/src/store/user";
+
+export type EventioEvent = {
     id: string;
     title: string;
     description: string;

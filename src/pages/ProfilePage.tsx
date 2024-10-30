@@ -1,8 +1,8 @@
 import { Button, StyleSheet } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import useAuthStore from '@/store/AuthStore';
+import EditScreenInfo from '@/src/components/EditScreenInfo';
+import { Text, View } from '@/src/components/Themed';
+import useAuthStore from '@/src/store/AuthStore';
 import { router } from 'expo-router';
 
 export default function ProfilePage() {

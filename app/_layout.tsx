@@ -6,18 +6,18 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/src/components/useColorScheme';
 // import { KeyboardProvider } from '@/store/RootStore';
 
 
-import useRootStore from '@/store/RootStore';
-import EventsPage from '@/pages/EventsPage';
+import useRootStore from '@/src/store/RootStore';
+import EventsPage from '@/src/pages/EventsPage';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
-import Colors from '@/constants/Colors';
+import Colors from '@/src/constants/Colors';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import useLoadingStore from '@/store/LoadingStore';
-import Loading from '@/components/Loading';
+import useLoadingStore from '@/src/store/LoadingStore';
+import Loading from '@/src/components/Loading';
 
 export {
   // Catch any errors thrown by the Layout component.

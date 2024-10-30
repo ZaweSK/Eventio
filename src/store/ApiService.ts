@@ -1,6 +1,6 @@
-import { storage } from "@/storage/storage";
-import { AsyncError } from "@/utils/result/AsyncError";
-import { ErrorBody } from "@/utils/result/ErrorBody";
+import { storage } from "@/src/storage/storage";
+import { AsyncError } from "@/src/utils/result/AsyncError";
+import { ErrorBody } from "@/src/utils/result/ErrorBody";
 
 const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';  // Centralized backend URL
 const API_KEY = '7f1e275c-9430-4429-81b7-473078bd2fa8';

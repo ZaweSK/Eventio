@@ -1,4 +1,4 @@
-import TabBarIcon from "@/components/TabBarIcon";
+import TabBarIcon from "@/src/components/TabBarIcon";
 
 export const ProfileTabOptions = {
     title: 'Profiless',

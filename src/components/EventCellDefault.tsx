@@ -1,9 +1,9 @@
-import formatDate from "@/utils/formatDate";
+import formatDate from "@/src/utils/formatDate";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
 import EventCellButton from "./EventCellButton";
-import getEventButtonAction from "@/utils/getEventAction";
+import getEventButtonAction from "@/src/utils/getEventAction";
 
 const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);
