@@ -1,13 +1,19 @@
 import { storage } from '@/storage/storage';
 import { create } from 'zustand';
 import useLoadingStore from '@/store/LoadingStore';
+import ApiService from '@/store/ApiService';
+import { Result, Success, UserFriendlyError } from '@/utils/result/Result';
+import getUserFriendlyError from '@/utils/getUserFriendlyError';
+import { AsyncError } from '@/utils/result/AsyncError';
 
 type AuthStore = {
     isAuthorised: boolean;
-    signIn: (username: string, password: string) => Promise<void>;
+    signIn: (username: string, password: string) => Promise<Result>;
     signOut: () => void;
-    refreshToken: () => void;
+    // refreshToken: () => void;
 }
+
+const api = new ApiService();
 
 async function StoreData(headers: Headers, body: any) {
     const accessTokenKey = 'authorization';
@@ -46,47 +52,54 @@ const useAuthStore = create<AuthStore>((set) => {
     return {
       isAuthorised: false,
   
-      signIn: async (email: string, password: string) => {
+      signIn: async (email: string, password: string) : Promise<Result> => {
         useLoadingStore.getState().setLoading(true);
 
         const accessToken = storage.getString('accessToken');
         const refreshToken = storage.getString('refreshToken');
         try {
-          const response = await fetch(singInUrl, {
-            method: 'POST',
-            headers: {
-              'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
-              'Content-Type': 'application/json',
-              'accept': 'application/json',
-            },
-            body: JSON.stringify({
-              email: email,
-              password: password,
-            }),
-          });
-  
-          if (!response.ok) {
-            console.log(JSON.stringify(response));
-            useLoadingStore.getState().setLoading(false);
+          // const response = await fetch(singInUrl, {
+          //   method: 'POST',
+          //   headers: {
+          //     'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
+          //     'Content-Type': 'application/json',
+          //     'accept': 'application/json',
+          //   },
+          //   body: JSON.stringify({
+          //     email: email,
+          //     password: password,
+          //   }),
+          // });
 
-            throw new Error('Login failed HERE ');
+          const data = {
+            email: email,
+            password: password,
           }
 
-          const body = await response.json();
+          const response = await api.post('/auth/native', data);
 
-          StoreData(response.headers, body);
+
+          const body = await response.json()
+
+          StoreData(response.headers, body)
   
   
-          set({ isAuthorised: true });
+          set({ isAuthorised: true })
   
-          console.log('Signed in successfully');
-          useLoadingStore.getState().setLoading(false);
+          console.log('Signed in successfully')
+          useLoadingStore.getState().setLoading(false)
+          return Success()
 
         } catch (error) {
           console.error('Sign-in error:', error);
           set({ isAuthorised: false });
           useLoadingStore.getState().setLoading(false);
 
+          if (error instanceof AsyncError && error.status === 404) {
+            return UserFriendlyError("Username or password is incorrect");
+          } 
+
+          return getUserFriendlyError(error);
         }
       },
   
@@ -96,38 +109,38 @@ const useAuthStore = create<AuthStore>((set) => {
         console.log('Signed out');
       },
 
-      refreshToken: async () => {
-        try {
-          const response = await fetch(singInUrl, {
-            method: 'POST',
-            headers: {
-              'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
-              'Content-Type': 'application/json',
-              'accept': 'application/json',
-            },
-            body: JSON.stringify({
-              refreshToken: "[...]",
-            }),
-          });
+      // refreshToken: async () => {
+      //   try {
+      //     const response = await fetch(singInUrl, {
+      //       method: 'POST',
+      //       headers: {
+      //         'apikey': '7f1e275c-9430-4429-81b7-473078bd2fa8',
+      //         'Content-Type': 'application/json',
+      //         'accept': 'application/json',
+      //       },
+      //       body: JSON.stringify({
+      //         refreshToken: "[...]",
+      //       }),
+      //     });
   
-          if (!response.ok) {
-            console.log(JSON.stringify(response));
-            throw new Error('Login failed HERE');
-          }
+      //     if (!response.ok) {
+      //       console.log(JSON.stringify(response));
+      //       throw new Error('Login failed HERE');
+      //     }
 
-          StoreData(response);
+      //     StoreData(response);
   
-          const data = await response.json();
-          accessToken = data.token; // Internally store the token
+      //     const data = await response.json();
+      //     accessToken = data.token; // Internally store the token
   
-          set({ isAuthorised: true });
+      //     set({ isAuthorised: true });
   
-          console.log('Signed in successfully');
-        } catch (error) {
-          console.error('Sign-in error:', error);
-          set({ isAuthorised: false });
-        }
-      }
+      //     console.log('Signed in successfully');
+      //   } catch (error) {
+      //     console.error('Sign-in error:', error);
+      //     set({ isAuthorised: false });
+      //   }
+      // }
     };
   });
 

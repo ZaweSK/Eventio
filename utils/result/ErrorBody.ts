@@ -7,5 +7,5 @@ export interface Issue {
 export interface ErrorBody {
     message: string;
     code: string;
-    issues: Issue[];
+    issues?: Issue[];
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image, ActivityIndicator, Alert } from 'react-native';
 import EventioButton from '@/components/EventioButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
@@ -12,20 +12,48 @@ const SignInScreen = () => {
   // const [email, setEmail] = useState('brucebanner@strv.com');
   // const [password, setPassword] = useState('kill3r');
 
-  const [email, setEmail] = useState('steverogers@strv.com');
+  const [email, setEmail] = useState('steverors@strv.com');
   const [password, setPassword] = useState('am3riCa');
   const [errorMessage, setErrorMessage] = useState('');
   // const [loading, setLoading] = useState(false);
-
   const signIn = useAuthStore((state) => state.signIn);
+
+  const [errors, setErrors] = useState<{email:string | null, password: string | null}>({
+    email: null,
+    password: null,
+  });
+
+  const submitForm = async () => {
+    setErrors({email: null, password: null});
+    if (!email.includes('@')) {
+      setErrors({...errors, email: 'Email is required'});
+      return;
+    }
+    if (password.length < 6) {
+      setErrors({...errors, password: 'Password must be at least 6 characters'});
+      return;
+    }
+    const result = await signIn(email, password);
+    if (result.type === 'error') {
+      Alert.alert("Error", result.message);
+    }
+  }
+
+
+  
+
   const handleSignIn = async () => {
     // setLoading(true);
     console.log('Signing in...');
     try {
-      await signIn(email, password);  // Call signIn with username and password
+      const result = await signIn(email, password);
+      if (result.type === 'error') {
+        Alert.alert("Error", result.message);
+      }
+      
+      // Call signIn with username and password
       console.log('Sign-in successful');
-      // setLoading(false)
-      router.replace('/(tabs)/events');
+     
     } catch (error) {
       console.error('Sign-in failed:', error);
     }
@@ -40,13 +68,12 @@ const SignInScreen = () => {
               <EventioAuthHeader  title="Sign in to Eventio." subtitle="Enter your details below." />
           </View>
           <View style={styles.inputContainer}>
-            <Input placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
-            <Input placeholder="Password" secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
+            <Input error = {errors.email ? "Invalid email address" : null} placeholder="Email" inputValue={email} onInputChanged={(input) => {setEmail(input)}}/>
+            <Input error={errors.password ? "Must be at leas 6 characters" : null} placeholder="Password" secureEntry ={true} inputValue={password} onInputChanged={(input) => {setPassword(input)}}/>
           </View>
         </View>
         <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-          <EventioButton title="SIGN IN" onPress={() => {
-            handleSignIn()}}  />
+          <EventioButton title="SIGN IN" onPress={() => { submitForm()}}  />
           <TextWithLink text="Don't have an account?" linkText="Sign up" onPress= {() => {router.replace('/sign-up');}} />
         </KeyboardAvoidingView>
       </View>

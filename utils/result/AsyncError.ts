@@ -25,6 +25,10 @@ export class AsyncError extends Error {
     }
 
     get issues(): string {
-        return this.errorBody.issues.map(issue => issue.message).join(", ");
+        const issues = this.errorBody.issues;
+        if (issues != null) {
+            return issues.map(issue => issue.message).join(", ");
+        }
+        return "🤷‍♂️";
     }
   }
