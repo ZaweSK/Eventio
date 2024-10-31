@@ -7,7 +7,7 @@ import { router, useNavigation } from "expo-router";
 import { EventAction } from "./EventCellButton";
 import getEventAction from "@/src/utils/getEventAction";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { EventioEvent } from "@/src/store/EventioEvent";
+import { EventioEvent } from "@/src/types/EventioEvent";
 
 const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onActionButtonPressed: () => void) => {
   switch (eventsLayout) {

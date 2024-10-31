@@ -1,4 +1,4 @@
-type User = {
+type EventioUser = {
     id: string;
     email: string;
     firstName: string;
@@ -6,5 +6,5 @@ type User = {
     createdAt: string;
     updatedAt: string;
   };
-
-  export type { User };
+  
+  export default EventioUser;

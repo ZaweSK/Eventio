@@ -6,7 +6,7 @@ import { UserFriendlyError, Result, Success } from "@/src/utils/result/Result";
 import { AsyncError } from "@/src/utils/result/AsyncError";
 import useLoadingStore from "./LoadingStore";
 import getUserFriendlyError from "@/src/utils/getUserFriendlyError";
-import { EventioEvent } from "@/src/store/EventioEvent";
+import { EventioEvent } from "@/src/types/EventioEvent";
 
 const api = new ApiService();
 

@@ -25,7 +25,7 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { EventioEvent } from "@/src/store/EventioEvent";
+import { EventioEvent } from "@/src/types/EventioEvent";
 
 const EventDetailPage = () => {
   

@@ -2,7 +2,6 @@ import EventsFilter from "@/src/components/EventsFilter";
 import EventsList from "@/src/components/EventsList";
 import Loading from "@/src/components/Loading";
 import Colors from "@/src/constants/Colors";
-import useAuthStore from "@/src/store/AuthStore";
 import useEventsStore from "@/src/store/EventsStore";
 import React, { useEffect } from "react";
 import { View, StyleSheet, useColorScheme, Text, ActivityIndicator, TouchableOpacity, FlatList, StatusBar } from "react-native"

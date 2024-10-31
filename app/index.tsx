@@ -1,11 +1,8 @@
-import useAuthStore from "@/src//store/AuthStore";
+import useAuthStore from "@/src/store/useAuthStore";
 import { Redirect } from "expo-router";
 
 const InitialRedirect = () => {
-    const isAutorised = useAuthStore((state) => state.isAuthorised);
-    console.log('InitialRedirect isAutorised:', isAutorised);
-    
-
+    const isAutorised = useAuthStore((state) => state.isSignedIn);
     if (!isAutorised) {
         return <Redirect href="/sign-in" />
     } else {

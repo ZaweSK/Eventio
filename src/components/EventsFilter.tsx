@@ -1,9 +1,7 @@
 
 import { StyleSheet, View } from 'react-native';
 import ToggleButton from '@/src/components/ToggleButton';
-import { useState } from 'react';
 import { TimeFilter } from '@/src/constants/TimeFilter';
-import useRootStore from '@/src/store/RootStore';
 import Colors from '@/src/constants/Colors';
 import useEventsStore from '@/src/store/EventsStore';
 import EventioButton from './EventioButton';

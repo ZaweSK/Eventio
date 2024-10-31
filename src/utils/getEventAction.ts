@@ -1,8 +1,11 @@
-import { EventAction } from "@/components/EventCellButton";
-import { storage } from "@/src/storage/storage";
+import { EventAction } from "@/src/components/EventCellButton";
+import { EventioEvent } from "@/src/types/EventioEvent";
+import storage from "@/src/storage/Storage";
+
 
 const getEventButtonAction = (event: EventioEvent) : EventAction | null => {
-    const currentUserId = storage.getString('id');
+    const currentUserId = storage.getUserId();
+    
     const eventIsInFuture = new Date(event.startsAt) > new Date();
     if (!eventIsInFuture) return null;
 

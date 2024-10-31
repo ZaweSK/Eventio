@@ -1,4 +1,4 @@
-import { User } from "@/src/store/user";
+import EventioUser from "@/src/types/EventioUser";
 
 export type EventioEvent = {
     id: string;
@@ -9,6 +9,6 @@ export type EventioEvent = {
     ownerId: string;
     createdAt: string;
     updatedAt: string;
-    attendees: User[];
-    owner: User;
+    attendees: EventioUser[];
+    owner: EventioUser;
   };

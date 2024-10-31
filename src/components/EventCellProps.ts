@@ -1,4 +1,4 @@
-import { EventioEvent } from "@/src/store/EventioEvent";
+import { EventioEvent } from "@/src/types/EventioEvent";
 
 interface EventCellProps {  
     event: EventioEvent;

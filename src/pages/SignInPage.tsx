@@ -5,17 +5,15 @@ import Input from "@/src/components/Input";
 import TextWithLink from "@/src/components/TextWithLink";
 import { router } from "expo-router";
 import EventioAuthHeader from "@/src/components/EventioAuthHeader";
-import useAuthStore from "@/src/store/AuthStore";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Loading from "@/src/components/Loading";
-import getUserFriendlyError from "@/src/utils/getUserFriendlyError";
+import useAuthStore from "@/src/store/useAuthStore";
 
-const SignInScreen = () => {
+const SignInPage = () => {
   const {control,handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
   const signIn = useAuthStore((state) => state.signIn);
 
   const onSubmit = async (data: { email: string; password: string; }) => {
-    try {
       const result = await signIn(data.email, data.password);
       if (result.type === "error") {
         if (result.userFriendlyMessage === "404") {
@@ -24,12 +22,9 @@ const SignInScreen = () => {
         } else {
           Alert.alert("Error", result.userFriendlyMessage);
         }
+      } else {
+        router.replace("/events");
       }
-      router.replace("/events");
-    } catch (error) {
-      const userFriendly = getUserFriendlyError(error);
-      Alert.alert("Error", userFriendly.userFriendlyMessage);
-    } 
   };
 
   return (
@@ -85,19 +80,9 @@ const SignInScreen = () => {
               />
             </View>
           </View>
-          <KeyboardAvoidingView
-            keyboardVerticalOffset={70}
-            style={styles.keyboardAvoidingView}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
+          <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <EventioButton title="SIGN IN" onPress={handleSubmit(onSubmit)} />
-            <TextWithLink
-              text="Don't have an account?"
-              linkText="Sign up"
-              onPress={() => {
-                router.replace("/sign-up");
-              }}
-            />
+            <TextWithLink text="Don't have an account?" linkText="Sign up" onPress={() => {router.replace("/sign-up")}}/>
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
@@ -133,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default SignInPage;

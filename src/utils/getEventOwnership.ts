@@ -1,7 +1,8 @@
-import { storage } from "@/src/storage/storage";
-import { EventioEvent } from "@/src/store/EventioEvent";
+import storage from "@/src/storage/Storage";
+import { EventioEvent } from "@/src/types/EventioEvent";
+
 const getEventOwnership = (event: EventioEvent) : 'owned' | 'notOwned' => {
-    const currentUserId = storage.getString('id');
+    const currentUserId = storage.getUserId();
     return event.owner.id === currentUserId ? 'owned' : 'notOwned';
 
 }

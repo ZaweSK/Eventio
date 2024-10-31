@@ -2,7 +2,7 @@ import AttendeeTag from "./AttendeeTag";
 import EventCellContainer from "./EventCellContainer";
 import { Text, StyleSheet, View } from 'react-native';
 import getAttendeeTagProps from "@/src/utils/getAttendeeTagProps";
-import { EventioEvent } from "@/src/store/EventioEvent";
+import { EventioEvent } from "@/src/types/EventioEvent";
 
 interface EventAttendeesCellProps {
     event: EventioEvent;

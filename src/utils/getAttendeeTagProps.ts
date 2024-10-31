@@ -1,11 +1,12 @@
 // Adjust the path based on your project structure
 
 import { AttendeeTagProps } from "@/src/components/AttendeeTag";
-import { storage } from "@/src/storage/storage";
-import { User } from "@/src/store/user";
+import storage from "@/src/storage/Storage";
+import EventioUser from "@/src/types/EventioUser";
 
-const getAtendeeTagProps = (attendees: User[]):  AttendeeTagProps[] => { 
-    const id = storage.getString('id');
+const getAtendeeTagProps = (attendees: EventioUser[]):  AttendeeTagProps[] => { 
+    const id = storage.getUserId();
+    
     if (id === null) {
         return [];
     }

@@ -1,4 +1,3 @@
-import { storage } from "@/src/storage/storage";
 import { AsyncError } from "@/src/utils/result/AsyncError";
 import { ErrorBody } from "@/src/utils/result/ErrorBody";
 
@@ -8,7 +7,10 @@ const API_KEY = '7f1e275c-9430-4429-81b7-473078bd2fa8';
 class ApiService {
 
     private createHeaders(): Record<string, string> {
-        const accessToken = storage.getString('accessToken');
+        // const accessToken = storage.getString('accessToken');
+        const accessToken = null;
+
+
         const headers: Record<string, string> = {
           'Content-Type': 'application/json',
           'accept': 'application/json',

@@ -1,28 +1,29 @@
-import storage from "@/src/storage/storage";
+import storage from "@/src/storage/Storage";
 import axios from "axios";
 
 const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';  // Centralized backend URL
 const API_KEY = '7f1e275c-9430-4429-81b7-473078bd2fa8';
 
-const headerKeys = {
+const HEADER_KEYS = {
     accessToken: 'authorization',
     refreshToken : 'refresh',
     apiKey : 'apikey'
 }
 
 
-// ===================================== HELPER METHODS ====================================
+// ===================================== PRIVATE METHODS ====================================
 
 function addApiKey(headers: Record<string, string>) {
-    headers[headerKeys.apiKey] = API_KEY;
+    headers[HEADER_KEYS.apiKey] = API_KEY;
 }
 
 function addAccessTokenIfAny(headers: Record<string, string>) {
     const accessToken = storage.getAccessToken();
     if (accessToken) {
-        headers[headerKeys.accessToken] = accessToken;
+        headers[HEADER_KEYS.accessToken] = accessToken;
     }
 }
+
 
 // ===================================  API CLIENT SETUP ===================================
 
@@ -51,8 +52,8 @@ api.interceptors.response.use(
                 const newAccessToken = response.data.accessToken;
 
                 storage.setAccessToken(newAccessToken);
-                api.defaults.headers.common[headerKeys.accessToken] = newAccessToken; 
-                originalRequest.headers[headerKeys.accessToken] = newAccessToken;
+                api.defaults.headers.common[HEADER_KEYS.accessToken] = newAccessToken; 
+                originalRequest.headers[HEADER_KEYS.accessToken] = newAccessToken;
 
                 return api(originalRequest); // Retry original request
             }
