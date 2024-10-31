@@ -3,7 +3,7 @@ import EventCellDefault from "@/src/components/EventCellDefault";
 import ImageButton from "@/src/components/ImageButton";
 import Loading from "@/src/components/Loading";
 import Colors from "@/src/constants/Colors";
-import useEventsStore from "@/src/store/EventsStore";
+import useEventsStore from "@/src/store/useEventsStore";
 import getEventAction from "@/src/utils/getEventAction";
 import getEventOwnership from "@/src/utils/getEventOwnership";
 import { useRoute } from "@react-navigation/native";

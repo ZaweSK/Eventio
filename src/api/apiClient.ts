@@ -1,4 +1,5 @@
 import storage from "@/src/storage/Storage";
+import storeAccessToken from "@/src/utils/storeAccessToken";
 import axios from "axios";
 
 const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';  // Centralized backend URL
@@ -31,6 +32,8 @@ const api = axios.create({baseURL: BASE_URL });
 
 api.interceptors.request.use(
     (config) => {
+        console.log('ADDING');
+        
         addApiKey(config.headers);
         addAccessTokenIfAny(config.headers);
         return config;
@@ -42,18 +45,16 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = storage.getRefreshToken();
 
             if (refreshToken) {
-                const response = await axios.post('/auth/refresh', { refreshToken: refreshToken });
-                const newAccessToken = response.data.accessToken;
-
-                storage.setAccessToken(newAccessToken);
-                api.defaults.headers.common[HEADER_KEYS.accessToken] = newAccessToken; 
-                originalRequest.headers[HEADER_KEYS.accessToken] = newAccessToken;
+                const response = await api.post('/auth/refresh-token', { refreshToken: refreshToken });
+                storeAccessToken(response);
+                const refreshedAccessToken = storage.getAccessToken();
+                api.defaults.headers.common[HEADER_KEYS.accessToken] = refreshedAccessToken; 
+                originalRequest.headers[HEADER_KEYS.accessToken] = refreshedAccessToken;
 
                 return api(originalRequest); // Retry original request
             }

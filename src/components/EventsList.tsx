@@ -1,4 +1,4 @@
-import useEventsStore from "@/src/store/EventsStore";
+import useEventsStore from "@/src/store/useEventsStore";
 import { View, Text, TouchableOpacity, FlatList, RefreshControl, Alert } from "react-native";
 import EventCellDefault from "./EventCellDefault";
 import { useCallback, useState } from "react";

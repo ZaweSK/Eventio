@@ -1,6 +1,6 @@
 import ToggleButton from "@/src/components/ToggleButton";
 import Colors from "@/src/constants/Colors";
-import useEventsStore from "@/src/store/EventsStore";
+import useEventsStore from "@/src/store/useEventsStore";
 import { Stack } from "expo-router";
 import React from "react";
 import { View, StyleSheet, useColorScheme } from "react-native";

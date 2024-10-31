@@ -5,8 +5,7 @@ import ImageButton from '@/src/components/ImageButton';
 import ToggleButton from '@/src/components/ToggleButton'; // Add this line
 import { CellLayout } from '@/src/constants/CellLayout';
 import { opacity } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
-import useRootStore from '@/src/store/RootStore';
-import useEventsStore from '@/src/store/EventsStore';
+import useEventsStore from '@/src/store/useEventsStore';
 
 
 export const EventsTabOptions = () => {

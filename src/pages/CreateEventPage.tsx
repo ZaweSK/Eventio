@@ -1,6 +1,6 @@
 import EventioButton from "@/src/components/EventioButton";
 import Input from "@/src/components/Input";
-import useEventsStore from "@/src/store/EventsStore";
+import useEventsStore from "@/src/store/useEventsStore";
 import { router, useRouter } from "expo-router";
 import { StatusBar, SafeAreaView, Alert, View, StyleSheet } from "react-native";
 import DatePicker from "react-native-date-picker";

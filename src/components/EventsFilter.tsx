@@ -3,8 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import ToggleButton from '@/src/components/ToggleButton';
 import { TimeFilter } from '@/src/constants/TimeFilter';
 import Colors from '@/src/constants/Colors';
-import useEventsStore from '@/src/store/EventsStore';
-import EventioButton from './EventioButton';
+import useEventsStore from '@/src/store/useEventsStore';
 
 function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (
