@@ -28,6 +28,8 @@ import {
 import { EventioEvent } from "@/src/types/EventioEvent";
 
 const EventDetailPage = () => {
+  console.log("EVENT DETAIL PAGE");
+  
   
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
@@ -35,8 +37,8 @@ const EventDetailPage = () => {
   const events = useEventsStore((state) => state.allEvents);
   const event = events.find((event) => event.id === id);
 
-  const joinEvent = useEventsStore(state => state.joinEvent);
-  const leaveEvent = useEventsStore(state => state.leaveEvent);
+  // const joinEvent = useEventsStore(state => state.joinEvent);
+  // const leaveEvent = useEventsStore(state => state.leaveEvent);
   const deleteEvent = useEventsStore((state) => state.deleteEvent);
   const loading = useEventsStore((state) => state.asyncOpeationInProgress);
 
@@ -72,16 +74,16 @@ const EventDetailPage = () => {
       case 'edit':
         break;
       case 'join':
-        const joinResult = await joinEvent(event.id);
-        if (joinResult.type == "error") {
-          Alert.alert("Error", joinResult.userFriendlyMessage);
-        }
+        // const joinResult = await joinEvent(event.id);
+        // if (joinResult.type == "error") {
+        //   Alert.alert("Error", joinResult.userFriendlyMessage);
+        // }
         break;
       case 'leave':
-        const leaveResult =  await leaveEvent(event.id);
-        if (leaveResult.type == "error") {
-          Alert.alert("Error", leaveResult.userFriendlyMessage);
-        }
+        // const leaveResult =  await leaveEvent(event.id);
+        // if (leaveResult.type == "error") {
+        //   Alert.alert("Error", leaveResult.userFriendlyMessage);
+        // }
         break;
     }
   }

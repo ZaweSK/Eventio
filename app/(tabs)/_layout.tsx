@@ -1,4 +1,4 @@
-import { Redirect, Tabs, useRouter } from 'expo-router';
+import { Redirect, Tabs, usePathname, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import Colors from '@/src/constants/Colors';
 import { useColorScheme } from '@/src/components/useColorScheme';
@@ -12,6 +12,10 @@ import useAuthStore from '@/src/store/useAuthStore';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const path = usePathname();
+  console.log("🟣 ~ file: _layout.tsx:17 ~ path:", path)
+  
 
   const isAutorised = useAuthStore((state) => state.isSignedIn);
   if (!isAutorised) {

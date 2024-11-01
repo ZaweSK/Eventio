@@ -1,5 +1,5 @@
-import { TimeFilter } from "@/src/constants/TimeFilter";
 import { EventioEvent } from "@/src/types/EventioEvent";
+import { TimeFilter } from "@/src/types/TimeFilter";
 
 function filterEvents(filter: TimeFilter, events: EventioEvent[]): EventioEvent[] {
     const now = new Date();

@@ -1,5 +1,5 @@
+import { storage } from "@/src/storage/Storage";
 import storeAccessToken from "@/src/utils/storeAccessToken";
-import storage from "@/src/storage/Storage";
 import axios from "axios";
 
 // ===================================== CONSTANTS ====================================
@@ -16,7 +16,6 @@ const HEADER_KEYS = {
 // ===================================== PRIVATE METHODS ================================
 
 function addApiKey(headers: Record<string, string>) {
-    console.log("🟣 ~ file: apiClient.ts:22 ~ adding API KEY")
     headers[HEADER_KEYS.apiKey] = API_KEY;
 }
 
@@ -29,7 +28,7 @@ function addAccessTokenIfAny(headers: Record<string, string>) {
 
 // ===================================  API CLIENT SETUP ================================
 
-const api = axios.create({baseURL: BASE_URL });
+export const api = axios.create({baseURL: BASE_URL });
 
 api.interceptors.request.use(
     (config) => {
@@ -61,5 +60,3 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-export default api;

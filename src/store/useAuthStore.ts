@@ -1,11 +1,11 @@
 import { Result, Success, UserFriendlyError } from '@/src/utils/result/Result';
 import getUserFriendlyError from '@/src/utils/getUserFriendlyError';
 import { AsyncError } from '@/src/utils/result/AsyncError';
-import storage from '@/src/storage/Storage';
 import { AxiosResponse, AxiosResponseHeaders } from 'axios';
-import api from '@/src/api/apiClient';
+import { api } from '@/src/api/apiClient';
 import { create } from 'zustand';
 import storeAccessToken from '@/src/utils/storeAccessToken';
+import { storage } from '@/src/storage/Storage';
 
 
 // ===================================== PRIVATE METHODS ====================================

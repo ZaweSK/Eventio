@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 type LoadingStore = {
-    loading: boolean;
-    setLoading: (loading: boolean) => void;
+    eventsScreenLoading: boolean;
+    setEventsScreenLoading: (loading: boolean) => void;
 };
 
 const useLoadingStore = create<LoadingStore>((set) => ({
-    loading: false,
-    setLoading: (loading: boolean) => set({ loading }),
+    eventsScreenLoading: false,
+    setEventsScreenLoading: (loading: boolean) => set({ eventsScreenLoading: loading }),
 }));
 
 export default useLoadingStore;
