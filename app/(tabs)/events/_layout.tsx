@@ -1,16 +1,13 @@
-import ToggleButton from "@/src/components/ToggleButton";
-import Colors from "@/src/constants/Colors";
-import useEventsStore from "@/src/store/useEventsStore";
-import { Stack } from "expo-router";
-import React from "react";
 import { View, StyleSheet, useColorScheme } from "react-native";
+import ToggleButton from "@/src/components/ToggleButton";
+import useEventsStore from "@/src/store/useEventsStore";
+import Colors from "@/src/constants/Colors";
+import { Stack } from "expo-router";
 
 export default function EventsTabLayout() {
     const cellLayout = useEventsStore(state => state.eventsLayout);
     const setCellLayout = useEventsStore(state => state.setEventsLayout);
     const colorScheme = useColorScheme();
-
-
     return (
       <Stack>
         <Stack.Screen

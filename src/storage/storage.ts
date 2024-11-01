@@ -26,7 +26,7 @@ const clearCredentials = () => {
     storageInstance.delete(storageKeys.userId);
 }
 
-const storage = {
+export const storage = {
     setAccessToken,
     getAccessToken,
     setRefreshToken,
@@ -35,5 +35,3 @@ const storage = {
     setUserId,
     getUserId,
 }
-
-export default storage;

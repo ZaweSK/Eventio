@@ -1,8 +1,10 @@
-import storage from "@/src/storage/Storage";
 import storeAccessToken from "@/src/utils/storeAccessToken";
+import storage from "@/src/storage/Storage";
 import axios from "axios";
 
-const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';  // Centralized backend URL
+// ===================================== CONSTANTS ====================================
+
+const BASE_URL = 'https://eventio-testproject-hdi74hwl5-strvcom.vercel.app/api/rest/v1';
 const API_KEY = '7f1e275c-9430-4429-81b7-473078bd2fa8';
 
 const HEADER_KEYS = {
@@ -11,10 +13,10 @@ const HEADER_KEYS = {
     apiKey : 'apikey'
 }
 
-
-// ===================================== PRIVATE METHODS ====================================
+// ===================================== PRIVATE METHODS ================================
 
 function addApiKey(headers: Record<string, string>) {
+    console.log("🟣 ~ file: apiClient.ts:22 ~ adding API KEY")
     headers[HEADER_KEYS.apiKey] = API_KEY;
 }
 
@@ -25,15 +27,12 @@ function addAccessTokenIfAny(headers: Record<string, string>) {
     }
 }
 
-
-// ===================================  API CLIENT SETUP ===================================
+// ===================================  API CLIENT SETUP ================================
 
 const api = axios.create({baseURL: BASE_URL });
 
 api.interceptors.request.use(
     (config) => {
-        console.log('ADDING');
-        
         addApiKey(config.headers);
         addAccessTokenIfAny(config.headers);
         return config;

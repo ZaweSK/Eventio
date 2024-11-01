@@ -1,4 +1,4 @@
-import storage from "@/src/storage/Storage";
+import { storage } from "@/src/storage/Storage";
 import { EventioEvent } from "@/src/types/EventioEvent";
 
 const getEventOwnership = (event: EventioEvent) : 'owned' | 'notOwned' => {

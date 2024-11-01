@@ -8,6 +8,7 @@ import { EventAction } from "./EventCellButton";
 import getEventAction from "@/src/utils/getEventAction";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { EventioEvent } from "@/src/types/EventioEvent";
+import { useGetEventsQuery } from "@/src/pages/EventsPage";
 
 const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onActionButtonPressed: () => void) => {
   switch (eventsLayout) {
@@ -24,9 +25,13 @@ function NavigateToEventDetail(event: EventioEvent) {
   router.push(`/(tabs)/events/${event.id}`);
 }
 
-const EventsList = () => {
+interface EventsListProps {
+  events: EventioEvent[];
+}
+
+const EventsList = (props: EventsListProps) => {  
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const events = useEventsStore(state => state.filteredEvents);
+    // const events = useEventsStore(state => state.filteredEvents);
     const fetchEvents = useEventsStore(state => state.fetchEvents);
     const eventsLayout = useEventsStore(state => state.eventsLayout);
     const joinEvent = useEventsStore(state => state.joinEvent);
@@ -60,18 +65,19 @@ const EventsList = () => {
       }
     }
   
-    const onRefresh = useCallback(async () => {
-      setIsRefreshing(true);
-      try {
-        await fetchEvents(); // Fetch new data from the store
-      } finally {
-        setIsRefreshing(false); // Stop the refresh animation after fetching
-      }
-    }, [fetchEvents]);
+    // const onRefresh = useCallback(async () => {
+  
+    //   setIsRefreshing(true);
+    //   try {
+    //     await fetchEvents(); // Fetch new data from the store
+    //   } finally {
+    //     setIsRefreshing(false); // Stop the refresh animation after fetching
+    //   }
+    // }, [fetchEvents]);
 
     return (
         <Animated.FlatList
-            data={events}
+            data={props.events}
             renderItem={({ item }) => Cell(item, eventsLayout, () => OnCellPressed(item), () => OnActionButtonPressed(item))}
             keyExtractor={event => event.id}
             contentContainerStyle={{ padding: 20 }}
@@ -79,7 +85,7 @@ const EventsList = () => {
             refreshControl={
                 <RefreshControl
                   refreshing={isRefreshing}
-                  onRefresh={onRefresh}
+                  onRefresh={props.onRefreshRequested}
                   tintColor="#000" // Change the spinner color if desired
                 />}
             />

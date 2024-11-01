@@ -70,15 +70,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const navigation = useNavigation()
-  const loading = useLoadingStore(state => state.loading)
-
-  console.log(loading);
-  
-
-  useEffect(()=>{
-    console.log(JSON.stringify(navigation.getState(), null, 2))
-  }, [navigation])
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -107,7 +98,6 @@ function RootLayoutNav() {
             },
            }} />
       </Stack>
-      {loading && <Loading /> }
       </KeyboardProvider>
    </ThemeProvider>
   );

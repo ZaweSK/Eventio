@@ -4,6 +4,7 @@ import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
 import EventCellButton from "./EventCellButton";
 import getEventButtonAction from "@/src/utils/getEventAction";
+import { EventCellProps } from "@/src/components/EventCellProps";
 
 const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);

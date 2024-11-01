@@ -1,6 +1,6 @@
 import { EventAction } from "@/src/components/EventCellButton";
+import { storage } from "@/src/storage/Storage";
 import { EventioEvent } from "@/src/types/EventioEvent";
-import storage from "@/src/storage/Storage";
 
 
 const getEventButtonAction = (event: EventioEvent) : EventAction | null => {

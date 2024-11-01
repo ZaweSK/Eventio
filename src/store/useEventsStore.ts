@@ -7,24 +7,17 @@ import { UserFriendlyError, Result, Success } from "@/src/utils/result/Result";
 import getUserFriendlyError from "@/src/utils/getUserFriendlyError";
 import { EventioEvent } from "@/src/types/EventioEvent";
 import api from "@/src/api/apiClient";
+import { useQuery } from '@tanstack/react-query';
 
 
 // ================================================= PRIVATE METHODS  ================================================
-
 function filterEvents(filter: TimeFilter, events: EventioEvent[]): EventioEvent[] {
+    const now = new Date();
     return events.filter((event) => {
         const eventDate = new Date(event.startsAt);
-        const now = new Date();
-        switch (filter) {
-            case 'all':
-                return true;
-            case 'past':
-                return eventDate < now;
-            case 'future':
-                return eventDate > now;
-            default:
-                return true;
-        }
+        if (filter === 'past') return eventDate < now;
+        if (filter === 'future') return eventDate > now;
+        return true; // 'all'
     });
 }
 
@@ -77,6 +70,11 @@ type EventsStore = {
     asyncOpeationInProgress: boolean
 }
 
+const fetchEvents = async (): Promise<EventioEvent[]> => {
+    const { data } = await api.get<EventioEvent[]>('/events');
+    return data;
+  };
+
 const useEventsStore = create<EventsStore>((set, get) => {
     return {
         allEvents: [],
@@ -94,20 +92,32 @@ const useEventsStore = create<EventsStore>((set, get) => {
             set({ eventsLayout: layout })
         },
 
+      
+
         fetchEvents: async () => {
             console.log('Fetching events...');
-            try {
-                set({ asyncOpeationInProgress: true });
-                const { data: events } = await api.get<EventioEvent[]>('/events');
-                set({ allEvents: events });
-                refreshFilteredEvents();
-                return Success();
-            } catch (error) {
-                console.error(`Fetching events failed. Error ${error}`);
-                return getUserFriendlyError(error);
-            } finally {
-                set({ asyncOpeationInProgress: false });
-            }
+
+            const { data: events, error, isLoading, isError } = useQuery({
+                queryKey: ['events'],
+                queryFn: fetchEvents,
+            });
+            set({ allEvents: events });
+            refreshFilteredEvents();
+
+
+
+            // try {
+            //     set({ asyncOpeationInProgress: true });
+            //     const { data: events } = await api.get<EventioEvent[]>('/events');
+            //     set({ allEvents: events });
+            //     refreshFilteredEvents();
+            //     return Success();
+            // } catch (error) {
+            //     console.error(`Fetching events failed. Error ${error}`);
+            //     return getUserFriendlyError(error);
+            // } finally {
+            //     set({ asyncOpeationInProgress: false });
+            // }
         },
 
         joinEvent: async (id: string): Promise<Result> => {
