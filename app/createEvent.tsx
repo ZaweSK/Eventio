@@ -1,1 +1,1 @@
-export { default } from '@/src/pages/CreateEventPage';
+export { default } from '@/src/features/events/screens/CreateEventScreen';

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import ImageButton from '@/src/components/ImageButton';
 import ToggleButton from '@/src/components/ToggleButton'; // Add this line
-import { CellLayout } from '@/src/constants/CellLayout';
 import { opacity } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 import useEventsStore from '@/src/store/useEventsStore';
 

@@ -96,24 +96,24 @@ const useEventsStore = create<EventsStore>((set, get) => {
         // },
 
         // createEvent: async (title: string, desc: string, startsAt: string, capacity: number): Promise<Result> => {
-        //     // console.log(`Creating event ${title} ...`);
-        //     // try {
-        //     //     const data = {
-        //     //         title: title,
-        //     //         description: desc,
-        //     //         startsAt: startsAt,
-        //     //         capacity: capacity
-        //     //     }
-        //     //     const { data: createdEvent } = await api.post('/events', data);                
-        //     //     console.log('Created event successfully');
-        //     //     locallyAddNewEventAndPublish(createdEvent);
-        //     //     return Success();
-        //     // } catch (error) {
-        //     //     console.error(`Creating event ${title} failed. Error ${error}`);
-        //     //     return getUserFriendlyError(error);
-        //     // } finally {
-        //     //     set({ asyncOpeationInProgress: false });
-        //     // }
+        //     console.log(`Creating event ${title} ...`);
+        //     try {
+        //         const data = {
+        //             title: title,
+        //             description: desc,
+        //             startsAt: startsAt,
+        //             capacity: capacity
+        //         }
+        //         const { data: createdEvent } = await api.post('/events', data);                
+        //         console.log('Created event successfully');
+        //         locallyAddNewEventAndPublish(createdEvent);
+        //         return Success();
+        //     } catch (error) {
+        //         console.error(`Creating event ${title} failed. Error ${error}`);
+        //         return getUserFriendlyError(error);
+        //     } finally {
+        //         set({ asyncOpeationInProgress: false });
+        //     }
         // },
 
         // deleteEvent: async (id: string): Promise<Result> => {

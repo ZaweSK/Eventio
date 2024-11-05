@@ -25,6 +25,32 @@ const useGetEventQuery = (id: string) => {
     return { event, isLoading, isError, error, refetch };
 };
 
+const useCreateEventMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationKey: ['createEvent'],
+      mutationFn: async ({ title, desc, startsAt, capacity }: {
+        title: string,
+        desc: string,
+        startsAt: string,
+        capacity: number
+      }): Promise<EventioEvent> => {
+        const data = {
+          title: title,
+          description: desc,
+          startsAt: startsAt,
+          capacity: capacity
+        };
+        
+        const { data: createdEvent } = await api.post('/events', data);
+        return createdEvent;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['events'] })
+    }
+    });
+  };
+
 const useJoinEventMutation = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation({
@@ -33,7 +59,7 @@ const useJoinEventMutation = () => {
             const { data: updatedEvent } = await api.post<EventioEvent>(`/events/${id}/attendees/me`);
             return updatedEvent;
         },
-        onSettled: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['events'] })
         }
     });
@@ -48,7 +74,7 @@ const useLeaveEventMutation = () => {
             const { data: updatedEvent } = await api.delete<EventioEvent>(`/events/${id}/attendees/me`);
             return updatedEvent;
         },
-        onSettled: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['events'] });
         }
     });
@@ -63,7 +89,7 @@ const useDeleteEventMutation = () => {
             const response = await api.delete(`/events/${id}`);
             return response.data;
         },
-        onSettled: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['events'] });
         }
     });
@@ -74,5 +100,6 @@ export const eventsApi = {
     useGetAllEventsQuery,
     useJoinEventMutation,
     useLeaveEventMutation,
-    useDeleteEventMutation
+    useDeleteEventMutation,
+    useCreateEventMutation,
 }

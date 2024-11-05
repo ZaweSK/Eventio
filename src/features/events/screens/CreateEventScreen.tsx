@@ -1,51 +1,14 @@
 import EventioButton from "@/src/components/EventioButton";
 import Input from "@/src/components/Input";
-import useEventsStore from "@/src/store/useEventsStore";
-import { router, useRouter } from "expo-router";
-import { StatusBar, SafeAreaView, Alert, View, StyleSheet } from "react-native";
+import { StatusBar, SafeAreaView, View, StyleSheet } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { Controller, useForm } from "react-hook-form";
-import { useState } from "react";
+import { Controller } from "react-hook-form";
 import Loading from "@/src/components/Loading";
+import { useCreateEventScreen } from "@/src/features/events/hooks/useCreateEventsScreen";
 
-type FormFields = {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  capacity: string;
-};
-
-const CreateEventPage = () => {
-  const {control,handleSubmit,setValue,formState: { errors, isSubmitting },} = useForm({
-    defaultValues: {
-      title: "",
-      description: "",
-      date: "",
-      time: "",
-      capacity: "",
-    },
-  });
-
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
-  const [timePickerOpen, setTimePickerOpen] = useState(false);
-  const createEvent = useEventsStore((state) => state.createEvent);
-
-  const onSubmit = async (data: FormFields) => {
-    const startsAt = `${data.date}T${data.time}`;
-    const result = await createEvent(
-      data.title,
-      data.description,
-      startsAt,
-      parseInt(data.capacity)
-    );
-    if (result.type === "success") {
-      router.back();
-    } else {
-      Alert.alert("Error", result.userFriendlyMessage);
-    }
-  };
+const CreateEventScreen = () => {
+  const { control, handleSubmit, setValue, errors, isSubmitting, datePickerOpen, setDatePickerOpen, timePickerOpen, setTimePickerOpen, onSubmit } = useCreateEventScreen();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -92,10 +55,10 @@ const CreateEventPage = () => {
           rules={{
             required: "Date is required",
             validate: (value) => {
-              const selectedDate = new Date(value);
+              if (!value) return "Date is required";
               const today = new Date();
-              today.setHours(0, 0, 0, 0); // reset to start of today for comparison
-              return selectedDate > today || "Date must be in the future";
+              today.setHours(0, 0, 0, 0);
+              return value > today || "Date must be in the future";
             },
           }}
           render={({ field: { onChange, value } }) => (
@@ -103,8 +66,8 @@ const CreateEventPage = () => {
               error={errors.date?.message || null}
               placeholder="Date"
               onFocus={() => setDatePickerOpen(true)}
-              inputValue={value}
-              onInputChanged={onChange}
+              inputValue={value ? value.toISOString().split("T")[0] : ""} // Display empty if no date
+              onInputChanged={() => {}}
             />
           )}
         />
@@ -117,8 +80,8 @@ const CreateEventPage = () => {
               error={errors.time?.message || null}
               placeholder="Time"
               onFocus={() => setTimePickerOpen(true)}
-              inputValue={value}
-              onInputChanged={onChange}
+              inputValue={value ? value.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""} // Display empty if no time
+              onInputChanged={() => {}}
             />
           )}
         />
@@ -151,9 +114,7 @@ const CreateEventPage = () => {
         date={new Date()}
         onConfirm={(pickedDate) => {
           setDatePickerOpen(false);
-          setValue("date", pickedDate.toISOString().split("T")[0], {
-            shouldValidate: true,
-          }); 
+          setValue("date", pickedDate, { shouldValidate: true });
         }}
         onCancel={() => setDatePickerOpen(false)}
       />
@@ -165,14 +126,7 @@ const CreateEventPage = () => {
         date={new Date()}
         onConfirm={(pickedTime) => {
           setTimePickerOpen(false);
-          setValue(
-            "time",
-            pickedTime.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
-            { shouldValidate: true }
-          );
+          setValue("time", pickedTime, { shouldValidate: true });
         }}
         onCancel={() => setTimePickerOpen(false)}
       />
@@ -196,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateEventPage;
+export default CreateEventScreen;
