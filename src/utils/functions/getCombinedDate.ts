@@ -1,4 +1,4 @@
-export const getCombinedDate = (date: Date, time: Date): string => {
+export function getCombinedDate(date: Date, time: Date): string {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();

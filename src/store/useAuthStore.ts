@@ -1,11 +1,11 @@
 import { Result, Success, UserFriendlyError } from '@/src/utils/result/Result';
-import getUserFriendlyError from '@/src/utils/getUserFriendlyError';
 import { AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { api } from '@/src/api/apiClient';
 import { create } from 'zustand';
-import storeAccessToken from '@/src/utils/storeAccessToken';
+import storeAccessToken from '@/src/utils/functions/storeAccessToken';
 import { storage } from '@/src/storage/Storage';
-import { EventioApiError } from '@/src/utils/result/EventioApiError';
+import { EventioApiError } from '@/src/api/ApiError/EventioApiError';
+import getUserFriendlyError from '@/src/utils/functions/getUserFriendlyError';
 
 
 // ===================================== PRIVATE METHODS ====================================

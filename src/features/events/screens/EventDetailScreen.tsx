@@ -1,7 +1,4 @@
-import EventAttendeesCell from "@/src/components/EventAttendeesCell";
-import EventCellDefault from "@/src/components/EventCellDefault";
 import Loading from "@/src/components/Loading";
-import getEventOwnership from "@/src/utils/getEventOwnership";
 import {
   Redirect,
   useNavigation,
@@ -14,6 +11,9 @@ import {
 import Page from "@/src/components/Page";
 import { useEventDetailScreen } from "@/src/features/events/hooks/useEventDetailScreen";
 import SettingsButton from "@/src/features/events/components/SettingsButton";
+import EventCellDefault from "@/src/features/events/components/cells/EventCellDefault";
+import EventAttendeesCell from "@/src/features/events/components/cells/EventAttendeesCell";
+import { getEventOwnership } from "@/src/utils/functions/getEventOwnership";
 
 
 const EventDetailScreen = () => {

@@ -1,4 +1,4 @@
-import { orderEventsByDate } from "@/src/utils/orderEventsByDate";
+import { orderEventsByDate } from "@/src/utils/functions/orderEventsByDate";
 import { eventsApi } from "@/src/features/events/eventsApi";
 import useEventsStore from "@/src/store/useEventsStore";
 import { EventioEvent } from "@/src/types/EventioEvent";

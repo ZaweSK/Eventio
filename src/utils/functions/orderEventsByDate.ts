@@ -1,6 +1,6 @@
 import { EventioEvent } from "@/src/types/EventioEvent";
 
-export const orderEventsByDate = (events: EventioEvent[]) => {
+export function orderEventsByDate(events: EventioEvent[]) {
     return events.sort((a, b) => {
         const dateA = new Date(a.startsAt);
         const dateB = new Date(b.startsAt);

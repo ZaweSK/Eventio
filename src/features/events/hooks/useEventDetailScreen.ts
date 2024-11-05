@@ -1,12 +1,10 @@
 import { eventsApi } from "@/src/features/events/eventsApi";
 import { useEventAction } from "@/src/features/events/hooks/useEventAction";
-import { getAlertMessage } from "@/src/utils/getAlertMessage";
-import { is404 } from "@/src/utils/is404";
+import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
 import { useIdFromPathIfAny } from "@/src/utils/useIdFromPath";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActionSheetIOS, Alert } from "react-native";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 // Servers as a custom hook for the EventDetailScreen
 export const useEventDetailScreen = () => {

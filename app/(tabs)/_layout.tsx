@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import Colors from '@/src/constants/Colors';
 import { useColorScheme } from '@/src/components/useColorScheme';
 import { useClientOnlyValue } from '@/src/components/useClientOnlyValue';
-import { EventsTabOptions } from '@/src/components/tabs/EventsTabOptions';
-import { ProfileTabOptions } from '@/src/components/tabs/ProfileTabOptions';
 import { View, } from 'react-native';
 import NewEventButton from '@/src/components/NewEventButton';
 import Animated, { Easing, SlideInDown } from 'react-native-reanimated';
 import useAuthStore from '@/src/store/useAuthStore';
+import { EventsTabOptions } from '@/src/features/events/EventsTabOptions';
+import { ProfileTabOptions } from '@/src/features/profile/ProfileTabOptions';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();

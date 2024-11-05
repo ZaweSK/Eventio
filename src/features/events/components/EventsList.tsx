@@ -1,10 +1,10 @@
 import { router } from "expo-router";
 import { RefreshControl } from "react-native";
 import { EventioEvent } from "@/src/types/EventioEvent";
-import EventCellDefault from "../../../components/EventCellDefault";
-import EventCellCompact from "../../../components/EventCellCompact";
+import EventCellDefault from "./cells/EventCellDefault";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { useEventsList } from "@/src/features/events/hooks/useEventsList";
+import EventCellCompact from "@/src/features/events/components/cells/EventCellCompact";
 
 // ================================== PRIVATE METHODS ==================================
 const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onActionButtonPressed: () => void) => {

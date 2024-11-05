@@ -1,8 +1,8 @@
-import { ErrorBody } from '@/src/utils/result/ErrorBody';
+import { ErrorBody } from "@/src/api/ApiError/ErrorBody";
+import { EventioApiError } from "@/src/api/ApiError/EventioApiError";
 import { storage } from "@/src/storage/Storage";
-import storeAccessToken from "@/src/utils/storeAccessToken";
+import storeAccessToken from "@/src/utils/functions/storeAccessToken";
 import axios, { AxiosError } from "axios";
-import { EventioApiError } from '@/src/utils/result/EventioApiError';
 
 // ===================================== CONSTANTS ====================================
 

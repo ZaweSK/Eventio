@@ -1,5 +1,5 @@
 import { EventioApiError } from "@/src/utils/result/AsyncError";
-import { ErrorBody } from "@/src/utils/result/ErrorBody";
+import { ErrorBody } from "@/src/api/ErrorBody";
 
 import * as cik from "@/src/storage/Storage";
 

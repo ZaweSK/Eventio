@@ -1,14 +1,15 @@
-import AttendeeTag from "./AttendeeTag";
-import EventCellContainer from "./EventCellContainer";
 import { Text, StyleSheet, View } from 'react-native';
-import getAttendeeTagProps from "@/src/utils/getAttendeeTagProps";
 import { EventioEvent } from "@/src/types/EventioEvent";
+import EventCellContainer from '@/src/features/events/components/cells/EventCellContainer';
+import AttendeeTag from '@/src/features/events/components/cells/AttendeeTag';
+import { getAttendeeTagProps } from '@/src/utils/functions/getAttendeeTagProps';
 
 interface EventAttendeesCellProps {
     event: EventioEvent;
 }
 
 const EventAttendeesCell = (props: EventAttendeesCellProps) => {
+ 
     return (
         <EventCellContainer>
           <Text style= {styles.title}>Attendees </Text>
@@ -20,7 +21,6 @@ const EventAttendeesCell = (props: EventAttendeesCellProps) => {
           </View>
         </EventCellContainer>
     )
-
 }
 
 const styles = StyleSheet.create({

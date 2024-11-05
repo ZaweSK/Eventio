@@ -1,6 +1,6 @@
-import formatDate from "@/src/utils/formatDate";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { EventioEvent } from "@/src/types/EventioEvent";
+import { formatDate } from "@/src/utils/functions/formatDate";
 
 const EventCellCoreInfo = ({ event } : {event: EventioEvent}) => {
     return (

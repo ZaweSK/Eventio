@@ -1,6 +1,6 @@
 import { eventsApi } from "@/src/features/events/eventsApi";
 import { EventioEvent } from "@/src/types/EventioEvent";
-import getEventAction from "@/src/utils/getEventAction";
+import getEventAction from "@/src/utils/functions/getEventAction";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 

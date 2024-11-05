@@ -3,9 +3,9 @@ import { useEventAction } from "@/src/features/events/hooks/useEventAction";
 import useLoadingStore from "@/src/store/LoadingStore";
 import useEventsStore from "@/src/store/useEventsStore";
 import { EventioEvent } from "@/src/types/EventioEvent";
-import filterEvents from "@/src/utils/filterEvents";
-import { getAlertMessage } from "@/src/utils/getAlertMessage";
-import { orderEventsByDate } from "@/src/utils/orderEventsByDate";
+import { filterEvents } from "@/src/utils/functions/filterEvents";
+import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
+import { orderEventsByDate } from "@/src/utils/functions/orderEventsByDate";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 

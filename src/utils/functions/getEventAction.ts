@@ -1,9 +1,8 @@
-import { EventAction } from "@/src/components/EventCellButton";
+import { EventAction } from "@/src/features/events/components/cells/EventCellButton";
 import { storage } from "@/src/storage/Storage";
 import { EventioEvent } from "@/src/types/EventioEvent";
 
-
-const getEventButtonAction = (event: EventioEvent) : EventAction | null => {
+export function getEventButtonAction(event: EventioEvent) : EventAction | null {
     const currentUserId = storage.getUserId();
 
     if (event.owner.id === currentUserId) return 'edit';

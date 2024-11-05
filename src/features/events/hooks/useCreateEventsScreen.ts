@@ -1,6 +1,6 @@
 import { eventsApi } from "@/src/features/events/eventsApi";
-import { getAlertMessage } from "@/src/utils/getAlertMessage";
-import { getCombinedDate } from "@/src/utils/getCombinedDate";
+import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
+import { getCombinedDate } from "@/src/utils/functions/getCombinedDate";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

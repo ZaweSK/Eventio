@@ -1,8 +1,8 @@
-import { EventioApiError } from "@/src/utils/result/EventioApiError";
+import { EventioApiError } from "@/src/api/ApiError/EventioApiError";
 import { UserFriendlyError } from "@/src/utils/result/Result";
 
 // Converts any error to a user-friendly error
-const getUserFriendlyError = (error: any) : UserFriendlyError => {
+export function getUserFriendlyError(error: any) : UserFriendlyError  {
     if (error instanceof EventioApiError) {
         return UserFriendlyError(error.issues);
     }

@@ -1,4 +1,4 @@
-function formatDate(dateString: string): string {
+export function formatDate(dateString: string): string {
     const date = new Date(dateString);
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         month: 'long',
@@ -14,5 +14,3 @@ function formatDate(dateString: string): string {
 
     return `${formattedDate} – ${formattedTime}`;
 }
-
-export default formatDate;
