@@ -1,7 +1,7 @@
-import EventioAuthHeader from "@/src/components/EventioAuthHeader";
 import EventioButton from "@/src/components/EventioButton";
 import Input from "@/src/components/Input";
 import TextWithLink from "@/src/components/TextWithLink";
+import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, StyleSheet, KeyboardAvoidingView, ActivityIndicator } from "react-native";
@@ -18,7 +18,7 @@ function DefaultUserInfo() {
     };
 }
 
-const SignUpPage = () => {
+const SignUpScreen = () => {
     const [userInfo, setUserInfo] = useState(DefaultUserInfo());
     const handleInputChange = (propertyName: any, propertyValue: any) => {
         setUserInfo({
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignUpPage;
+export default SignUpScreen;

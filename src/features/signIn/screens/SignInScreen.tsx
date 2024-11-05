@@ -4,12 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/src/components/Input";
 import TextWithLink from "@/src/components/TextWithLink";
 import { router } from "expo-router";
-import EventioAuthHeader from "@/src/components/EventioAuthHeader";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Loading from "@/src/components/Loading";
 import useAuthStore from "@/src/store/useAuthStore";
+import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
 
-const SignInPage = () => {
+const SignInScreen = () => {
   const {control,handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
   const signIn = useAuthStore((state) => state.signIn);
 
@@ -118,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInPage;
+export default SignInScreen;

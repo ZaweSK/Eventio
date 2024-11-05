@@ -1,2 +1,2 @@
 
-export { default } from '@/src/pages/SignInPage'; 
+export { default } from '@/src/features/signIn/screens/SignInScreen';

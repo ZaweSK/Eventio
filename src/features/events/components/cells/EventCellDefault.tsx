@@ -1,4 +1,3 @@
-import formatDate from "@/src/utils/functions/formatDate";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import EventCellCoreInfo from "./EventCellCoreInfo";
 import EventCellContainer from "./EventCellContainer";
