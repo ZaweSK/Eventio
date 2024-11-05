@@ -1,4 +1,4 @@
-import { AsyncError } from "@/src/utils/result/AsyncError";
+import { EventioApiError } from "@/src/utils/result/AsyncError";
 import { ErrorBody } from "@/src/utils/result/ErrorBody";
 
 import * as cik from "@/src/storage/Storage";
@@ -46,7 +46,7 @@ class ApiService {
           }
 
           console.log("THROWING ASYNC ERROR");
-          throw new AsyncError(response.status, response.statusText, errorBody);
+          throw new EventioApiError(response.status, errorBody);
         }
 
         return response;

@@ -2,7 +2,7 @@ import { api } from "@/src/api/apiClient";
 import { EventioEvent } from "@/src/types/EventioEvent";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const useGetEventsQuery = () => {
+const useGetAllEventsQuery = () => {
     const { data: events, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['events'],
         queryFn: async (): Promise<EventioEvent[]> => {
@@ -12,6 +12,18 @@ const useGetEventsQuery = () => {
     });
     return { events, isLoading, isError, error, refetch };
 }
+
+const useGetEventQuery = (id: string) => {
+    const { data: event, isLoading, isError, error, refetch } = useQuery({
+        queryKey: ['events', id],
+        queryFn: async (): Promise<EventioEvent> => {
+            const { data } = await api.get<EventioEvent>(`/events/${id}`);
+            return data;
+        },
+        enabled: !!id
+    });
+    return { event, isLoading, isError, error, refetch };
+};
 
 const useJoinEventMutation = () => {
     const queryClient = useQueryClient();
@@ -43,8 +55,24 @@ const useLeaveEventMutation = () => {
     return mutation;
 };
 
+const useDeleteEventMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ['deleteEvent'],
+        mutationFn: async (id: string) => {
+            const response = await api.delete(`/events/${id}`);
+            return response.data;
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['events'] });
+        }
+    });
+};
+
 export const eventsApi = {
-    useGetEventsQuery,
+    useGetEventQuery,
+    useGetAllEventsQuery,
     useJoinEventMutation,
-    useLeaveEventMutation
+    useLeaveEventMutation,
+    useDeleteEventMutation
 }

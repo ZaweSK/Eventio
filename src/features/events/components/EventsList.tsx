@@ -31,7 +31,7 @@ const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onA
 // ================================== COMPONENT SETUP ==================================
 const useEventsList = () => { 
     // ========================== API CALLS ==========================
-    const { events, isLoading: isFetchingEvents, isError, error, refetch } = eventsApi.useGetEventsQuery();
+    const { events, isLoading: isFetchingEvents, isError, error, refetch } = eventsApi.useGetAllEventsQuery();
     const joinEvent = eventsApi.useJoinEventMutation();
     const leaveEvent = eventsApi.useLeaveEventMutation();
     

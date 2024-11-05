@@ -1,11 +1,11 @@
 import { Result, Success, UserFriendlyError } from '@/src/utils/result/Result';
 import getUserFriendlyError from '@/src/utils/getUserFriendlyError';
-import { AsyncError } from '@/src/utils/result/AsyncError';
 import { AxiosResponse, AxiosResponseHeaders } from 'axios';
 import { api } from '@/src/api/apiClient';
 import { create } from 'zustand';
 import storeAccessToken from '@/src/utils/storeAccessToken';
 import { storage } from '@/src/storage/Storage';
+import { EventioApiError } from '@/src/utils/result/EventioApiError';
 
 
 // ===================================== PRIVATE METHODS ====================================
@@ -57,7 +57,7 @@ const useAuthStore = create<AuthStore>((set, get) => {
 
         } catch (error) {
           console.error('Sign-in error:', error);
-          return error instanceof AsyncError && error.status === 404
+          return error instanceof EventioApiError && error.status === 404
             ? UserFriendlyError("404")
             : getUserFriendlyError(error);
         }

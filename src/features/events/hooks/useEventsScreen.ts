@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 // Servers as a custom hook for the EventsScreen component
 export const useEventsScreen = () => {
     const [filteredEvents, setFilteredEvents] = useState<EventioEvent[]>([]);
-    const { events, isLoading, isError, error } = eventsApi.useGetEventsQuery();
+    const { events, isLoading, isError, error } = eventsApi.useGetAllEventsQuery();
     const eventsFilter = useEventsStore(state => state.eventsFilter);
 
     useEffect(() => {

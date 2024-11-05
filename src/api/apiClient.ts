@@ -1,6 +1,8 @@
+import { ErrorBody } from '@/src/utils/result/ErrorBody';
 import { storage } from "@/src/storage/Storage";
 import storeAccessToken from "@/src/utils/storeAccessToken";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { EventioApiError } from '@/src/utils/result/EventioApiError';
 
 // ===================================== CONSTANTS ====================================
 
@@ -57,6 +59,21 @@ api.interceptors.response.use(
                 return api(originalRequest); // Retry original request
             }
         }
+
+        // Cast to EventioApiError if possible
+        if (error instanceof AxiosError) {
+            const status = error.response?.status;
+            const errorBody = error.response?.data as ErrorBody;
+            if (status !== null && status !== undefined && errorBody !== null && errorBody !== undefined) {
+                return Promise.reject(new EventioApiError(status, errorBody));
+            } 
+
+            // Fallback to a generic error
+            return Promise.reject(error);
+        }
+
+        // Fallback to a generic error
         return Promise.reject(error);
     }
 );
+            

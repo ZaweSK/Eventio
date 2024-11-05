@@ -1,24 +1,20 @@
 import { ErrorBody } from "./ErrorBody";
 
-export class AsyncError extends Error {
+export class EventioApiError extends Error {
     status: number;
-    statusText: string;
     errorBody: ErrorBody;
   
-    constructor(status: number, statusText: string, errorBody: ErrorBody) {
-        console.log("AsyncError constructor");
-        
-      super(`Error ${status}: ${statusText}`);
-      Object.setPrototypeOf(this, AsyncError.prototype);
+    constructor(status: number, errorBody: ErrorBody) {        
+      super(`Error ${status}`);
+      Object.setPrototypeOf(this, EventioApiError.prototype);
       // Pass the constructed message to the base Error class
-      this.name = "AsyncError"; 
+      this.name = "EventioApiError"; 
       this.status = status;
-      this.statusText = statusText;
       this.errorBody = errorBody;
   
       // Ensures the stack trace shows the correct location
       if (Error.captureStackTrace) {
-        Error.captureStackTrace(this, AsyncError);
+        Error.captureStackTrace(this, EventioApiError);
       }
       console.log("AsyncError constructor end");
       
@@ -30,5 +26,9 @@ export class AsyncError extends Error {
             return issues.map(issue => issue.message).join(", ");
         }
         return "🤷‍♂️";
+    }
+
+    get fullDescription(): string {
+        return `${this.message} - ${this.status} - ${this.issues}`;
     }
   }
