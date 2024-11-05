@@ -5,11 +5,11 @@ import { EventioEvent } from "@/src/types/EventioEvent";
 
 const getEventButtonAction = (event: EventioEvent) : EventAction | null => {
     const currentUserId = storage.getUserId();
+
+    if (event.owner.id === currentUserId) return 'edit';
     
     const eventIsInFuture = new Date(event.startsAt) > new Date();
     if (!eventIsInFuture) return null;
-
-    if (event.owner.id === currentUserId) return 'edit';
     
     const currentUserAttendsEvent = event.attendees.some((attendee) => attendee.id === currentUserId);
     if (currentUserAttendsEvent) return 'leave';

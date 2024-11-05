@@ -29,6 +29,6 @@ export class EventioApiError extends Error {
     }
 
     get fullDescription(): string {
-        return `${this.message} - ${this.status} - ${this.issues}`;
+        return `${this.status} - ${this.errorBody.code} - ${this.errorBody.message} - ${this.issues}`;
     }
   }
