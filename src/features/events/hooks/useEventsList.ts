@@ -1,7 +1,7 @@
 import { eventsApi } from "@/src/features/events/eventsApi";
 import { useEventAction } from "@/src/features/events/hooks/useEventAction";
-import useLoadingStore from "@/src/store/LoadingStore";
 import useEventsStore from "@/src/store/useEventsStore";
+import useLoadingStore from "@/src/store/useLoadingStore";
 import { EventioEvent } from "@/src/types/EventioEvent";
 import { filterEvents } from "@/src/utils/functions/filterEvents";
 import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
