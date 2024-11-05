@@ -1,4 +1,5 @@
 
+import Fonts from '@/src/constants/Fonts';
 import { StyleSheet, View, Text } from 'react-native';
 export type AttendeTagStyle = 'white' | 'dark';
 
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     text: {
-        color: '#72727B',
-        fontFamily: 'Hind-Regular',
+        color: Fonts.color.secondary,
+        fontFamily: Fonts.family.regular,
         fontSize: 14,
         textAlign: 'center',
         marginHorizontal: 16,

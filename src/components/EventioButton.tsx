@@ -1,3 +1,4 @@
+import Fonts from "@/src/constants/Fonts";
 import { TouchableOpacity, StyleSheet, Text, View, ViewStyle, TextStyle } from "react-native";
 
 interface EventioButtonProps {
@@ -38,8 +39,7 @@ const styles = StyleSheet.create({
     buttonText: {
       color: 'white',             // White text color
       fontSize: 16,
-      fontFamily: 'Hind-Bold',
-      // Font size
+      fontFamily: Fonts.family.bold
     },
   });
 

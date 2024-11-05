@@ -1,3 +1,4 @@
+import Fonts from "@/src/constants/Fonts";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { set } from "react-hook-form";
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       marginHorizontal: 20,
       marginLeft: 20,
-      fontFamily: 'Hind-Regular',
+      fontFamily: Fonts.family.regular
       },
 
       separator : {
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'left',
         opacity: 0.85,
-        fontFamily: 'Hind-Regular',
+        fontFamily: Fonts.family.regular
       }
   })
 

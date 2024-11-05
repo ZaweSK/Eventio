@@ -33,15 +33,7 @@ const ToggleButton = (props: ToggleButtonProps) => {
 
 // Styles applied to components in case of both active and inactive states
 const defaultStyles = StyleSheet.create({
-    // pressableContainer: {
-    //     // justifyContent: 'center', // Center items vertically
-    //     // alignItems: 'center', // Center items horizontally
-    //     backgroundColor: 'green',
-    // },
-
     centeredText: {
-        // textAlign: 'center', // Center text horizontally
-        // textAlignVertical: 'center', // For Android, center text vertically
     },
 
     centeredContent: {

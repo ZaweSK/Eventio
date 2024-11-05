@@ -1,19 +1,16 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider, useRoute } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack, useNavigation, usePathname } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/src/components/useColorScheme';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Colors from '@/src/constants/Colors';
-import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
-import useLoadingStore from '@/src/store/LoadingStore';
-import Loading from '@/src/components/Loading';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Fonts from '@/src/constants/Fonts';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -92,8 +89,8 @@ function RootLayoutNav() {
               backgroundColor: colorScheme ? 'white' : 'black',
             },
             headerTitleStyle: {
-              fontSize: 18,
-              fontFamily: 'Hind-Regular',
+              fontSize: Fonts.size.headerTitle,
+              fontFamily: Fonts.family.regular
             },
            }} />
       </Stack>

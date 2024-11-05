@@ -4,6 +4,7 @@ import ToggleButton from '@/src/components/ToggleButton';
 import Colors from '@/src/constants/Colors';
 import useEventsStore from '@/src/store/useEventsStore';
 import { TimeFilter } from '@/src/types/TimeFilter';
+import Fonts from '@/src/constants/Fonts';
 
 function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (
@@ -65,13 +66,13 @@ const toggleButton = StyleSheet.create({
     },
     textDefault: { 
         fontSize: 12,
-         fontWeight: 'bold',
+        fontWeight: 'bold',
     },
     textActive: {
         color: 'white'
     },
     textInactive: {
-        color: '#A7A7B9'
+        color: Fonts.color.tertiary
     },
 })
 

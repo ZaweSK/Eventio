@@ -3,6 +3,7 @@ import ToggleButton from "@/src/components/ToggleButton";
 import useEventsStore from "@/src/store/useEventsStore";
 import Colors from "@/src/constants/Colors";
 import { Stack } from "expo-router";
+import Fonts from "@/src/constants/Fonts";
 
 export default function EventsTabLayout() {
     const cellLayout = useEventsStore(state => state.eventsLayout);
@@ -21,8 +22,8 @@ export default function EventsTabLayout() {
               backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
             },
            headerTitleStyle: {
-            fontSize: 18,
-            fontFamily: 'Hind-Regular',
+            fontSize: Fonts.size.headerTitle,
+            fontFamily: Fonts.family.regular
             },
             headerRight: () => (
                 <View style = {styles.headerRightContainer}>
@@ -55,8 +56,8 @@ export default function EventsTabLayout() {
             },
             title: 'Event Detail',
             headerTitleStyle: {
-              fontSize: 18,
-              fontFamily: 'Hind-Regular',
+              fontSize: Fonts.size.headerTitle,
+              fontFamily: Fonts.family.regular
             },
             headerBackImageSource: require('@/assets/images/backButton.png'),
         

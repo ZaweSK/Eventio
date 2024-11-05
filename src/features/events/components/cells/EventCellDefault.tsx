@@ -5,6 +5,7 @@ import EventCellContainer from "./EventCellContainer";
 import EventCellButton from "./EventCellButton";
 import getEventButtonAction from "@/src/utils/functions/getEventAction";
 import { EventCellProps } from "@/src/features/events/components/cells/EventCellProps";
+import Fonts from "@/src/constants/Fonts";
 
 const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);
@@ -27,28 +28,9 @@ const EventCellDefault = (props: EventCellProps) => {
 }
 
 const styles = StyleSheet.create({
-    startDate: {
-        color: '#A7A7B9',
-        fontFamily: 'Hind-Regular',
-        fontSize: 12,
-        textAlign: 'left',
-    },
-    title: {
-        color: 'black',
-        fontFamily: 'Hind-Medium',
-        fontSize: 20,
-        textAlign: 'left',
-    },
-    owner: {
-        color: '#72727B',
-        fontFamily: 'Hind-Regular',
-        fontSize: 14,
-        textAlign: 'left',
-        marginTop: -5,
-    },
     description: {
-        color: 'black',
-        fontFamily: 'Hind-Regular',
+        color: Fonts.color.primary,
+        fontFamily: Fonts.family.regular,
         fontSize: 16,
         textAlign: 'left',
         marginTop: 8,
@@ -57,18 +39,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 25,
     },
-
     attendeesImage: {
         width: 20,
         height: 20,
-        tintColor: '#72727B',
+        tintColor: Fonts.color.secondary,
     },
-
     attendeesText: {
         fontSize: 14,
-        color: '#72727B',
+        color: Fonts.color.secondary,
         textAlign: 'left',
-        fontFamily: 'Hind-Regular',
+        fontFamily: Fonts.family.regular,
         marginLeft: 5, 
     },
     cellButton: {

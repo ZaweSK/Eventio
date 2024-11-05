@@ -1,3 +1,4 @@
+import Fonts from "@/src/constants/Fonts";
 import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 
 function ButtonStyle(style: EventAction)  {
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#E4E4EA',
     },
     defaultText: {
-        fontFamily: 'Hind-Bold',
+        fontFamily: Fonts.family.bold,
         textAlign: 'center',
         fontSize: 14,
     },
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     darkText: {
-        color: '#A7A7B9',
+        color: Fonts.color.tertiary,
     }
 })
 

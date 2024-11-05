@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { EventioEvent } from "@/src/types/EventioEvent";
 import { formatDate } from "@/src/utils/functions/formatDate";
+import Fonts from "@/src/constants/Fonts";
 
 const EventCellCoreInfo = ({ event } : {event: EventioEvent}) => {
     return (
@@ -14,24 +15,24 @@ const EventCellCoreInfo = ({ event } : {event: EventioEvent}) => {
 
 const styles = StyleSheet.create({  
     startDate: {
-        color: '#A7A7B9',
-        fontFamily: 'Hind-Regular',
+        color: Fonts.color.tertiary,
+        fontFamily: Fonts.family.regular,
         fontSize: 12,
         textAlign: 'left',
     },
     title: {
-        color: 'black',
-        fontFamily: 'Hind-Medium',
+        color: Fonts.color.primary,
+        fontFamily: Fonts.family.medium,
         fontSize: 20,
         textAlign: 'left',
         paddingRight: 100
     },
     owner: {
-        color: '#72727B',
-        fontFamily: 'Hind-Regular',
+        color: Fonts.color.secondary,
+        fontFamily: Fonts.family.regular,
         fontSize: 14,
         textAlign: 'left',
-        marginTop: -5,
+        marginTop: 0,
     },
 });
 

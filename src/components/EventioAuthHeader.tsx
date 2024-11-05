@@ -1,3 +1,4 @@
+import Fonts from "@/src/constants/Fonts";
 import { View, StyleSheet, Text, Image, StyleProp, ViewStyle } from "react-native";
 
 interface EventioAuthPromptProps {
@@ -31,14 +32,15 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: 5, 
       textAlign: 'center',
-      fontFamily: 'Hind-Regular',
+      color: Fonts.color.primary,
+      fontFamily: Fonts.family.regular
     },
     subtitle: {
       fontSize: 16,
-      color: 'gray',
+      color: Fonts.color.secondary,
       marginBottom: 15,
       textAlign: 'center',
-      fontFamily: 'Hind-Regular',
+      fontFamily: Fonts.family.regular
 
     }
   });

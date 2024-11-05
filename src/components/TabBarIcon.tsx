@@ -14,14 +14,3 @@ const TabBarIcon = (props: TabBarIconProps) => {
 }
 
 export default TabBarIcon;
-
-// export default function TabBarIcon(props: {
-//     name: React.ComponentProps<typeof FontAwesome>['name'];
-//     color: string;
-//     fontSize: number;
-//   }) {
-//     console.log(props.color)
-
-
-//     return <FontAwesome size={props.fontSize} style={{ marginBottom: -3 }} {...props} />;
-//   }

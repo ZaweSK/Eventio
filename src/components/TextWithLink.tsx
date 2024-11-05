@@ -1,4 +1,5 @@
 import EventioButton from "@/src/components/EventioButton";
+import Fonts from "@/src/constants/Fonts";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface TextWithLinkProps {
@@ -28,12 +29,12 @@ const styles = StyleSheet.create({
     text: {
         color: '#72727B',
         fontSize: 16,
-        fontFamily: 'Hind-Regular'  
+        fontFamily: Fonts.family.regular
     },
     linkText: {
         color: '#22D486',
         fontSize: 16,
-        fontFamily: 'Hind-Regular',
+        fontFamily: Fonts.family.regular
     },
 });
 
