@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 const useGetAllEventsQuery = () => {
     const { data: events, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['events'],
-        queryFn: async (): Promise<EventioEvent[]> => {
+        queryFn: async () => {
             const { data } = await api.get<EventioEvent[]>('/events');
             return data;
         }
@@ -16,7 +16,7 @@ const useGetAllEventsQuery = () => {
 const useGetEventQuery = (id: string) => {
     const { data: event, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['events', id],
-        queryFn: async (): Promise<EventioEvent> => {
+        queryFn: async () => {
             const { data } = await api.get<EventioEvent>(`/events/${id}`);
             return data;
         },
@@ -34,7 +34,7 @@ const useCreateEventMutation = () => {
         desc: string,
         startsAt: string,
         capacity: number
-      }): Promise<EventioEvent> => {
+      }) => {
         const data = {
           title: title,
           description: desc,
@@ -55,7 +55,7 @@ const useJoinEventMutation = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationKey: ['joinEvent'],
-        mutationFn: async (id: string): Promise<EventioEvent> => {
+        mutationFn: async (id: string) => {
             const { data: updatedEvent } = await api.post<EventioEvent>(`/events/${id}/attendees/me`);
             return updatedEvent;
         },
@@ -70,7 +70,7 @@ const useLeaveEventMutation = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationKey: ['leaveEvent'],
-        mutationFn: async (id: string): Promise<EventioEvent> => {
+        mutationFn: async (id: string) => {
             const { data: updatedEvent } = await api.delete<EventioEvent>(`/events/${id}/attendees/me`);
             return updatedEvent;
         },

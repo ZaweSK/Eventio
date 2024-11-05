@@ -18,7 +18,7 @@ type FormFields = {
 export const useCreateEventScreen = () => {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [timePickerOpen, setTimePickerOpen] = useState(false);
-    const { mutate: createEvent, error } = eventsApi.useCreateEventMutation();
+    const { mutate: createEvent, isPending: loading, error } = eventsApi.useCreateEventMutation();
     const { control, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<FormFields>({
         defaultValues: {
             title: "",
@@ -51,7 +51,7 @@ export const useCreateEventScreen = () => {
         handleSubmit,
         setValue,
         errors,
-        isSubmitting,
+        loading,
         datePickerOpen,
         setDatePickerOpen,
         timePickerOpen,

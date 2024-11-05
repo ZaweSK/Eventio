@@ -4,29 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/src/components/Input";
 import TextWithLink from "@/src/components/TextWithLink";
 import { router } from "expo-router";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import Loading from "@/src/components/Loading";
-import useAuthStore from "@/src/store/useAuthStore";
 import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
+import { useSignInScreen } from "@/src/features/signIn/hooks/useSignInScreen";
 
 const SignInScreen = () => {
-  const {control,handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
-  const signIn = useAuthStore((state) => state.signIn);
-
-  const onSubmit = async (data: { email: string; password: string; }) => {
-      const result = await signIn(data.email, data.password);
-      if (result.type === "error") {
-        if (result.userFriendlyMessage === "404") {
-          setError("email", {message: " "});
-          setError("password", {message: "Oops! That email and password combination is not valid."});
-        } else {
-          Alert.alert("Error", result.userFriendlyMessage);
-        }
-      } else {
-        router.replace("/events");
-      }
-  };
-
+  const { control, handleSubmit, onSubmit, validationErrors, loading } = useSignInScreen()
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -51,7 +36,7 @@ const SignInScreen = () => {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                    error={errors.email?.message || null}
+                    error={validationErrors.email?.message || null}
                     placeholder="Email"
                     inputValue={value}
                     onInputChanged={onChange}
@@ -70,7 +55,7 @@ const SignInScreen = () => {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                    error={errors.password?.message || null}
+                    error={validationErrors.password?.message || null}
                     placeholder="Password"
                     secureEntry={true}
                     inputValue={value}
@@ -86,7 +71,7 @@ const SignInScreen = () => {
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
-     {isSubmitting && <Loading/>}
+     {loading && <Loading/>}
     </SafeAreaView>
   );
 };

@@ -8,7 +8,7 @@ import Loading from "@/src/components/Loading";
 import { useCreateEventScreen } from "@/src/features/events/hooks/useCreateEventsScreen";
 
 const CreateEventScreen = () => {
-  const { control, handleSubmit, setValue, errors, isSubmitting, datePickerOpen, setDatePickerOpen, timePickerOpen, setTimePickerOpen, onSubmit } = useCreateEventScreen();
+  const { control, handleSubmit, setValue, errors, loading, datePickerOpen, setDatePickerOpen, timePickerOpen, setTimePickerOpen, onSubmit } = useCreateEventScreen();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -130,7 +130,7 @@ const CreateEventScreen = () => {
         }}
         onCancel={() => setTimePickerOpen(false)}
       />
-      {isSubmitting && <Loading />}
+      {loading && <Loading />}
     </SafeAreaView>
   );
 };
