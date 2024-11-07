@@ -1,14 +1,17 @@
-import { View, StyleSheet, useColorScheme } from "react-native";
+import { View, StyleSheet, useColorScheme, TouchableOpacity } from "react-native";
 import ToggleButton from "@/src/components/ToggleButton";
 import useEventsStore from "@/src/store/useEventsStore";
 import Colors from "@/src/constants/Colors";
 import { Stack } from "expo-router";
 import Fonts from "@/src/constants/Fonts";
+import SVG from "@/assets/svg/SVG";
+import { useNavigation } from "@react-navigation/native";
 
 export default function EventsTabLayout() {
     const cellLayout = useEventsStore(state => state.eventsLayout);
     const setCellLayout = useEventsStore(state => state.setEventsLayout);
     const colorScheme = useColorScheme();
+    const navigation = useNavigation();
     return (
       <Stack>
         <Stack.Screen
@@ -59,8 +62,11 @@ export default function EventsTabLayout() {
               fontSize: Fonts.size.headerTitle,
               fontFamily: Fonts.family.regular
             },
-            headerBackImageSource: require('@/assets/images/backButton.png'),
-        
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} >
+                <SVG.BackArrow width={24} height={24} fill="black" /> 
+              </TouchableOpacity>
+            ),        
           }} />
      </Stack>
     );
