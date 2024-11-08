@@ -5,6 +5,7 @@ import EventCellButton from "./EventCellButton";
 import getEventButtonAction from "@/src/utils/functions/getEventAction";
 import { EventCellProps } from "@/src/features/events/components/cells/EventCellProps";
 import Fonts from "@/src/constants/Fonts";
+import { SVGImage } from "@/assets/svg/SVGImage";
 
 const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);
@@ -13,7 +14,7 @@ const EventCellDefault = (props: EventCellProps) => {
         <EventCellCoreInfo event={props.event}/>
         <Text id = "description" style={styles.description}>{props.event.description}</Text>
         <View id = "attendance" style = {styles.attendance}>
-            <Image id = "attendeesImage" source = {require('@/assets/images/tabIcon_profile.png')} style = {styles.attendeesImage} />
+            <SVGImage name ='Profile' width={20} height={20} fill= {Fonts.color.secondary}  />
             <Text id = "attendeesText" style = {styles.attendeesText}> {props.event.attendees.length} of {props.event.capacity}</Text>
         </View>
 

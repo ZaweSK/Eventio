@@ -1,13 +1,16 @@
 import { Image, ImageStyle, Pressable, StyleProp, TextStyle, ViewStyle, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { SVGImageName } from "@/assets/svg/SVGImageName";
+import { SVGImage } from "@/assets/svg/SVGImage";
+import { SvgProps } from "react-native-svg";
 
 interface ToggleButtonProps {
     isActive: boolean;
     onPress: () => void;
-    image?: any;
+    svgImage?: SVGImageName;
     text?: string;
     style: StyleProp<ViewStyle>; 
-    imageStyle?: StyleProp<ImageStyle>; 
+    svgImageProps?: SvgProps; 
     textStyle?: StyleProp<TextStyle>;
 };
 
@@ -17,9 +20,10 @@ const ToggleButton = (props: ToggleButtonProps) => {
             onPress={props.onPress} 
             style={[props.style]}
         > 
-            {props.image && 
+            {props.svgImage && 
             <View style = {{position: 'absolute', top: 0, left:0, bottom:0, right:0}}>
-                <Image source={props.image} style={[props.imageStyle]} /> 
+                {/* <Image source={props.image} style={[props.imageStyle]} />  */}
+                <SVGImage name= {props.svgImage}  {...props.svgImageProps} /> 
             </View>
             }
             {props.text && 

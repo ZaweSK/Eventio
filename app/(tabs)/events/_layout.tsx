@@ -4,14 +4,14 @@ import useEventsStore from "@/src/store/useEventsStore";
 import Colors from "@/src/constants/Colors";
 import { Stack, useFocusEffect } from "expo-router";
 import Fonts from "@/src/constants/Fonts";
-import SVG from "@/assets/svg/SVG";
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { SVGImage } from "@/assets/svg/SVGImage";
+import { SvgProps } from "react-native-svg";
 
 // ===============================  PRIVATE ===============================
 const BackButton = (onPress: () => void) => (
   <TouchableOpacity onPress={onPress}>
-    <SVG.BackArrow width={24} height={24} fill="black" />
+    <SVGImage name= 'BackArrow' width={24} height={24} fill="black" />
   </TouchableOpacity>
 );
 
@@ -24,22 +24,16 @@ const HeaderRightComponent = () => {
       <ToggleButton
         isActive={cellLayout === 'default'}
         onPress={() => setCellLayout('default')}
-        image={require('@/assets/images/cellsLayout_1.png')}
         style={[styles.toggleButton, { marginRight: 10 }]}
-        imageStyle={[
-          styles.toggleButtonImage,
-          cellLayout === 'default' ? styles.toggleButtonImageActive : styles.toggleButtonImageInactive,
-        ]}
+        svgImage='CellLayout1'
+        svgImageProps={cellLayout === 'default' ? toggleButtonActive : toggleButtonInactive }
       />
       <ToggleButton
         isActive={cellLayout === 'compact'}
         onPress={() => setCellLayout('compact')}
-        image={require('@/assets/images/cellsLayout_2.png')}
         style={styles.toggleButton}
-        imageStyle={[
-          styles.toggleButtonImage,
-          cellLayout === 'compact' ? styles.toggleButtonImageActive : styles.toggleButtonImageInactive,
-        ]}
+        svgImage='CellLayout2'
+        svgImageProps={cellLayout === 'compact' ? toggleButtonActive : toggleButtonInactive }
       />
     </View>
   );
@@ -124,15 +118,18 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  toggleButtonImage: {
-    width: 25,
-    height: 25,
-    tintColor: 'black',
-  },
-  toggleButtonImageInactive: {
-    opacity: 0.2,
-  },
-  toggleButtonImageActive: {
-    opacity: 1,
-  },
 });
+
+const toggleButtonActive: SvgProps = {
+  width: 25,
+  height: 25,
+  opacity: 1,
+  fill: 'black',
+}; 
+
+const toggleButtonInactive: SvgProps = {
+  width: 25,
+  height: 25,
+  opacity: 0.2,
+  fill: 'black',
+}; 

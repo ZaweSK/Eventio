@@ -8,9 +8,7 @@ import { Controller } from "react-hook-form";
 import Loading from "@/src/components/Loading";
 import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
 import { useSignInScreen } from "@/src/features/signIn/hooks/useSignInScreen";
-import { BackArrow } from "@/assets/svg/BackArrow";
 import { green } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
-import SVG from "@/assets/svg/SVG";
 
 const SignInScreen = () => {
   const { control, handleSubmit, onSubmit, validationErrors, loading } = useSignInScreen()

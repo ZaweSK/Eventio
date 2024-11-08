@@ -35,11 +35,6 @@ const getScreenOptions = (colorScheme: ColorSchemeName) => ({
 
 // Tab options for each specific tab
 const getTabOptions = ({headerShown, title, colorScheme}: {headerShown: boolean, title: string, colorScheme: ColorSchemeName}) => {
-  const icons = {
-    events: require('@/assets/images/tabIcon_events.png'),
-    profile: require('@/assets/images/tabIcon_profile.png'),
-  };
-  
   const headerBackground = colorScheme ? Colors[colorScheme].background : 'white';
   return {
     headerShown: headerShown,
@@ -50,7 +45,7 @@ const getTabOptions = ({headerShown, title, colorScheme}: {headerShown: boolean,
     },
     tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => (
       <TabBarIcon
-        image={require('@/assets/images/tabIcon_profile.png')}
+        svgImage={title === 'Events' ? 'Events' : 'Profile'}
         color={color}
         size={focused ? 35 : 30}
       />
@@ -73,7 +68,6 @@ export default function TabLayout() {
         <Tabs.Screen name="events" options={getTabOptions({headerShown: false, title: 'Events', colorScheme })} />
         <Tabs.Screen name="profile" options={getTabOptions({headerShown: true, title: 'Profile', colorScheme})} />
       </Tabs>
-
       <Animated.View entering={SlideInDown.duration(1000).easing(Easing.out(Easing.back(0.5)))}>
         <NewEventButton />
       </Animated.View>
