@@ -1,3 +1,4 @@
+import { SVGImage } from "@/assets/svg/SVGImage";
 import Fonts from "@/src/constants/Fonts";
 import { View, StyleSheet, Text, Image, StyleProp, ViewStyle } from "react-native";
 
@@ -10,7 +11,7 @@ interface EventioAuthPromptProps {
 const EventioAuthHeader = (props: EventioAuthPromptProps) => {
     return (
         <View style = {[styles.container, props.style]}>
-          <Image style = {styles.appLogo} source={require('@/assets/images/appLogo.png')}  />
+          <SVGImage name="Eventio" width={40} height={40} fill = "black" style = {styles.appLogo}/>
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.subtitle}>{props.subtitle}</Text>
         </ View>
