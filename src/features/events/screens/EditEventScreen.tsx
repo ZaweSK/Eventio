@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 const EditEventScreen = () => {
     return (
         <Page>
-            
+         
         </Page>
     );
 };
@@ -12,5 +12,9 @@ const EditEventScreen = () => {
 const styles = StyleSheet.create({
     
 });
+
+
+
+
 
 export default EditEventScreen;

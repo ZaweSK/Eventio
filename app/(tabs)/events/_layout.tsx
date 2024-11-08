@@ -2,10 +2,11 @@ import { View, StyleSheet, useColorScheme, TouchableOpacity } from "react-native
 import ToggleButton from "@/src/components/ToggleButton";
 import useEventsStore from "@/src/store/useEventsStore";
 import Colors from "@/src/constants/Colors";
-import { Stack } from "expo-router";
+import { Stack, useFocusEffect } from "expo-router";
 import Fonts from "@/src/constants/Fonts";
 import SVG from "@/assets/svg/SVG";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 
 // ===============================  PRIVATE ===============================
 const BackButton = (onPress: () => void) => (
@@ -78,6 +79,7 @@ export default function EventsTabLayout() {
   const colorScheme = useColorScheme();
   const color = colorScheme ? Colors[colorScheme].background : 'black';
   const navigation = useNavigation();
+
 
   return (
     <Stack>
