@@ -1,5 +1,5 @@
-import { Redirect, Tabs, usePathname, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { Redirect, Tabs, useNavigation, usePathname, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import Colors from '@/src/constants/Colors';
 import { useColorScheme } from '@/src/components/useColorScheme';
 import { useClientOnlyValue } from '@/src/components/useClientOnlyValue';
@@ -18,6 +18,14 @@ export default function TabLayout() {
   
 
   const isAutorised = useAuthStore((state) => state.isSignedIn);
+
+
+
+  const tabPressed = () => {
+      console.log("TAB PRESSED");
+      
+  } 
+
   if (!isAutorised) {
     return <Redirect href="/sign-in" />
   }

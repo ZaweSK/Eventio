@@ -31,7 +31,7 @@ export const useEventDetailScreen = () => {
         },
         (buttonIndex) => {
           if (buttonIndex === 0) {
-            // Handle Edit Event
+            router.push(`/events/${event?.id}/edit`);
           } else if (buttonIndex === 1) {
             if (!event) {
               return;

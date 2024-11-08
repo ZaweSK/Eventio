@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Image } from 'react-native';
+import { Image, Pressable } from 'react-native';
 
 interface TabBarIconProps {
   image: any; // Change to any to match the expected type for Image source
@@ -9,7 +9,7 @@ interface TabBarIconProps {
 
 const TabBarIcon = (props: TabBarIconProps) => {
   return (
-    <Image source={props.image} style={{ width: props.size, height: props.size, tintColor: props.color }} />
+      <Image source={props.image} style={{ width: props.size, height: props.size, tintColor: props.color }} />
   )
 }
 

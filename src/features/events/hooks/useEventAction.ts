@@ -21,7 +21,7 @@ export const useEventAction = () => {
   
       switch (action) {
         case 'edit':
-          router.push(`/(tabs)/events/${event.id}`);
+          router.push(`/events/${event.id}/edit`);
           break;
         case 'join':
           joinEvent(event.id, {
