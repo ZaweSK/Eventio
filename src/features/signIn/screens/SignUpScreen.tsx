@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     signUpContainer: {
         position: 'absolute',
         // bottom: 0,
-        bottom: 24,
+        bottom: 0,
         width: '100%',
         paddingHorizontal: 24,
         justifyContent: 'flex-end',

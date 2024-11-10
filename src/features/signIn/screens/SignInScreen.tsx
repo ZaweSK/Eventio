@@ -19,10 +19,7 @@ const SignInScreen = () => {
         <View style={styles.container}>
           <View>
             <View style={styles.eventioAuthHeader}>
-              <EventioAuthHeader
-                title="Sign in to Eventio."
-                subtitle="Enter your details below."
-              />
+              <EventioAuthHeader title="Sign in to Eventio." subtitle="Enter your details below." />
             </View>
             <View style={styles.inputContainer}>
               <Controller
@@ -66,7 +63,7 @@ const SignInScreen = () => {
               />
             </View>
           </View>
-          <KeyboardAvoidingView keyboardVerticalOffset={70} style={styles.keyboardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <KeyboardAvoidingView keyboardVerticalOffset={22} style={styles.keyboardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <EventioButton title="SIGN IN" onPress={handleSubmit(onSubmit)} />
             <TextWithLink text="Don't have an account?" linkText="Sign up" onPress={() => {router.replace("/sign-up")}}/>
           </KeyboardAvoidingView>
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-end",
     paddingHorizontal: 24,
-    marginBottom: 24,
+    marginBottom: 0,
   },
 });
 

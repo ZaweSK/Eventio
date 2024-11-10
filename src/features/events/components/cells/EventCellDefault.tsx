@@ -6,11 +6,12 @@ import getEventButtonAction from "@/src/utils/functions/getEventAction";
 import { EventCellProps } from "@/src/features/events/components/cells/EventCellProps";
 import Fonts from "@/src/constants/Fonts";
 import { SVGImage } from "@/assets/svg/SVGImage";
+import Animated from "react-native-reanimated";
 
 const EventCellDefault = (props: EventCellProps) => {   
    const buttonAction = getEventButtonAction(props.event);
    return (
-    <EventCellContainer onPress={props.onPress}>
+        <EventCellContainer onPress={props.onPress}>
         <EventCellCoreInfo event={props.event}/>
         <Text id = "description" style={styles.description}>{props.event.description}</Text>
         <View id = "attendance" style = {styles.attendance}>
@@ -23,7 +24,7 @@ const EventCellDefault = (props: EventCellProps) => {
                 props.onEventAction();
             }} />
         )}
-    </EventCellContainer>
+        </EventCellContainer>    
     );
 }
 

@@ -24,7 +24,7 @@ const EventsList = () => {
 
     const onCellPressed = (event: EventioEvent) => {
       router.push(`/events/${event.id}`);
-    };
+    };    
 
     return (
         <Animated.FlatList

@@ -6,6 +6,7 @@ import {
 import { useEffect } from "react";
 import {
   FlatList,
+  View,
 } from "react-native";
 
 import Page from "@/src/components/Page";
@@ -14,6 +15,7 @@ import SettingsButton from "@/src/features/events/components/SettingsButton";
 import EventCellDefault from "@/src/features/events/components/cells/EventCellDefault";
 import EventAttendeesCell from "@/src/features/events/components/cells/EventAttendeesCell";
 import { getEventOwnership } from "@/src/utils/functions/getEventOwnership";
+import Animated from "react-native-reanimated";
 
 
 const EventDetailScreen = () => {
@@ -50,6 +52,11 @@ const EventDetailScreen = () => {
               }}
             />
            {loading &&  <Loading />}
+
+           {/* <Animated.View  sharedTransitionTag="1" > 
+              <View style = {{width: '90%', height: 100, backgroundColor: 'red'}}/>
+
+           </Animated.View> */}
         </Page>
       ) : (
         <Loading/>

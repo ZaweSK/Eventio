@@ -76,7 +76,7 @@ export default function EventsTabLayout() {
 
 
   return (
-    <Stack>
+    <Stack screenOptions={ {animation:'fade'}}>
       <Stack.Screen
         name="index"
         options={getHeaderOptions({
