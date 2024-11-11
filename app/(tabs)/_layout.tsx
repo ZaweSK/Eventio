@@ -45,7 +45,7 @@ const getTabOptions = ({headerShown, title, colorScheme}: {headerShown: boolean,
     },
     tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => (
       <TabBarIcon
-        svgImage={title === 'Events' ? 'Events' : 'Profile'}
+        svgImage={title === 'Events' ? 'calendar' : 'profile'}
         color={color}
         size={focused ? 35 : 30}
       />

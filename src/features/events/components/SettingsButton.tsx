@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, ActionSheetIOS, Alert, StyleSheet } from "reac
 import { router } from "expo-router";
 import { EventioEvent } from "@/src/types/EventioEvent";
 import { eventsApi } from "@/src/features/events/eventsApi";
-import { SVGImage } from "@/assets/svg/SVGImage";
+import { SVGImage } from "@/src/components/SVGImage";
 
 interface SettingsButtonProps {
     event: EventioEvent;
@@ -13,7 +13,7 @@ interface SettingsButtonProps {
 const SettingsButton = (props: SettingsButtonProps) => {
   return (
     <TouchableOpacity onPress={props.onPressed} style={styles.button}>
-      <SVGImage name='Settings' style = {styles.icon} fill = 'black' width={30} height={30} />
+      <SVGImage name='settings' style = {styles.icon} fill = 'black' width={30} height={30} />
     </TouchableOpacity>
   );
 };

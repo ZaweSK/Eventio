@@ -16,11 +16,13 @@ const Input = forwardRef<TextInput, InputProps>((
   {
     secureEntry = false,
     error,
+    autoCorrect = false,
+    autoComplete = "off",
     ...textInputProps // Collect remaining props passed to TextInput
   },
   ref
 ) => {
-  
+
   const [isFocused, setIsFocused] = useState(false);
   const [secureText, setSecureText] = useState(secureEntry);
 

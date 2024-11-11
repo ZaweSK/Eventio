@@ -40,8 +40,8 @@ function storeRefreshToken(response: AxiosResponse) {
 export const useSignInScreen = () => {
     const {control,handleSubmit, setError, setFocus, formState: { errors: validationErrors = {} } } = useForm<FormFields>({
       defaultValues: {
-          email: "brucebanner@strv.com",
-          password: "kill3r",
+          email: "steverogers@strv.com",
+          password: "am3riCa",
       },
   });
     const { mutate: signIn, isPending: loading, error } = signInApi.useSignInMutation();

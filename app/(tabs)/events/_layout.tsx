@@ -5,13 +5,13 @@ import Colors from "@/src/constants/Colors";
 import { Stack, useFocusEffect } from "expo-router";
 import Fonts from "@/src/constants/Fonts";
 import { useNavigation } from "@react-navigation/native";
-import { SVGImage } from "@/assets/svg/SVGImage";
 import { SvgProps } from "react-native-svg";
+import { SVGImage } from "@/src/components/SVGImage";
 
 // ===============================  PRIVATE ===============================
 const BackButton = (onPress: () => void) => (
   <TouchableOpacity onPress={onPress}>
-    <SVGImage name= 'BackArrow' width={24} height={24} fill="black" />
+    <SVGImage name= 'backArrow' width={24} height={24} fill="black" />
   </TouchableOpacity>
 );
 
@@ -25,14 +25,14 @@ const HeaderRightComponent = () => {
         isActive={cellLayout === 'default'}
         onPress={() => setCellLayout('default')}
         style={[styles.toggleButton, { marginRight: 10 }]}
-        svgImage='CellLayout1'
+        svgImage='cellLayoutDefault'
         svgImageProps={cellLayout === 'default' ? toggleButtonActive : toggleButtonInactive }
       />
       <ToggleButton
         isActive={cellLayout === 'compact'}
         onPress={() => setCellLayout('compact')}
         style={styles.toggleButton}
-        svgImage='CellLayout2'
+        svgImage='cellLayoutCompact'
         svgImageProps={cellLayout === 'compact' ? toggleButtonActive : toggleButtonInactive }
       />
     </View>

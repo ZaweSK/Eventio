@@ -1,5 +1,4 @@
-import { SVGImage } from '@/assets/svg/SVGImage';
-import { SVGImageName } from '@/assets/svg/SVGImageName';
+import { SVGImage, SVGImageName } from '@/src/components/SVGImage';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Image, Pressable } from 'react-native';
 
@@ -11,10 +10,7 @@ interface TabBarIconProps {
 
 const TabBarIcon = (props: TabBarIconProps) => {
   return (
-      // <Image source={props.svgImage} style={{ width: props.size, height: props.size, tintColor: props.color }} />
-
       <SVGImage name = {props.svgImage} width={props.size} height={props.size} fill={props.color} />
-
   )
 }
 

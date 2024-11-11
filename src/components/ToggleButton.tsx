@@ -1,8 +1,7 @@
 import { Image, ImageStyle, Pressable, StyleProp, TextStyle, ViewStyle, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { SVGImageName } from "@/assets/svg/SVGImageName";
-import { SVGImage } from "@/assets/svg/SVGImage";
 import { SvgProps } from "react-native-svg";
+import { SVGImage, SVGImageName } from "@/src/components/SVGImage";
 
 interface ToggleButtonProps {
     isActive: boolean;
