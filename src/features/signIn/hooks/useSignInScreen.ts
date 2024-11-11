@@ -38,7 +38,12 @@ function storeRefreshToken(response: AxiosResponse) {
 
 // =============================== HOOK SETUP =================================
 export const useSignInScreen = () => {
-    const {control,handleSubmit, setError, formState: { errors: validationErrors = {} } } = useForm({defaultValues: {email: "brucebanner@strv.com", password: "kill3r"}});
+    const {control,handleSubmit, setError, setFocus, formState: { errors: validationErrors = {} } } = useForm<FormFields>({
+      defaultValues: {
+          email: "brucebanner@strv.com",
+          password: "kill3r",
+      },
+  });
     const { mutate: signIn, isPending: loading, error } = signInApi.useSignInMutation();
   
     const onSubmit = async (data: FormFields) => {    
@@ -63,5 +68,5 @@ export const useSignInScreen = () => {
       }
     }, [error])
 
-    return { control, handleSubmit, onSubmit, validationErrors, loading }
+    return { control, handleSubmit, onSubmit, setFocus, validationErrors, loading }
 }

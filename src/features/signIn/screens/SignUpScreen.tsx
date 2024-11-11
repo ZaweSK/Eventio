@@ -4,7 +4,7 @@ import TextWithLink from "@/src/components/TextWithLink";
 import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, StyleSheet, KeyboardAvoidingView, ActivityIndicator } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -35,9 +35,9 @@ const SignUpScreen = () => {
                         <EventioAuthHeader  title="Get started absolutely free." subtitle="Enter your details below." />
                     </View>
                     <View style = {styles.inputContainer} >
-                        <Input placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => {handleInputChange('firstName', input)}}/>
-                        <Input placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => {handleInputChange('lastName', input)}}/>
-                        <Input placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => {handleInputChange('email', input)}}/>
+                        <Input textContentType= 'givenName' placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => {handleInputChange('firstName', input)}}/>
+                        <Input textContentType= 'familyName' placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => {handleInputChange('lastName', input)}}/>
+                        <Input textContentType = 'emailAddress' placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => {handleInputChange('email', input)}}/>
                         <Input secureEntry= {true} placeholder="Password" inputValue={userInfo.password} onInputChanged={(input) => {handleInputChange('password', input)}}/>
                         <Input secureEntry={true} placeholder="Repeat password" inputValue={userInfo.repeatPassword} onInputChanged={(input) => {handleInputChange('repeatPassword', input)}}/>
                     </View>

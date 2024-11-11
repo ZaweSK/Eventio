@@ -1,4 +1,12 @@
-import {View,Alert,StyleSheet, KeyboardAvoidingView,Platform,TouchableWithoutFeedback,Keyboard} from "react-native";
+import {
+  View,
+  Alert,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import EventioButton from "@/src/components/EventioButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/src/components/Input";
@@ -9,19 +17,24 @@ import Loading from "@/src/components/Loading";
 import EventioAuthHeader from "@/src/features/signIn/components/EventioAuthHeader";
 import { useSignInScreen } from "@/src/features/signIn/hooks/useSignInScreen";
 import { green } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const SignInScreen = () => {
-  const { control, handleSubmit, onSubmit, validationErrors, loading } = useSignInScreen()
-  
+  const {control,handleSubmit, onSubmit, setFocus,validationErrors,loading,} = useSignInScreen();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <View>
+          <KeyboardAwareScrollView id="ScrollableContent" bottomOffset={40}>
             <View style={styles.eventioAuthHeader}>
-              <EventioAuthHeader title="Sign in to Eventio." subtitle="Enter your details below." />
+              <EventioAuthHeader title="Sign in to Eventio." subtitle="Enter your details below."/>
             </View>
             <View style={styles.inputContainer}>
+            {/* <Input textContentType= 'givenName' placeholder="Email" inputValue={''} onInputChanged={(input) => {}}/>
+            <Input textContentType= 'emailAddress' placeholder="Password" inputValue={''} onInputChanged={(input) => {}}/> */}
+
+
               <Controller
                 control={control}
                 name="email"
@@ -32,12 +45,18 @@ const SignInScreen = () => {
                     message: "Invalid email address",
                   },
                 }}
-                render={({ field: { onChange, value } }) => (
+
+                render={({ field: { onChange, value, ref } }) => (
                   <Input
                     error={validationErrors.email?.message || null}
                     placeholder="Email"
                     inputValue={value}
+                    textContentType="givenName"
                     onInputChanged={onChange}
+                    keyboardType="email-address"
+                    onSubmitEditing={() => setFocus("password")}
+                    ref = {ref}
+
                   />
                 )}
               />
@@ -51,25 +70,28 @@ const SignInScreen = () => {
                     message: "Password must be at least 6 characters",
                   },
                 }}
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { onChange, value, ref } }) => (
                   <Input
                     error={validationErrors.password?.message || null}
                     placeholder="Password"
                     secureEntry={true}
                     inputValue={value}
                     onInputChanged={onChange}
+                    textContentType="familyName"
+                    ref={ref}
                   />
                 )}
               />
             </View>
-          </View>
-          <KeyboardAvoidingView keyboardVerticalOffset={22} style={styles.keyboardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          </KeyboardAwareScrollView>
+
+          <View id = "FixedContent" style = {styles.signInContainer}>
             <EventioButton title="SIGN IN" onPress={handleSubmit(onSubmit)} />
-            <TextWithLink text="Don't have an account?" linkText="Sign up" onPress={() => {router.replace("/sign-up")}}/>
-          </KeyboardAvoidingView>
+            <TextWithLink text="Don't have an account?" linkText="Sign up" onPress={() => {router.replace("/sign-up");}}/>
+          </View>
         </View>
       </TouchableWithoutFeedback>
-     {loading && <Loading/>}
+      {loading && <Loading />}
     </SafeAreaView>
   );
 };
@@ -99,6 +121,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 0,
   },
+  signInContainer: {
+    position: 'absolute',
+    // bottom: 0,
+    bottom: 0,
+    width: '100%',
+    paddingHorizontal: 24,
+    justifyContent: 'flex-end',
+    // flex: 1,
+},
 });
 
 export default SignInScreen;

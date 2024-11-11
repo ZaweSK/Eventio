@@ -1,156 +1,152 @@
-import Fonts from "@/src/constants/Fonts";
+import React, { useEffect, useState, forwardRef } from "react";
+import { TextInput, View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
-import { TextInput, View, StyleSheet, Keyboard, TouchableOpacity, Text } from "react-native"
-import Animated, { FadeIn, FadeInDown, FadeInUp, SlideInDown, SlideInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Fonts from "@/src/constants/Fonts";
+import { TextContentType } from "@/src/types/TextContentType";
 
 interface InputProps {
     inputValue: string;
     onInputChanged: (text: string) => void;
+    onSubmitEditing?: () => void;
     onFocus?: () => void;
     placeholder?: string;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
     secureEntry?: boolean;
     error?: string | null;
+    textContentType?: TextContentType;
 }
 
-const focusedSeparatorOpacity = 0.9;
-const notFocusedSeparatoOpacity = 0.2;
+// Define the props type with ref support
+type RefInputProps = InputProps & React.RefAttributes<TextInput>;
 
-const Input = ({
+const focusedSeparatorOpacity = 0.9;
+const notFocusedSeparatorOpacity = 0.2;
+
+const Input = forwardRef<TextInput, InputProps>((
+  {
     keyboardType = 'default',
     secureEntry = false,
     placeholder = '',
     onInputChanged,
     inputValue,
     error,
-    onFocus = () => {} 
-  }
-  : InputProps) => {
-    const [isFocused, setIsFocused] = useState(false);
+    onFocus = () => {},
+    onSubmitEditing = () => {},
+    textContentType = 'oneTimeCode',
+  },
+  ref
+) => {
+  const [isFocused, setIsFocused] = useState(false);
   
-    // Separator opacity animation
-    var animatedOpacity = useSharedValue(notFocusedSeparatoOpacity);
-    const animatedSeparatorStyle = useAnimatedStyle(() => {
-        return { 
-          opacity: animatedOpacity.value, 
-         }
-    })
+  // Separator opacity animation
+  const animatedOpacity = useSharedValue(notFocusedSeparatorOpacity);
+  const animatedSeparatorStyle = useAnimatedStyle(() => ({
+      opacity: animatedOpacity.value,
+  }));
 
-    useEffect(() => { 
-      animatedOpacity.value = withTiming(isFocused || error != null ? focusedSeparatorOpacity : notFocusedSeparatoOpacity, { duration: 400 });
-    }, [error, isFocused])
+  useEffect(() => { 
+    animatedOpacity.value = withTiming(isFocused || error != null ? focusedSeparatorOpacity : notFocusedSeparatorOpacity, { duration: 400 });
+  }, [error, isFocused]);
   
-    // Secure text entry
-    const [secureText, setSecureText] = useState(secureEntry);
-    const toggleSecureEntry = () => {
-        setSecureText(!secureText);
-    };
+  // Secure text entry
+  const [secureText, setSecureText] = useState(secureEntry);
+  const toggleSecureEntry = () => {
+      setSecureText(!secureText);
+  };
 
-    // Separator color
-    const separatorColor = error ? styles.separatorErrorColor : styles.separatorDefaulColor;
+  // Separator color
+  const separatorColor = error ? styles.separatorErrorColor : styles.separatorDefaultColor;
 
-    return (
-      <View style = {styles.container}>
-         <TextInput
-          style={styles.input}
-          value={inputValue}
-          autoCapitalize="none"
-          placeholder= {placeholder}
-          keyboardType= {keyboardType}
-          secureTextEntry= {secureText}
-          onChangeText={(text) => onInputChanged(text)}
-          onFocus={() => {
-            setIsFocused(true);
-            onFocus();
-          }}
-          onBlur={() => {
-            setIsFocused(false);
+  return (
+    <View style={styles.container}>
+       <TextInput
+        ref={ref} // Forward the ref here
+        style={styles.input}
+        value={inputValue}
+        autoCapitalize="none"
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        secureTextEntry={secureText}
+        onChangeText={onInputChanged}
+        onSubmitEditing={onSubmitEditing}
+        onFocus={() => {
+          setIsFocused(true);
+          onFocus();
         }}
-          textContentType= "oneTimeCode"
-          autoComplete= "off"
-          autoCorrect= {false}
-          spellCheck={false}
-        />
-        
-        <Animated.View style = {[styles.separator, separatorColor, animatedSeparatorStyle]} />
-        {error && (
-            <Animated.View entering={FadeInUp.duration(500)} style = {styles.errorContainer}>
-               <Text style = {styles.error}>{error}</Text>
-            </Animated.View>
-            
-        )} 
-        {secureEntry && (
-            <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
-             <Ionicons name={secureText ? "eye-off" : "eye"} size={24} color="gray" />
-            </TouchableOpacity>
-        )}
-      </ View>
-
-    ) 
-  }
+        onBlur={() => setIsFocused(false)}
+        textContentType={textContentType}
+        autoComplete="off"
+        autoCorrect={false}
+        spellCheck={false}
+        returnKeyType="next"
+      />
+      
+      <Animated.View style={[styles.separator, separatorColor, animatedSeparatorStyle]} />
+      {error && (
+          <Animated.View entering={FadeInUp.duration(500)} style={styles.errorContainer}>
+             <Text style={styles.error}>{error}</Text>
+          </Animated.View>
+      )} 
+      {secureEntry && (
+          <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
+           <Ionicons name={secureText ? "eye-off" : "eye"} size={24} color="gray" />
+          </TouchableOpacity>
+      )}
+    </View>
+  );
+}) as (props: RefInputProps) => JSX.Element; // This allows the type to support ref
 
 const styles = StyleSheet.create({
     container : {
         width: '100%',
-        // paddingHorizontal: 24,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
         marginTop: 20,
     },
-
     input: {
-        // backgroundColor: 'lightgray',
         width: '100%',
         height: 40,
         marginBottom: 5,
-        // borderWidth: 1,
-    //   padding: 15,
-      // borderWidth: 1,
-      borderColor: '#ddd',
-      borderRadius: 8,
-      // marginBottom: 10,
-      fontSize: 16,
-      marginHorizontal: 20,
-      marginLeft: 20,
-      fontFamily: Fonts.family.regular
-      },
-
-      separator : {
+        borderColor: '#ddd',
+        borderRadius: 8,
+        fontSize: 16,
+        marginHorizontal: 20,
+        marginLeft: 20,
+        fontFamily: Fonts.family.regular,
+    },
+    separator: {
         width: '100%',
         height: 1,
-      },
-      separatorDefaulColor: {
+    },
+    separatorDefaultColor: {
         backgroundColor: 'black',
-      },
-      separatorErrorColor: {
+    },
+    separatorErrorColor: {
         backgroundColor: '#F40000',
-      },
-      secureTextButton: {
+    },
+    secureTextButton: {
         opacity: 0.5,
         position: 'absolute',
         width: 24,
         height: 24,
         right: 25,
         top: 10,
-      },
-
-      errorContainer: {
+    },
+    errorContainer: {
         position: 'absolute',
         bottom: -21,
-        // marginTop: 8,
         width: '100%',
-      },
-      error: {
+    },
+    error: {
         fontSize: 12,
         color: '#F40000',
         width: '100%',
         textAlign: 'left',
         opacity: 0.85,
-        fontFamily: Fonts.family.regular
-      }
-  })
+        fontFamily: Fonts.family.regular,
+    },
+});
 
 export default Input;
