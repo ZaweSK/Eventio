@@ -28,8 +28,8 @@ const CreateEventScreen = () => {
             <Input
               error={errors.title?.message || null}
               placeholder="Title"
-              inputValue={value}
-              onInputChanged={onChange}
+              value={value}
+              onChangeText={onChange}
             />
           )}
         />
@@ -44,8 +44,8 @@ const CreateEventScreen = () => {
             <Input
               error={errors.description?.message || null}
               placeholder="Description"
-              inputValue={value}
-              onInputChanged={onChange}
+              value={value}
+              onChangeText={onChange}
             />
           )}
         />
@@ -66,8 +66,8 @@ const CreateEventScreen = () => {
               error={errors.date?.message || null}
               placeholder="Date"
               onFocus={() => setDatePickerOpen(true)}
-              inputValue={value ? value.toISOString().split("T")[0] : ""} // Display empty if no date
-              onInputChanged={() => {}}
+              value={value ? value.toISOString().split("T")[0] : ""} // Display empty if no date
+              onChangeText={() => {}}
             />
           )}
         />
@@ -80,8 +80,8 @@ const CreateEventScreen = () => {
               error={errors.time?.message || null}
               placeholder="Time"
               onFocus={() => setTimePickerOpen(true)}
-              inputValue={value ? value.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""} // Display empty if no time
-              onInputChanged={() => {}}
+              value={value ? value.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""} // Display empty if no time
+              onChangeText={() => {}}
             />
           )}
         />
@@ -97,8 +97,8 @@ const CreateEventScreen = () => {
               error={errors.capacity?.message || null}
               placeholder="Capacity"
               keyboardType="numeric"
-              inputValue={value}
-              onInputChanged={onChange}
+              value={value}
+              onChangeText={onChange}
             />
           )}
         />

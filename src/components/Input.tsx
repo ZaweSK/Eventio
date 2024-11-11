@@ -1,44 +1,29 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import { TextInput, View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { TextInput, View, StyleSheet, TouchableOpacity, Text, TextInputProps } from "react-native";
 import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import Fonts from "@/src/constants/Fonts";
-import { TextContentType } from "@/src/types/TextContentType";
-
-interface InputProps {
-    inputValue: string;
-    onInputChanged: (text: string) => void;
-    onSubmitEditing?: () => void;
-    onFocus?: () => void;
-    placeholder?: string;
-    keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
-    secureEntry?: boolean;
-    error?: string | null;
-    textContentType?: TextContentType;
-}
-
-// Define the props type with ref support
-type RefInputProps = InputProps & React.RefAttributes<TextInput>;
 
 const focusedSeparatorOpacity = 0.9;
 const notFocusedSeparatorOpacity = 0.2;
 
+interface InputProps extends TextInputProps {
+  secureEntry?: boolean;
+  error?: string | null;
+}
+
 const Input = forwardRef<TextInput, InputProps>((
   {
-    keyboardType = 'default',
     secureEntry = false,
-    placeholder = '',
-    onInputChanged,
-    inputValue,
     error,
-    onFocus = () => {},
-    onSubmitEditing = () => {},
-    textContentType = 'oneTimeCode',
+    ...textInputProps // Collect remaining props passed to TextInput
   },
   ref
 ) => {
-  const [isFocused, setIsFocused] = useState(false);
   
+  const [isFocused, setIsFocused] = useState(false);
+  const [secureText, setSecureText] = useState(secureEntry);
+
   // Separator opacity animation
   const animatedOpacity = useSharedValue(notFocusedSeparatorOpacity);
   const animatedSeparatorStyle = useAnimatedStyle(() => ({
@@ -49,45 +34,32 @@ const Input = forwardRef<TextInput, InputProps>((
     animatedOpacity.value = withTiming(isFocused || error != null ? focusedSeparatorOpacity : notFocusedSeparatorOpacity, { duration: 400 });
   }, [error, isFocused]);
   
-  // Secure text entry
-  const [secureText, setSecureText] = useState(secureEntry);
   const toggleSecureEntry = () => {
       setSecureText(!secureText);
   };
 
-  // Separator color
+  // Separator color based on error state
   const separatorColor = error ? styles.separatorErrorColor : styles.separatorDefaultColor;
 
   return (
     <View style={styles.container}>
        <TextInput
-        ref={ref} // Forward the ref here
-        style={styles.input}
-        value={inputValue}
-        autoCapitalize="none"
-        placeholder={placeholder}
-        keyboardType={keyboardType}
+        ref={ref}
+        style={[styles.input, textInputProps.style]} // Apply passed-in style along with default styles
         secureTextEntry={secureText}
-        onChangeText={onInputChanged}
-        onSubmitEditing={onSubmitEditing}
-        onFocus={() => {
-          setIsFocused(true);
-          onFocus();
-        }}
+        onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        textContentType={textContentType}
-        autoComplete="off"
-        autoCorrect={false}
-        spellCheck={false}
-        returnKeyType="next"
+        {...textInputProps} // Spread remaining TextInput props here
       />
       
       <Animated.View style={[styles.separator, separatorColor, animatedSeparatorStyle]} />
+      
       {error && (
           <Animated.View entering={FadeInUp.duration(500)} style={styles.errorContainer}>
              <Text style={styles.error}>{error}</Text>
           </Animated.View>
       )} 
+      
       {secureEntry && (
           <TouchableOpacity onPress={toggleSecureEntry} style={styles.secureTextButton}>
            <Ionicons name={secureText ? "eye-off" : "eye"} size={24} color="gray" />
@@ -95,7 +67,7 @@ const Input = forwardRef<TextInput, InputProps>((
       )}
     </View>
   );
-}) as (props: RefInputProps) => JSX.Element; // This allows the type to support ref
+})
 
 const styles = StyleSheet.create({
     container : {

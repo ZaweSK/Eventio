@@ -35,11 +35,11 @@ const SignUpScreen = () => {
                         <EventioAuthHeader  title="Get started absolutely free." subtitle="Enter your details below." />
                     </View>
                     <View style = {styles.inputContainer} >
-                        <Input textContentType= 'givenName' placeholder="First name" inputValue={userInfo.firstName} onInputChanged={(input) => {handleInputChange('firstName', input)}}/>
-                        <Input textContentType= 'familyName' placeholder="Last name" inputValue={userInfo.lastName} onInputChanged={(input) => {handleInputChange('lastName', input)}}/>
-                        <Input textContentType = 'emailAddress' placeholder="Email" inputValue={userInfo.email} onInputChanged={(input) => {handleInputChange('email', input)}}/>
-                        <Input secureEntry= {true} placeholder="Password" inputValue={userInfo.password} onInputChanged={(input) => {handleInputChange('password', input)}}/>
-                        <Input secureEntry={true} placeholder="Repeat password" inputValue={userInfo.repeatPassword} onInputChanged={(input) => {handleInputChange('repeatPassword', input)}}/>
+                        <Input textContentType= 'givenName' placeholder="First name" value={userInfo.firstName} onChangeText={(input) => {handleInputChange('firstName', input)}}/>
+                        <Input textContentType= 'familyName' placeholder="Last name" value={userInfo.lastName} onChangeText={(input) => {handleInputChange('lastName', input)}}/>
+                        <Input textContentType = 'emailAddress' placeholder="Email" value={userInfo.email} onChangeText={(input) => {handleInputChange('email', input)}}/>
+                        <Input secureEntry= {true} placeholder="Password" value={userInfo.password} onChangeText={(input) => {handleInputChange('password', input)}}/>
+                        <Input secureEntry={true} placeholder="Repeat password" value={userInfo.repeatPassword} onChangeText={(input) => {handleInputChange('repeatPassword', input)}}/>
                     </View>
                 </KeyboardAwareScrollView>
                 <View id = "FixedContent" style = {styles.signUpContainer}>

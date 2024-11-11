@@ -49,12 +49,14 @@ const SignInScreen = () => {
                 render={({ field: { onChange, value, ref } }) => (
                   <Input
                     error={validationErrors.email?.message || null}
+                    value={value}
                     placeholder="Email"
-                    inputValue={value}
-                    textContentType="givenName"
-                    onInputChanged={onChange}
+                    textContentType="emailAddress"
                     keyboardType="email-address"
+                    autoComplete="email"
+                    onChangeText={onChange}
                     onSubmitEditing={() => setFocus("password")}
+                    returnKeyType="next"
                     ref = {ref}
 
                   />
@@ -74,10 +76,11 @@ const SignInScreen = () => {
                   <Input
                     error={validationErrors.password?.message || null}
                     placeholder="Password"
+                    textContentType="password"
+                    autoComplete="password"
                     secureEntry={true}
-                    inputValue={value}
-                    onInputChanged={onChange}
-                    textContentType="familyName"
+                    value={value}
+                    onChangeText={onChange}
                     ref={ref}
                   />
                 )}
