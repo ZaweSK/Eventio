@@ -6,37 +6,39 @@ import useEventsStore from '@/src/store/useEventsStore';
 import { TimeFilter } from '@/src/types/TimeFilter';
 import Fonts from '@/src/constants/Fonts';
 
-function CreateToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
+
+// ======================================== PRIVATE ====================    
+function createToggleButton(thisFilter: TimeFilter, currenFilter: TimeFilter, setEventsFilter: (filter: TimeFilter) => void) {
     return (
         <ToggleButton
         text= {thisFilter.toUpperCase()}
         isActive={currenFilter === thisFilter}
         onPress={() => setEventsFilter(thisFilter)}
-        style= {ButtonStyles(currenFilter, thisFilter)}
-        textStyle = {TextStyles(currenFilter, thisFilter)}
+        style= {buttonStyles(currenFilter, thisFilter)}
+        textStyle = {textStyles(currenFilter, thisFilter)}
         />
     )
 }
-function TextStyles(currentFilter: TimeFilter, filter: TimeFilter) {
+function textStyles(currentFilter: TimeFilter, filter: TimeFilter) {
     const isActive = currentFilter === filter;
     return [toggleButton.textDefault, isActive ? toggleButton.textActive : toggleButton.textInactive];      
 }
 
-function ButtonStyles(currentFilter: TimeFilter, filter: TimeFilter) {
+function buttonStyles(currentFilter: TimeFilter, filter: TimeFilter) {
     const isActive = currentFilter === filter;
     return [toggleButton.buttonDefault, isActive ? toggleButton.buttonActive : toggleButton.buttonInactive];      
 }
 
-
+// ======================================== COMPONENT  =========================
 const EventsFilter = () => {
     const eventsFilter = useEventsStore(state => state.eventsFilter);
     const setEventsFilter = useEventsStore(state => state.setEventsFilter);
 
     return (
         <View style = {styles.container}>
-         {CreateToggleButton('all', eventsFilter, setEventsFilter)}     
-         {CreateToggleButton('future', eventsFilter, setEventsFilter)}     
-         {CreateToggleButton('past', eventsFilter, setEventsFilter)}     
+         {createToggleButton('all', eventsFilter, setEventsFilter)}     
+         {createToggleButton('future', eventsFilter, setEventsFilter)}     
+         {createToggleButton('past', eventsFilter, setEventsFilter)}     
         </View>
     )
 }

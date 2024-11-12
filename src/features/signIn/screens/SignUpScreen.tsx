@@ -18,6 +18,10 @@ function DefaultUserInfo() {
     };
 }
 
+// TODO: - update with react hook form
+//       - hook up API
+//       - pimp up the form (textContentType, focus next input autonatically, etc)
+
 const SignUpScreen = () => {
     const [userInfo, setUserInfo] = useState(DefaultUserInfo());
     const handleInputChange = (propertyName: any, propertyValue: any) => {

@@ -21,7 +21,6 @@ const ToggleButton = (props: ToggleButtonProps) => {
         > 
             {props.svgImage && 
             <View style = {{position: 'absolute', top: 0, left:0, bottom:0, right:0}}>
-                {/* <Image source={props.image} style={[props.imageStyle]} />  */}
                 <SVGImage name= {props.svgImage}  {...props.svgImageProps} /> 
             </View>
             }

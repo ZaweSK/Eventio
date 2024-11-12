@@ -1,1 +1,0 @@
-export type KeyboardType = 'default' | 'email-address' | 'numeric' | 'phone-pad';

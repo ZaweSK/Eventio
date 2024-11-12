@@ -16,7 +16,6 @@ const useEventsStore = create<EventsStore>((set, get) => {
         filteredEvents: [],
         eventsFilter: 'all',
         eventsLayout: 'default',
-        asyncOpeationInProgress: false,
 
         setEventsFilter: (filter: TimeFilter) => {
             set({ eventsFilter: filter });

@@ -37,11 +37,7 @@ const EventCellButton = (props: EventCellButtonProps) => {
     const text = ButtonText(props.action);
 
     return(
-        <TouchableOpacity style= {[styles.defaultButton, buttonStyle, props.style]} onPress= {() => {
-            
-            console.log('Button pressed EventCellButton')
-            props.onPress();
-            }}>
+        <TouchableOpacity style= {[styles.defaultButton, buttonStyle, props.style]} onPress= {() => {props.onPress();}}>
             <Text style= {[styles.defaultText, textStyle]}>{text}</Text>
         </TouchableOpacity>
     )
