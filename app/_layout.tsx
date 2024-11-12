@@ -5,31 +5,41 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
 import { useColorScheme } from '@/src/components/useColorScheme';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Colors from '@/src/constants/Colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Fonts from '@/src/constants/Fonts';
+import { ColorSchemeName } from 'react-native';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
 
-// export const unstable_settings = {
-//   // Ensure that reloading on `/modal` keeps a back button present.
-//   // initialRouteName: '(tabs)',
-
-//   initialRouteName: 'sign-in',
-
-  
-// };
-
+// ===================================== PRIVATE =====================================
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const queryCLient = new QueryClient();
+
+const mainStackScreenOptions =  (colorScheme: ColorSchemeName) => ({
+  headerShown : true,
+  headerShadowVisible: false,
+  headerStyle: {
+      backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
+  },
+});
+
+const modalScreenOptions = (colorScheme: ColorSchemeName, title: string) => ({
+  presentation: "modal" as "modal",
+  title,
+  headerStyle: {
+    backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
+  },
+  headerTitleStyle: {
+    fontSize: Fonts.size.headerTitle,
+    fontFamily: Fonts.family.regular
+  },
+});
+
+// ===================================== COMPONENT SETUP =====================================
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -70,31 +80,18 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <KeyboardProvider>
-      <Stack screenOptions={{
-        headerShown : true,
-        headerShadowVisible: false,
-        headerStyle: {
-            backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
-        },}}>
+      <Stack screenOptions={mainStackScreenOptions(colorScheme)}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="sign-in" options={{ headerShown: false }}  />
           <Stack.Screen name="not-found" options={{ headerShown: false }} />
           <Stack.Screen name="sign-up" options={{ headerShown: false }} />
-          <Stack.Screen name="createEvent" options={{ 
-            presentation: 'modal',
-            title:'Create new event', 
-            headerStyle: {
-              backgroundColor: colorScheme ? 'white' : 'black',
-            },
-            headerTitleStyle: {
-              fontSize: Fonts.size.headerTitle,
-              fontFamily: Fonts.family.regular
-            },
-           }} />
+          <Stack.Screen name="createEvent" options={modalScreenOptions(colorScheme, 'Create new event')} />
       </Stack>
       </KeyboardProvider>
    </ThemeProvider>
   );
 }
+
+export {ErrorBoundary} from 'expo-router';
