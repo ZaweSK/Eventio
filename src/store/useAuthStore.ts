@@ -1,5 +1,5 @@
+import { storage } from '@/src/storage/localStorage';
 import { create } from 'zustand';
-import { storage } from '@/src/storage/Storage';
 
 type AuthStore = {
   isSignedIn: boolean;

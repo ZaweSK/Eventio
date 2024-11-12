@@ -1,5 +1,5 @@
 import { AttendeeTagProps } from "@/src/features/events/components/cells/AttendeeTag";
-import { storage } from "@/src/storage/Storage";
+import { storage } from "@/src/storage/localStorage";
 import EventioUser from "@/src/types/EventioUser";
 
 export function getAttendeeTagProps(attendees: EventioUser[]) : AttendeeTagProps[]  { 

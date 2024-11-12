@@ -1,6 +1,6 @@
 import { ErrorBody } from "@/src/api/ApiError/ErrorBody";
 import { EventioApiError } from "@/src/api/ApiError/EventioApiError";
-import { storage } from "@/src/storage/Storage";
+import { storage } from "@/src/storage/localStorage";
 import storeAccessToken from "@/src/utils/functions/storeAccessToken";
 import axios, { AxiosError } from "axios";
 

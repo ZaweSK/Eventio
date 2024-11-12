@@ -1,6 +1,6 @@
 import { EventioApiError } from "@/src/api/ApiError/EventioApiError";
 import { signInApi } from "@/src/features/signIn/signInApi";
-import { storage } from "@/src/storage/Storage";
+import { storage } from "@/src/storage/localStorage";
 import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
 import storeAccessToken from "@/src/utils/functions/storeAccessToken";
 import { AxiosResponse, AxiosResponseHeaders } from "axios";

@@ -1,4 +1,4 @@
-import { storage } from "@/src/storage/Storage";
+import { storage } from "@/src/storage/localStorage";
 import { AxiosResponse, AxiosResponseHeaders } from "axios";
 
 function storeAccessToken(response: AxiosResponse) {
