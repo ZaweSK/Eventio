@@ -20,11 +20,7 @@ const Cell = (item: EventioEvent, eventsLayout: string, onPress: () => void, onA
 
 // ================================== COMPONENT ==================================
 const EventsList = () => {  
-    const { eventsLayout, filteredEvents, refetch: refreshEvents, eventAction, isFetchingEvents } = useEventsList();
-
-    const onCellPressed = (event: EventioEvent) => {
-      router.push(`/events/${event.id}`);
-    };    
+    const { eventsLayout, filteredEvents, refetch: refreshEvents, eventAction, isFetchingEvents, onCellPressed } = useEventsList();
 
     return (
         <Animated.FlatList

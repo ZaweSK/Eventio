@@ -3,7 +3,7 @@ import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
 import { getCombinedDate } from "@/src/utils/functions/getCombinedDate";
 import { router } from "expo-router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Alert } from "react-native";
 
 type FormFields = {
@@ -19,7 +19,7 @@ export const useCreateEventScreen = () => {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [timePickerOpen, setTimePickerOpen] = useState(false);
     const { mutate: createEvent, isPending: loading, error } = eventsApi.useCreateEventMutation();
-    const { control, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<FormFields>({
+    const { control, handleSubmit, setValue, setFocus, formState: { errors, isSubmitting } } = useForm<FormFields>({
         defaultValues: {
             title: "",
             description: "",
@@ -57,6 +57,7 @@ export const useCreateEventScreen = () => {
         timePickerOpen,
         setTimePickerOpen,
         onSubmit,
-        error
+        error,
+        setFocus,
     };
 }

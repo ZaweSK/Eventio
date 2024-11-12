@@ -6,6 +6,7 @@ import { EventioEvent } from "@/src/types/EventioEvent";
 import { filterEvents } from "@/src/utils/functions/filterEvents";
 import { getAlertMessage } from "@/src/utils/functions/getAlertMessage";
 import { orderEventsByDate } from "@/src/utils/functions/orderEventsByDate";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 
@@ -17,6 +18,10 @@ export const useEventsList = () => {
     const eventsFilter = useEventsStore(state => state.eventsFilter);
     const eventsLayout = useEventsStore(state => state.eventsLayout);
     const compoundError = eventsFetchError || eventActionError || null;
+
+    const onCellPressed = (event: EventioEvent) => {
+      router.push(`/events/${event.id}`);
+    }; 
 
     useEffect(() => {
        if (events) {
@@ -35,5 +40,5 @@ export const useEventsList = () => {
       setEventsScreenLoading(actionInProgress || isFetchingEvents);
     }, [isFetchingEvents, actionInProgress]);
     
-    return { eventsLayout, filteredEvents, refetch, eventAction, isFetchingEvents };
+    return { eventsLayout, filteredEvents, refetch, eventAction, isFetchingEvents, onCellPressed };
 };

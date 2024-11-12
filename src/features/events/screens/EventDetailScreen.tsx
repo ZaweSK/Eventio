@@ -52,11 +52,6 @@ const EventDetailScreen = () => {
               }}
             />
            {loading &&  <Loading />}
-
-           {/* <Animated.View  sharedTransitionTag="1" > 
-              <View style = {{width: '90%', height: 100, backgroundColor: 'red'}}/>
-
-           </Animated.View> */}
         </Page>
       ) : (
         <Loading/>

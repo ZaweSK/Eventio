@@ -31,7 +31,7 @@ const modalScreenOptions = (colorScheme: ColorSchemeName, title: string) => ({
   presentation: "modal" as "modal",
   title,
   headerStyle: {
-    backgroundColor: colorScheme ? Colors[colorScheme].background : 'black',
+    backgroundColor: colorScheme ? 'white' : 'black',
   },
   headerTitleStyle: {
     fontSize: Fonts.size.headerTitle,
